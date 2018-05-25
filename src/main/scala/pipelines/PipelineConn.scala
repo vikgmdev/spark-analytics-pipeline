@@ -35,13 +35,13 @@ class PipelineConn() extends SinkBase {
     df.withColumn("jsondata",
       from_json($"value".cast(StringType), Conn.schemaBase))
       .select("jsondata.*")
-      .addSensorName(col("sensor"))
+      /*.addSensorName(col("sensor"))
       .withColumnRenamed("ts", "timestamp")
       .withColumnRenamed("id.orig_h", "source_ip")
       .withColumnRenamed("id.orig_p", "source_port")
       .withColumnRenamed("id.resp_h", "dest_ip")
       .withColumnRenamed("id.resp_p", "dest_port")
-      .withColumn("direction", withDirection(col("local_orig"), col("local_resp")))
+      .withColumn("direction", withDirection(col("local_orig"), col("local_resp")))*/
       //.as[Conn.Simple]
     // .addGeoIP()
   }
