@@ -27,8 +27,7 @@ object PCR {
       .add("ts",  StringType)
       .add("src", StringType)
       .add("pcr", DoubleType)
-      .add("summary_interval", DoubleType)
-      .add("sensor", StringType))
+      .add("summary_interval", DoubleType))
     .add("sensor", StringType)
 
   val schemaOutput: StructType = new StructType()

@@ -90,8 +90,7 @@ object DNS {
       .add("Z", IntegerType)
       .add("answers", ArrayType(StringType))
       .add("TTLs", ArrayType(DoubleType))
-      .add("rejected", BooleanType)
-      .add("sensor", StringType))
+      .add("rejected", BooleanType))
     .add("sensor", StringType)
 
   val schemaOutput: StructType = new StructType()
