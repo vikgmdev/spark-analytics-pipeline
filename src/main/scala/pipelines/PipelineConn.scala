@@ -34,9 +34,9 @@ class PipelineConn() extends SinkBase {
     df.withColumn("jsondata",
       from_json($"value".cast(StringType), Conn.schemaBase))
       .select("jsondata.*")
-      .withColumn("data.sensor", col("sensor"))
+      .withColumnRenamed("sensor", "data.sensor")
       .select("data.*")
-      .withColumnRenamed("ts", " timestamp")
+      .withColumnRenamed("ts", "timestamp")
       .withColumnRenamed("id.orig_h", "source_ip")
       .withColumnRenamed("id.orig_p", "source_port")
       .withColumnRenamed("id.resp_h", "dest_ip")
