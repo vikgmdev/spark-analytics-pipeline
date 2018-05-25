@@ -31,7 +31,7 @@ class PipelineConn() extends SinkBase {
     )*/
   }
 
-  def getDataset(df: DataFrame): DataFrame = {
+  def getDataset(df: DataFrame): Dataset[Conn.Simple] = {
     df.withColumn("data",
       from_json($"value".cast(StringType), Conn.schemaBase))
       .select("data.*")

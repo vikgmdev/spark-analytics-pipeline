@@ -30,7 +30,7 @@ class PipelineDNS() extends SinkBase {
     ) */
   }
 
-  def getDataset(df: DataFrame): DataFrame = {
+  def getDataset(df: DataFrame): Dataset[DNS.Simple] = {
     df.withColumn("data",
       from_json($"value".cast(StringType), DNS.schemaBase))
       .select("data.*")
