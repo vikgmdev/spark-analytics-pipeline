@@ -17,8 +17,8 @@ object ConnEnrichment {
   })
 
   implicit class DataFrameTransforms(df: DataFrame) {
-    def addSensorName(sensorColumn: Column): DataFrame = {
-      println(sensorColumn)
+    def addSensorName(): DataFrame = {
+      val sensorColumn: Column = df.col("sensor")
       df.select("data.*")
         .withColumn("sensor", sensorColumn)
     }
