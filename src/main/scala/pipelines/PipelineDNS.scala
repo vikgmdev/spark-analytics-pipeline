@@ -35,11 +35,11 @@ class PipelineDNS() extends SinkBase {
       from_json($"value".cast(StringType), DNS.schemaBase))
       .select("jsondata.*")
       .addSensorName()
-      /*.withColumnRenamed("ts", " timestamp")
+      .withColumnRenamed("ts", " timestamp")
       .withColumnRenamed("id.orig_h", "source_ip")
       .withColumnRenamed("id.orig_p", "source_port")
       .withColumnRenamed("id.resp_h", "dest_ip")
-      .withColumnRenamed("id.resp_p", "dest_port")*/
+      .withColumnRenamed("id.resp_p", "dest_port")
       //.as[DNS.Simple]
   }
 }
