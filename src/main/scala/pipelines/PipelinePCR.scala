@@ -35,7 +35,7 @@ class PipelinePCR() extends SinkBase {
       from_json($"value".cast(StringType), PCR.schemaBase))
       .withColumn("jsondata.data.sensor", col("jsondata.sensor"))
       .select("jsondata.*")
-      .addSensorName()
+      .select("data.*")
       .withColumnRenamed("ts", " timestamp")
       //.as[PCR.Simple]
   }

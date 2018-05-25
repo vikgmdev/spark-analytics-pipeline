@@ -34,7 +34,7 @@ class PipelineDNS() extends SinkBase {
     df.withColumn("jsondata",
       from_json($"value".cast(StringType), DNS.schemaBase))
       .select("jsondata.*")
-      .addSensorName()
+      .select("data.*")
       .withColumnRenamed("ts", " timestamp")
       .withColumnRenamed("id.orig_h", "source_ip")
       .withColumnRenamed("id.orig_p", "source_port")
