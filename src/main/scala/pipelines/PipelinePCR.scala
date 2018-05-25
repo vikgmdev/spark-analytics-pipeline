@@ -31,12 +31,9 @@ class PipelinePCR() extends SinkBase {
   }
 
   def getDataset(df: DataFrame): DataFrame = {
-    df.withColumn("jsondata",
+    df.withColumn("data",
       from_json($"value".cast(StringType), PCR.schemaBase))
-      .withColumn("jsondata.data.sensor", col("jsondata.sensor"))
-      .select("jsondata.*")
       .select("data.*")
-      .withColumnRenamed("ts", " timestamp")
       //.as[PCR.Simple]
   }
 }

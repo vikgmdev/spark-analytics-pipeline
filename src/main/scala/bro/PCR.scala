@@ -23,19 +23,13 @@ object PCR {
   )
 
   val schemaBase: StructType = new StructType()
-    .add("data",  new StructType()
-      .add("ts",  StringType)
-      .add("src", StringType)
-      .add("pcr", DoubleType)
-      .add("summary_interval", DoubleType)
-      .add("sensor", StringType))
-    .add("sensor", StringType)
-
-  val schemaOutput: StructType = new StructType()
     .add("ts",  StringType)
     .add("src", StringType)
     .add("pcr", DoubleType)
     .add("summary_interval", DoubleType)
+    .add("sensor", StringType)
+    .add("type", StringType)
+
 }
 
 /*
