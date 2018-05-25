@@ -6,6 +6,7 @@ import org.apache.spark.sql.functions.{col, from_json}
 import org.apache.spark.sql.types.StringType
 import org.apache.spark.sql.{DataFrame, Dataset}
 import spark.SparkHelper
+import enrichment.ConnEnrichment._
 
 /**
   * must be idempotent and synchronous (@TODO check asynchronous/synchronous from Datastax's Spark connector) sink
@@ -34,7 +35,7 @@ class PipelinePCR() extends SinkBase {
       from_json($"value".cast(StringType), PCR.schemaBase))
       .withColumn("jsondata.data.sensor", col("jsondata.sensor"))
       .select("jsondata.*")
-      .select("data.*")
+      .addSensorName(col("sensor"))
       .withColumnRenamed("ts", " timestamp")
       //.as[PCR.Simple]
   }

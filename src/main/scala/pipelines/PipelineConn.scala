@@ -7,6 +7,7 @@ import org.apache.spark.sql.functions.{col, from_json}
 import org.apache.spark.sql.types.StringType
 import org.apache.spark.sql.{DataFrame, Dataset}
 import spark.SparkHelper
+import enrichment.ConnEnrichment._
 
 /**
   * must be idempotent and synchronous (@TODO check asynchronous/synchronous from Datastax's Spark connector) sink
@@ -34,8 +35,7 @@ class PipelineConn() extends SinkBase {
     df.withColumn("jsondata",
       from_json($"value".cast(StringType), Conn.schemaBase))
       .select("jsondata.*")
-      .withColumnRenamed("sensor", "data.sensor")
-      .select("data.*")
+      .addSensorName(col("sensor"))
       .withColumnRenamed("ts", "timestamp")
       .withColumnRenamed("id.orig_h", "source_ip")
       .withColumnRenamed("id.orig_p", "source_port")

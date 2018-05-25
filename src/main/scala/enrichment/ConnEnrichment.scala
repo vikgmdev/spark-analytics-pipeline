@@ -1,5 +1,6 @@
 package enrichment
 
+import org.apache.spark.sql.{Column, DataFrame}
 import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions._
 
@@ -14,4 +15,11 @@ object ConnEnrichment {
       "local"
     }
   })
+
+  implicit class DataFrameTransforms(df: DataFrame) {
+    def addSensorName(sensorColumn: Column): DataFrame = {
+      df.select("data.*")
+        .withColumn("sensor", sensorColumn)
+    }
+  }
 }
