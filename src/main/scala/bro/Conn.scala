@@ -91,7 +91,8 @@ object Conn {
       .add("orig_ip_bytes", DoubleType)
       .add("resp_pkts", DoubleType)
       .add("resp_ip_bytes", DoubleType)
-      .add("pcr", DoubleType))
+      .add("pcr", DoubleType)
+      .add("sensor", StringType))
     .add("sensor", StringType)
 
   val schemaOutput: StructType = new StructType()
