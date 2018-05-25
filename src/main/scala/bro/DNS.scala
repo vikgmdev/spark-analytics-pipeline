@@ -31,8 +31,8 @@ object DNS {
                       RD: Boolean,
                       RA: Boolean,
                       Z: Integer,
-                      answers: Set[String],
-                      TTLs: Set[Double],
+                      answers: Array[String],
+                      TTLs: Array[Double],
                       rejected: Boolean,
                       sensor: String
                 ) extends Serializable
