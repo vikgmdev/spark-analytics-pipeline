@@ -36,12 +36,12 @@ object Conn {
                   local_resp: Boolean,
                   missed_bytes: Double,
                   history: String,
-                  sensor: String,
                   orig_pkts: Double,
                   orig_ip_bytes: Double,
                   resp_pkts: Double,
                   resp_ip_bytes: Double,
-                  pcr: Double
+                  pcr: Double,
+                  sensor: String
                  ) extends Serializable
 
   val cassandraColumns = SomeColumns(

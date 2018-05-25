@@ -34,6 +34,6 @@ class PipelineDNS() extends SinkBase {
     df.withColumn("data",
       from_json($"value".cast(StringType), DNS.schemaBase))
       .select("data.*")
-      //.as[DNS.Simple]
+      .as[DNS.Simple]
   }
 }

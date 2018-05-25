@@ -34,6 +34,6 @@ class PipelinePCR() extends SinkBase {
     df.withColumn("data",
       from_json($"value".cast(StringType), PCR.schemaBase))
       .select("data.*")
-      //.as[PCR.Simple]
+      .as[PCR.Simple]
   }
 }

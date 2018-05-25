@@ -26,7 +26,6 @@ object DNS {
                       qtype_name: String,
                       rcode: Integer,
                       rcode_name: String,
-                      sensor: String,
                       AA: Boolean,
                       TC: Boolean,
                       RD: Boolean,
@@ -34,7 +33,8 @@ object DNS {
                       Z: Integer,
                       answers: Set[String],
                       TTLs: Set[Double],
-                      rejected: Boolean
+                      rejected: Boolean,
+                      sensor: String
                 ) extends Serializable
 
   val cassandraColumns = SomeColumns(

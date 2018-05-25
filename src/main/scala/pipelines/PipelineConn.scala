@@ -36,7 +36,7 @@ class PipelineConn() extends SinkBase {
       from_json($"value".cast(StringType), Conn.schemaBase))
       .select("data.*")
       .withColumn("direction", withDirection(col("local_orig"), col("local_resp")))
-      //.as[Conn.Simple]
+      .as[Conn.Simple]
     // .addGeoIP()
   }
 }
