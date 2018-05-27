@@ -19,7 +19,7 @@ object Conn {
                        )
 
   case class Simple (
-                  timestamp: Int,
+                  timestamp: Option[Int],
                   uid: String,
                   source_ip: String,
                   source_port: Int,

@@ -8,7 +8,7 @@ object PCR {
   val cassandraTable = "pcr"
 
   case class Simple (
-                      timestamp: Int,
+                      timestamp: Option[Int],
                       src: String,
                       pcr: Option[Double],
                       summary_interval: Option[Double],
