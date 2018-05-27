@@ -31,8 +31,8 @@ object DNS {
                       rd: Option[Boolean],
                       ra: Option[Boolean],
                       z: Option[Int],
-                      answers: Array[String],
-                      ttls: Array[Option[Double]],
+                      answers: Vector[String],
+                      ttls: Vector[Option[Double]],
                       rejected: Option[Boolean],
                       sensor: String
                 ) extends Serializable
