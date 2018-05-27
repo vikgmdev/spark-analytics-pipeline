@@ -26,14 +26,14 @@ object DNS {
                       qtype_name: String,
                       rcode: Option[Int],
                       rcode_name: String,
-                      aa: Boolean,
-                      tc: Boolean,
-                      rd: Boolean,
-                      ra: Boolean,
+                      aa: Option[Boolean],
+                      tc: Option[Boolean],
+                      rd: Option[Boolean],
+                      ra: Option[Boolean],
                       z: Option[Int],
                       answers: Array[String],
                       ttls: Array[Option[Double]],
-                      rejected: Boolean,
+                      rejected: Option[Boolean],
                       sensor: String
                 ) extends Serializable
 
