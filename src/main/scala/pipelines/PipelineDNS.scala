@@ -24,16 +24,22 @@ class PipelineDNS() extends SinkBase {
     dataset.show()
 
     // Save to Cassandra
-    /* dataset.rdd.saveToCassandra("bro",
+    dataset.rdd.saveToCassandra("bro",
       DNS.cassandraTable,
       DNS.cassandraColumns
-    ) */
+    )
   }
 
   def getDataset(df: DataFrame): Dataset[DNS.Simple] = {
     df.withColumn("data",
       from_json($"value".cast(StringType), DNS.schemaBase))
       .select("data.*")
+      .withColumnRenamed("AA", "aa")
+      .withColumnRenamed("TC", "tc")
+      .withColumnRenamed("RD", "rd")
+      .withColumnRenamed("RA", "ra")
+      .withColumnRenamed("Z", "z")
+      .withColumnRenamed("TTLs", "ttls")
       .as[DNS.Simple]
   }
 }

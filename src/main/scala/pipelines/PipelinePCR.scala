@@ -24,10 +24,10 @@ class PipelinePCR() extends SinkBase {
     dataset.show()
 
     // Save to Cassandra
-    /* dataset.rdd.saveToCassandra("bro",
+    dataset.rdd.saveToCassandra("bro",
       PCR.cassandraTable,
       PCR.cassandraColumns
-    )*/
+    )
   }
 
   def getDataset(df: DataFrame): Dataset[PCR.Simple] = {

@@ -25,10 +25,10 @@ class PipelineConn() extends SinkBase {
     dataset.show()
 
     // Save to Cassandra
-    /* dataset.rdd.saveToCassandra("bro",
+    dataset.rdd.saveToCassandra("bro",
       Conn.cassandraTable,
       Conn.cassandraColumns
-    )*/
+    )
   }
 
   def getDataset(df: DataFrame): Dataset[Conn.Simple] = {
