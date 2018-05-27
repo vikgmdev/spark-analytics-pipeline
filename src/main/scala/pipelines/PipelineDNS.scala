@@ -24,7 +24,7 @@ class PipelineDNS() extends SinkBase {
     dataset.show()
 
     // Save to Cassandra
-    dataset.rdd.saveToCassandra("bro",
+    dataset.rdd.saveToCassandra(dataset.col("sensor").toString(),
       DNS.cassandraTable,
       DNS.cassandraColumns
     )

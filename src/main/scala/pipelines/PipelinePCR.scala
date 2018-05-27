@@ -24,7 +24,7 @@ class PipelinePCR() extends SinkBase {
     dataset.show()
 
     // Save to Cassandra
-    dataset.rdd.saveToCassandra("bro",
+    dataset.rdd.saveToCassandra(dataset.col("sensor").toString(),
       PCR.cassandraTable,
       PCR.cassandraColumns
     )

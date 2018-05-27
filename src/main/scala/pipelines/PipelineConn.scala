@@ -23,9 +23,10 @@ class PipelineConn() extends SinkBase {
 
     // Debug only
     dataset.show()
+    dataset.printSchema()
 
     // Save to Cassandra
-    dataset.rdd.saveToCassandra("bro",
+    dataset.rdd.saveToCassandra(dataset.col("sensor").toString(),
       Conn.cassandraTable,
       Conn.cassandraColumns
     )
