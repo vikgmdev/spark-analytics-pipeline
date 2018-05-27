@@ -10,8 +10,8 @@ object PCR {
   case class Simple (
                       timestamp: String,
                       src: String,
-                      pcr: Option[Float],
-                      summary_interval: Option[Float],
+                      pcr: Option[Double],
+                      summary_interval: Option[Double],
                       sensor: String
                  ) extends Serializable
 

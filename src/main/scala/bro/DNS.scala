@@ -18,7 +18,7 @@ object DNS {
                       dest_port: Integer,
                       proto: String,
                       trans_id: Integer,
-                      rtt: Option[Float],
+                      rtt: Option[Double],
                       query: String,
                       qclass: Integer,
                       qclass_name: String,
@@ -32,7 +32,7 @@ object DNS {
                       ra: Boolean,
                       z: Integer,
                       answers: Array[String],
-                      ttls: Array[Option[Float]],
+                      ttls: Array[Option[Double]],
                       rejected: Boolean,
                       sensor: String
                 ) extends Serializable

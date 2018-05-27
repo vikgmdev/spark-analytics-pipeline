@@ -14,8 +14,8 @@ object Conn {
                          countryName: String,
                          region: Option[String],
                          city: Option[String],
-                         latitude: Option[Float],
-                         longitude: Option[Float]
+                         latitude: Option[Double],
+                         longitude: Option[Double]
                        )
 
   case class Simple (
