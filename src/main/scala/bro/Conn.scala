@@ -28,19 +28,19 @@ object Conn {
                   proto: String,
                   service: String,
                   direction: String,
-                  duration: Double,
-                  orig_bytes: Double,
-                  resp_bytes: Double,
+                  duration: Float,
+                  orig_bytes: Float,
+                  resp_bytes: Float,
                   conn_state: String,
                   local_orig: Boolean,
                   local_resp: Boolean,
-                  missed_bytes: Double,
+                  missed_bytes: Float,
                   history: String,
-                  orig_pkts: Double,
-                  orig_ip_bytes: Double,
-                  resp_pkts: Double,
-                  resp_ip_bytes: Double,
-                  pcr: Double,
+                  orig_pkts: Float,
+                  orig_ip_bytes: Float,
+                  resp_pkts: Float,
+                  resp_ip_bytes: Float,
+                  pcr: Float,
                   sensor: String
                  ) extends Serializable
 
@@ -78,19 +78,19 @@ object Conn {
     .add("dest_port", IntegerType)
     .add("proto", StringType)
     .add("service", StringType)
-    .add("duration", DoubleType)
-    .add("orig_bytes", DoubleType)
-    .add("resp_bytes", DoubleType)
+    .add("duration", FloatType)
+    .add("orig_bytes", FloatType)
+    .add("resp_bytes", FloatType)
     .add("conn_state", StringType)
     .add("local_orig", BooleanType)
     .add("local_resp", BooleanType)
-    .add("missed_bytes", DoubleType)
+    .add("missed_bytes", FloatType)
     .add("history", StringType)
-    .add("orig_pkts", DoubleType)
-    .add("orig_ip_bytes", DoubleType)
-    .add("resp_pkts", DoubleType)
-    .add("resp_ip_bytes", DoubleType)
-    .add("pcr", DoubleType)
+    .add("orig_pkts", FloatType)
+    .add("orig_ip_bytes", FloatType)
+    .add("resp_pkts", FloatType)
+    .add("resp_ip_bytes", FloatType)
+    .add("pcr", FloatType)
     .add("sensor", StringType)
     .add("type", StringType)
 }

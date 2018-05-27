@@ -18,7 +18,7 @@ object DNS {
                       dest_port: Integer,
                       proto: String,
                       trans_id: Integer,
-                      rtt: Double,
+                      rtt: Float,
                       query: String,
                       qclass: Integer,
                       qclass_name: String,
@@ -32,7 +32,7 @@ object DNS {
                       ra: Boolean,
                       z: Integer,
                       answers: Array[String],
-                      ttls: Array[Double],
+                      ttls: Array[Float],
                       rejected: Boolean,
                       sensor: String
                 ) extends Serializable
@@ -73,7 +73,7 @@ object DNS {
     .add("dest_port", IntegerType)
     .add("proto", StringType)
     .add("trans_id", IntegerType)
-    .add("rtt", DoubleType)
+    .add("rtt", FloatType)
     .add("query", StringType)
     .add("qclass", IntegerType)
     .add("qclass_name", StringType)
@@ -87,7 +87,7 @@ object DNS {
     .add("RA", BooleanType)
     .add("Z", IntegerType)
     .add("answers", ArrayType(StringType))
-    .add("TTLs", ArrayType(DoubleType))
+    .add("TTLs", ArrayType(FloatType))
     .add("rejected", BooleanType)
     .add("sensor", StringType)
     .add("type", StringType)
