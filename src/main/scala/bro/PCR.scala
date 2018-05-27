@@ -10,8 +10,8 @@ object PCR {
   case class Simple (
                       timestamp: String,
                       src: String,
-                      pcr: Float,
-                      summary_interval: Float,
+                      pcr: Option[Float],
+                      summary_interval: Option[Float],
                       sensor: String
                  ) extends Serializable
 
@@ -25,8 +25,8 @@ object PCR {
   val schemaBase: StructType = new StructType()
     .add("timestamp",  StringType)
     .add("src", StringType)
-    .add("pcr", FloatType)
-    .add("summary_interval", FloatType)
+    .add("pcr", DoubleType)
+    .add("summary_interval", DoubleType)
     .add("sensor", StringType)
     .add("type", StringType)
 

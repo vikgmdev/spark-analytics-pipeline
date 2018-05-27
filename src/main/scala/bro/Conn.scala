@@ -14,8 +14,8 @@ object Conn {
                          countryName: String,
                          region: Option[String],
                          city: Option[String],
-                         latitude: Float,
-                         longitude: Float
+                         latitude: Option[Float],
+                         longitude: Option[Float]
                        )
 
   case class Simple (
@@ -28,19 +28,19 @@ object Conn {
                   proto: String,
                   service: String,
                   direction: String,
-                  duration: Float,
-                  orig_bytes: Float,
-                  resp_bytes: Float,
+                  duration: Option[Double],
+                  orig_bytes: Option[Double],
+                  resp_bytes: Option[Double],
                   conn_state: String,
                   local_orig: Boolean,
                   local_resp: Boolean,
-                  missed_bytes: Float,
+                  missed_bytes: Option[Double],
                   history: String,
-                  orig_pkts: Float,
-                  orig_ip_bytes: Float,
-                  resp_pkts: Float,
-                  resp_ip_bytes: Float,
-                  pcr: Float,
+                  orig_pkts: Option[Double],
+                  orig_ip_bytes: Option[Double],
+                  resp_pkts: Option[Double],
+                  resp_ip_bytes: Option[Double],
+                  pcr: Option[Double],
                   sensor: String
                  ) extends Serializable
 
@@ -78,19 +78,19 @@ object Conn {
     .add("dest_port", IntegerType)
     .add("proto", StringType)
     .add("service", StringType)
-    .add("duration", FloatType)
-    .add("orig_bytes", FloatType)
-    .add("resp_bytes", FloatType)
+    .add("duration", DoubleType)
+    .add("orig_bytes", DoubleType)
+    .add("resp_bytes", DoubleType)
     .add("conn_state", StringType)
     .add("local_orig", BooleanType)
     .add("local_resp", BooleanType)
-    .add("missed_bytes", FloatType)
+    .add("missed_bytes", DoubleType)
     .add("history", StringType)
-    .add("orig_pkts", FloatType)
-    .add("orig_ip_bytes", FloatType)
-    .add("resp_pkts", FloatType)
-    .add("resp_ip_bytes", FloatType)
-    .add("pcr", FloatType)
+    .add("orig_pkts", DoubleType)
+    .add("orig_ip_bytes", DoubleType)
+    .add("resp_pkts", DoubleType)
+    .add("resp_ip_bytes", DoubleType)
+    .add("pcr", DoubleType)
     .add("sensor", StringType)
     .add("type", StringType)
 }
