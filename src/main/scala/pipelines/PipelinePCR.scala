@@ -18,13 +18,13 @@ class PipelinePCR() extends SinkBase {
   override def startPipeline(df: DataFrame): Unit = {
 
     // Parse DataFrame to Dataset with type of log
-    val dataset = getDataset(df)
+    val dataset: Dataset[PCR.Simple] = getDataset(df)
 
     // Debug only
     dataset.show()
 
     // Save to Cassandra
-    dataset.rdd.saveToCassandra(dataset.col("sensor").toString(),
+    dataset.rdd.saveToCassandra(col("sensor").toString(),
       PCR.cassandraTable,
       PCR.cassandraColumns
     )
