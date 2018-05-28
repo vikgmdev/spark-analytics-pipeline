@@ -65,7 +65,7 @@ object DNS {
   )
 
   val schemaBase: StructType = new StructType()
-    .add("timestamp", LongType)
+    .add("timestamp", StringType)
     .add("uid", StringType)
     .add("source_ip", StringType)
     .add("source_port", IntegerType)
