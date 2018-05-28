@@ -8,7 +8,7 @@ object PCR {
   val cassandraTable = "pcr"
 
   case class Simple (
-                      timestamp: Option[Int],
+                      timestamp: Option[String],
                       src: String,
                       pcr: Option[Double],
                       summary_interval: Option[Double],
@@ -23,7 +23,7 @@ object PCR {
   )
 
   val schemaBase: StructType = new StructType()
-    .add("timestamp",  IntegerType)
+    .add("timestamp",  StringType)
     .add("src", StringType)
     .add("pcr", DoubleType)
     .add("summary_interval", DoubleType)
