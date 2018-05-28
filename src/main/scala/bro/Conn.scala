@@ -70,7 +70,7 @@ object Conn {
   )
 
   val schemaBase: StructType = new StructType()
-    .add("timestamp", StringType)
+    .add("timestamp", TimestampType)
     .add("uid", StringType)
     .add("source_ip", StringType)
     .add("source_port", IntegerType)

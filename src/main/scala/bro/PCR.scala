@@ -23,7 +23,7 @@ object PCR {
   )
 
   val schemaBase: StructType = new StructType()
-    .add("timestamp",  StringType)
+    .add("timestamp",  TimestampType)
     .add("src", StringType)
     .add("pcr", DoubleType)
     .add("summary_interval", DoubleType)
