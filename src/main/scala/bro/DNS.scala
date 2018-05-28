@@ -10,7 +10,7 @@ object DNS {
   val cassandraTable = "dns"
 
   case class Simple (
-                      timestamp: Option[String],
+                      timestamp: String,
                       uid: String,
                       source_ip: String,
                       source_port: Option[Int],
