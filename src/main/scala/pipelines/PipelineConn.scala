@@ -8,6 +8,7 @@ import org.apache.spark.sql.types.StringType
 import org.apache.spark.sql.{DataFrame, Dataset}
 import spark.SparkHelper
 import enrichment.ConnEnrichment._
+import enrichment.GeoIP._
 
 /**
   * must be idempotent and synchronous (@TODO check asynchronous/synchronous from Datastax's Spark connector) sink
@@ -23,10 +24,9 @@ class PipelineConn() extends SinkBase {
 
     // Debug only
     dataset.show()
-    dataset.select("sensor").show()
 
     // Save to Cassandra
-    dataset.rdd.saveToCassandra(dataset.select("sensor").toString(),
+    dataset.rdd.saveToCassandra("bro",
       Conn.cassandraTable,
       Conn.cassandraColumns
     )
@@ -38,6 +38,6 @@ class PipelineConn() extends SinkBase {
       .select("data.*")
       .withColumn("direction", withDirection(col("local_orig"), col("local_resp")))
       .as[Conn.Simple]
-    // .addGeoIP()
+    //.addLocation()
   }
 }

@@ -1,12 +1,15 @@
 package enrichment
 
 import bro.Conn
-import com.snowplowanalytics.maxmind.iplookups.IpLookups
+import com.snowplowanalytics.maxmind.iplookups.model.IpLocation
+import com.snowplowanalytics.maxmind.iplookups.{IpLookups, model}
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.functions.{from_json, udf}
 import org.apache.spark.sql.types.StringType
 import spark.SparkHelper
 import org.apache.spark.sql._
+
+import scalaz._
 
 object GeoIP {
 
@@ -23,29 +26,36 @@ object GeoIP {
 
     def addLocation(direction: Column, source_ip: Column, dest_ip: Column): DataFrame = {
       var ipToLookup: String = ""
+      var isLocal: Boolean = false
 
-      direction.toString() match {
+      /*direction.toString() match {
         case "outbound" => ipToLookup = source_ip.toString()
         case "inbound" => ipToLookup = source_ip.toString()
-        case "local" => ipToLookup = source_ip.toString()
-      }
+        case "local" => isLocal = true
+      }*/
 
-      val location = ipLookups.performLookups(ipToLookup).ipLocation
 
-        val lookupResult = ipLookups.performLookups(df.select($"orig_ip").toString())
+      // val lookupResult = ipLookups.performLookups(ipToLookup)
+      val lookupResult = ipLookups.performLookups(ipToLookup)
 
-        val countryName = (lookupResult._1).map(_.countryName).getOrElse("")
-        val city = (lookupResult._1).map(_.city).getOrElse(None).getOrElse("")
-        val latitude = (lookupResult._1).map(_.latitude).getOrElse(None).toString
-        val longitude = (lookupResult._1).map(_.longitude).getOrElse(None).toString
+      // Geographic lookup
+      var countryName = lookupResult.ipLocation.map(_.countryName)
+      println(lookupResult.ipLocation).map(_.countryName) // => Some(Success("United States"))
+      println(lookupResult.ipLocation).map(_.regionName)  // => Some(Success("Florida"))
+
+      /*var countryCode: String
+      var countryName: String
+      var region: Option[String]
+      var city: Option[String]
+      var latitude: Float
+      var longitude
 
       df.withColumn("countryCode", from_json($"value".cast(StringType), Conn.schemaOutput))
         .withColumn("countryName", from_json($"value".cast(StringType), Conn.schemaOutput))
         .withColumn("region", from_json($"value".cast(StringType), Conn.schemaOutput))
         .withColumn("city", from_json($"value".cast(StringType), Conn.schemaOutput))
         .withColumn("latitude", from_json($"value".cast(StringType), Conn.schemaOutput))
-        .withColumn("longitude", from_json($"value".cast(StringType), Conn.schemaOutput))
+        .withColumn("longitude", from_json($"value".cast(StringType), Conn.schemaOutput))*/
     }
-  }
-  */
+  }*/
 }
