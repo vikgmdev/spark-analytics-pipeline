@@ -10,7 +10,7 @@ object DNS {
   val cassandraTable = "dns"
 
   case class Simple (
-                      timestamp: String,
+                      timestamp: Option[Long],
                       uid: String,
                       source_ip: String,
                       source_port: Option[Int],
@@ -65,7 +65,7 @@ object DNS {
   )
 
   val schemaBase: StructType = new StructType()
-    .add("timestamp", StringType)
+    .add("timestamp", LongType)
     .add("uid", StringType)
     .add("source_ip", StringType)
     .add("source_port", IntegerType)
