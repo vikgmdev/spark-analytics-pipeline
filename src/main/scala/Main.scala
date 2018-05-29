@@ -19,6 +19,7 @@ object Main {
       .readStream
       .option("sep", ",")
       .schema(Conn.schemaBaseCSV).csv("/opt/data/csv/")
+    streamingDataFrame.show()
     KafkaSink.debugStream(streamingDataFrame, "conn-from-csv")
     KafkaSource.write(streamingDataFrame, "conn-csv")
 
