@@ -1,4 +1,5 @@
 
+import bro.Conn
 import kafka.{KafkaSink, KafkaSource}
 import org.apache.spark.sql.streaming.StreamingQuery
 import org.apache.spark.sql.{Dataset, Row}
@@ -13,6 +14,10 @@ object Main {
     val kafkaTopicConn = KafkaSource.read("conn")
     startNewPipeline(kafkaTopicConn, "Conn")
     */
+
+    val streamingDataFrame = spark.readStream.schema(Conn.schemaBaseCSV).csv("/opt/data/toyota-data/logs-conn/")
+    KafkaSource.write(streamingDataFrame, "conn-csv")
+
 
     val kafkaTopicConnCSV = KafkaSource.read("conn-csv")
     startNewPipeline(kafkaTopicConnCSV, "ConnCSV")

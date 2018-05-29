@@ -1,9 +1,12 @@
 package pipelines
 
+import java.sql.Timestamp
+
 import bro.Conn
 import com.datastax.spark.connector._
 import enrichment.ConnEnrichment.withDirection
 import org.apache.spark.sql.functions.{col, from_json}
+import org.apache.spark.sql._
 import org.apache.spark.sql.types.StringType
 import org.apache.spark.sql.{DataFrame, Dataset}
 import spark.SparkHelper
@@ -31,10 +34,10 @@ class PipelineConnCSV() extends SinkBase {
     )*/
   }
 
-  def getDataset(df: DataFrame): DataFrame = {
-    val newdf = df.withColumn("data", $"value".cast(StringType))
-      .select("data")
-    spark.createDataFrame(newdf.rdd, Conn.schemaBaseCSV)
+  def getDataset(df: DataFrame): Dataset[Conn.Simple] = {
+    df.withColumn("data",
+      from_json($"value".cast(StringType), Conn.schemaBase))
+      .select("data.*")
     //.addLocation()
   }
 }

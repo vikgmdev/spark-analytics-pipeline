@@ -52,4 +52,14 @@ object KafkaSource {
 
       // .withColumn("typeLog", from_json($"value".cast(StringType), KafkaService.schemaTypeColumn).getField("type"))
   }
+
+  def write(dataFrame: DataFrame, topic: String) : DataFrame = {
+    println(s"Writing to Kafka, topic: '$topic'")
+    dataFrame.selectExpr("CAST(id AS STRING) AS key", "to_json(struct(*)) AS value").
+      writeStream
+      .format("kafka")
+      .option("subscribe", topic)
+      .option("kafka.bootstrap.servers", kafka_bootstrap_servers)
+      .start()
+  }
 }
