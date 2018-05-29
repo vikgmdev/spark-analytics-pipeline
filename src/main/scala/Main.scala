@@ -12,7 +12,7 @@ object Main {
     val kafkaTopicConn = KafkaSource.read("conn")
     startNewPipeline(kafkaTopicConn, "Conn")
 
-    val kafkaTopicConnCSV = KafkaSource.readCSV("conn-csv")
+    val kafkaTopicConnCSV = KafkaSource.read("conn-csv")
     startNewPipeline(kafkaTopicConnCSV, "ConnCSV")
 
     val kafkaTopicDNS = KafkaSource.read("dns")
