@@ -15,7 +15,10 @@ object Main {
     startNewPipeline(kafkaTopicConn, "Conn")
     */
 
-    val streamingDataFrame = spark.readStream.schema(Conn.schemaBaseCSV).csv("/opt/data/csv/")
+    val streamingDataFrame = spark
+      .readStream
+      .option("sep", ",")
+      .schema(Conn.schemaBaseCSV).csv("/opt/data/csv/")
     KafkaSink.debugStream(streamingDataFrame, "conn-from-csv")
     KafkaSource.write(streamingDataFrame, "conn-csv")
 
