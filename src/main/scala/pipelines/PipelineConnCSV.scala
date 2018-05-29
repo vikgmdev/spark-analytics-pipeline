@@ -16,12 +16,8 @@ class PipelineConnCSV() extends SinkBase {
   import spark.implicits._
 
   override def startPipeline(df: DataFrame): Unit = {
-
-    // Parse DataFrame to Dataset with type of log
-    val dataset = getDataset(df)
-
     // Debug only
-    dataset.show()
+    df.show()
 
     // Save to Cassandra
     /*
@@ -29,9 +25,5 @@ class PipelineConnCSV() extends SinkBase {
       Conn.cassandraTable,
       Conn.cassandraColumns
     )*/
-  }
-
-  def getDataset(df: DataFrame): DataFrame = {
-    df.select("value")
   }
 }

@@ -69,6 +69,9 @@ object Conn {
     "pcr"
   )
 
+  val schemaBaseCSV: StructType = new StructType()
+    .add("value", schemaBase)
+
   val schemaBase: StructType = new StructType()
     .add("timestamp", StringType)
     .add("uid", StringType)

@@ -52,4 +52,21 @@ object KafkaSource {
 
       // .withColumn("typeLog", from_json($"value".cast(StringType), KafkaService.schemaTypeColumn).getField("type"))
   }
+
+  def readCSV(topic: String) : DataFrame = {
+    println(s"Reading from Kafka, topic: '$topic'")
+    spark
+      .readStream
+      .format("kafka")
+      .option("kafka.bootstrap.servers", kafka_bootstrap_servers)
+      .option("subscribe", topic)
+      .option("startingOffsets", "earliest")
+      .option("enable.auto.commit", value = false)
+      .option("group.id", s"Kafka-Streaming-Topic-$topic")
+      .option("failOnDataLoss", value = false)
+      .schema(Conn.schemaBaseCSV)
+      .load()
+
+    // .withColumn("typeLog", from_json($"value".cast(StringType), KafkaService.schemaTypeColumn).getField("type"))
+  }
 }
