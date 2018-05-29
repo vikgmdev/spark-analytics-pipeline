@@ -3,6 +3,7 @@ package kafka
 import bro.Conn
 import org.apache.spark.sql.{DataFrame, Dataset}
 import org.apache.spark.sql.functions.{struct, to_json, _}
+import org.apache.spark.sql.streaming.StreamingQuery
 import org.apache.spark.sql.types.{StringType, _}
 import spark.SparkHelper
 
@@ -53,7 +54,7 @@ object KafkaSource {
       // .withColumn("typeLog", from_json($"value".cast(StringType), KafkaService.schemaTypeColumn).getField("type"))
   }
 
-  def write(dataFrame: DataFrame, topic: String) : DataFrame = {
+  def write(dataFrame: DataFrame, topic: String) : StreamingQuery = {
     println(s"Writing to Kafka, topic: '$topic'")
     dataFrame.selectExpr("CAST(id AS STRING) AS key", "to_json(struct(*)) AS value").
       writeStream
