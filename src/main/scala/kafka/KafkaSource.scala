@@ -59,7 +59,7 @@ object KafkaSource {
     dataFrame.selectExpr("to_json(struct(*)) AS value").
       writeStream
       .format("kafka")
-      .option("subscribe", topic)
+      .option("topic", topic)
       .option("kafka.bootstrap.servers", kafka_bootstrap_servers)
       .start()
   }
