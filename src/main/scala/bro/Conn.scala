@@ -93,6 +93,28 @@ object Conn {
     .add("pcr", DoubleType)
     .add("sensor", StringType)
     .add("type", StringType)
+
+  val schemaBaseCSV: StructType = new StructType()
+    .add("timestamp", StringType)
+    .add("uid", StringType)
+    .add("source_ip", StringType)
+    .add("source_port", StringType)
+    .add("dest_ip", StringType)
+    .add("dest_port", StringType)
+    .add("proto", StringType)
+    .add("service", StringType)
+    .add("duration", StringType)
+    .add("orig_bytes", StringType)
+    .add("resp_bytes", StringType)
+    .add("conn_state", StringType)
+    .add("local_orig", StringType)
+    .add("local_resp", StringType)
+    .add("missed_bytes", StringType)
+    .add("history", StringType)
+    .add("orig_pkts", StringType)
+    .add("orig_ip_bytes", StringType)
+    .add("resp_pkts", StringType)
+    .add("resp_ip_bytes", StringType)
 }
 
   /*
