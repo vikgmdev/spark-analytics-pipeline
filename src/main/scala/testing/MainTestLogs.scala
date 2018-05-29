@@ -1,9 +1,11 @@
+package testing
 
-import testing.bro._
+
 import kafka.{KafkaSink, KafkaSource}
 import org.apache.spark.sql.streaming.{OutputMode, StreamingQuery}
 import org.apache.spark.sql.{Dataset, Row}
 import spark.SparkHelper
+import testing.bro._
 
 object MainTestLogs {
 
