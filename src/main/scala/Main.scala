@@ -9,17 +9,21 @@ object Main {
   def main(args: Array[String]) {
     val spark = SparkHelper.getAndConfigureSparkSession()
 
+    /*
     val kafkaTopicConn = KafkaSource.read("conn")
     startNewPipeline(kafkaTopicConn, "Conn")
+    */
 
     val kafkaTopicConnCSV = KafkaSource.read("conn-csv")
     startNewPipeline(kafkaTopicConnCSV, "ConnCSV")
 
+    /*
     val kafkaTopicDNS = KafkaSource.read("dns")
     startNewPipeline(kafkaTopicDNS, "DNS")
 
     val kafkaTopicPCR = KafkaSource.read("pcr")
     startNewPipeline(kafkaTopicPCR, "PCR")
+    */
 
     //Wait for all streams to finish
     spark.streams.awaitAnyTermination()
