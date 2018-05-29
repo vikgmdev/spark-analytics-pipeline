@@ -10,11 +10,11 @@ object Main {
   def main(args: Array[String]) {
     val spark = SparkHelper.getAndConfigureSparkSession()
 
-    startNewPipeline(KafkaSource.read(Conn.topicName), Conn.getClass.getName)
+    startNewPipeline(KafkaSource.read(Conn.topicName), "Conn")
 
-    startNewPipeline(KafkaSource.read(DNS.topicName), DNS.getClass.getName)
+    startNewPipeline(KafkaSource.read(DNS.topicName), "DNS")
 
-    startNewPipeline(KafkaSource.read(PCR.topicName), PCR.getClass.getName)
+    startNewPipeline(KafkaSource.read(PCR.topicName), "PCR")
 
     //Wait for all streams to finish
     spark.streams.awaitAnyTermination()
