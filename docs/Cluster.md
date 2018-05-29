@@ -24,25 +24,25 @@ Install dependencies for DEB/Debian-based Linux
 sudo apt-get install cmake make gcc g++ flex bison libpcap-dev libssl-dev python-dev swig zlib1g-dev
 ```
 
-Clone bro repository
+Clone production.bro repository
 
 ```
 cd $BASE_PATH
-git clone --recursive git://git.bro.org/bro bro-src
+git clone --recursive git://git.production.bro.org/production.bro production.bro-src
 ```
 
 Compile Bro IDS from source
 
 ```
-cd bro-src
-./configure --prefix=$BASE_PATH/bro
+cd production.bro-src
+./configure --prefix=$BASE_PATH/production.bro
 make
 make install
 ```
 
 Export Bro path to our env file
 ```
-"export PATH=$BASE_PATH/bro/bin:$PATH" >> ~/.profile
+"export PATH=$BASE_PATH/production.bro/bin:$PATH" >> ~/.profile
 ```
 
 ### Librdkafka
@@ -63,31 +63,31 @@ sudo make install
 
 ```
 cd $BASE_PATH
-git clone https://github.com/apache/metron-bro-plugin-kafka.git
+git clone https://github.com/apache/metron-production.bro-plugin-kafka.git
 cd KafkaLogger
-./configure --bro-dist=$BASE_PATH/bro-src
+./configure --production.bro-dist=$BASE_PATH/production.bro-src
 make
 sudo make install
 ```
 
-check if Bro-Kafka plugin was correctly installed on bro
+check if Bro-Kafka plugin was correctly installed on production.bro
 
 ```
-$ bro -N Apache::Kafka
+$ production.bro -N Apache::Kafka
 Apache::Kafka - Writes logs to Kafka (dynamic, version 0.2)
 ```
 
 ### Bro configuration
 
-Add json-logs and track-all-assets plugins to bro
+Add json-logs and track-all-assets plugins to production.bro
 ```
-"@load ./json-logs.bro" >> $BASE_PATH/bro/share/bro/policy/tuning/__load__.bro
-"@load ./track-all-assets.bro" >> $BASE_PATH/bro/share/bro/policy/tuning/__load__.bro
+"@load ./json-logs.production.bro" >> $BASE_PATH/production.bro/share/production.bro/policy/tuning/__load__.production.bro
+"@load ./track-all-assets.production.bro" >> $BASE_PATH/production.bro/share/production.bro/policy/tuning/__load__.production.bro
 ```
 
-enable it editing the local.bro file with
+enable it editing the local.production.bro file with
 ```
-nano $BASE_PATH/bro/share/bro/site/local.bro
+nano $BASE_PATH/production.bro/share/production.bro/site/local.production.bro
 ```
 and replace the line
 ```
@@ -100,47 +100,47 @@ for
 
 ### Bro-Kafka plugin configuration
 ```
-mkdir $BASE_PATH/bro/share/bro/policy/custom
+mkdir $BASE_PATH/production.bro/share/production.bro/policy/custom
 ```
 add the main file for custom plugins
 ```
-nano $BASE_PATH/bro/share/bro/policy/custom/__load__.bro
+nano $BASE_PATH/production.bro/share/production.bro/policy/custom/__load__.production.bro
 ```
 and add next lines on it
 ```
-@load ./bro-to-kafka.bro            // This script enable the plugin that sends logs from Bro to Kafka
-@load ./producer-consumer-ratio.bro // This script enable PCR
+@load ./production.bro-to-kafka.production.bro            // This script enable the plugin that sends logs from Bro to Kafka
+@load ./producer-consumer-ratio.production.bro // This script enable PCR
 ```
-To create both files just copy it from the "bro-scripts" folder
+To create both files just copy it from the "production.bro-scripts" folder
 ``` 
-cp /path/to/bro-to-kafka.bro $BASE_PATH/bro/share/bro/policy/custom/bro-to-kafka.bro
-cp /path/to/producer-consumer-ratio.bro $BASE_PATH/bro/share/bro/policy/custom/producer-consumer-ratio.bro
+cp /path/to/production.bro-to-kafka.production.bro $BASE_PATH/production.bro/share/production.bro/policy/custom/production.bro-to-kafka.production.bro
+cp /path/to/producer-consumer-ratio.production.bro $BASE_PATH/production.bro/share/production.bro/policy/custom/producer-consumer-ratio.production.bro
 ```
 	
-Enable custom scripts to local.bro
+Enable custom scripts to local.production.bro
 
 ```
-nano $BASE_PATH/bro/share/bro/site/local.bro
+nano $BASE_PATH/production.bro/share/production.bro/site/local.production.bro
 ```
 add next lines at the end of the file
 ```
-# This will load custom bro scripts
+# This will load custom production.bro scripts
 @load custom
 ```
 
-Config bro promisc interface in
+Config production.bro promisc interface in
 ```
-nano $BASE_PATH/bro/etc/node.cfg
+nano $BASE_PATH/production.bro/etc/node.cfg
 ```
 
 Config right network range in
 ```
-nano $BASE_PATH/bro/etc/networks.cfg
+nano $BASE_PATH/production.bro/etc/networks.cfg
 ```
 
 ### Deploy and Start Bro
 
-First check bro config
+First check production.bro config
 ```
 broctl check
 ```

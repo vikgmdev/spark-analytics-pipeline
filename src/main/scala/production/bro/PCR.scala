@@ -1,9 +1,12 @@
-package bro
+package production.bro
 
+import base.LogBase
 import com.datastax.spark.connector.SomeColumns
 import org.apache.spark.sql.types._
 
-object PCR {
+object PCR extends LogBase {
+
+  override val topicName: String = "pcr"
 
   val cassandraTable = "pcr"
 

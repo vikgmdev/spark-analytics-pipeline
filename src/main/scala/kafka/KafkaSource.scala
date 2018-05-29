@@ -1,6 +1,5 @@
 package kafka
 
-import bro.Conn
 import org.apache.spark.sql.{DataFrame, Dataset}
 import org.apache.spark.sql.functions.{struct, to_json, _}
 import org.apache.spark.sql.streaming.StreamingQuery

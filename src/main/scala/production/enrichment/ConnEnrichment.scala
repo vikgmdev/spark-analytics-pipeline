@@ -1,4 +1,4 @@
-package enrichment
+package production.enrichment
 
 import org.apache.spark.sql.{Column, DataFrame}
 import org.apache.spark.sql.expressions.UserDefinedFunction

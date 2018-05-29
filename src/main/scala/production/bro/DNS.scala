@@ -1,11 +1,14 @@
-package bro
+package production.bro
 
 import java.sql.Timestamp
 
+import base.LogBase
 import com.datastax.spark.connector.SomeColumns
 import org.apache.spark.sql.types._
 
-object DNS {
+object DNS extends LogBase {
+
+  override val topicName: String = "dns"
 
   val cassandraTable = "dns"
 

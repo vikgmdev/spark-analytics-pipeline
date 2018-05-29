@@ -1,11 +1,14 @@
-package bro
+package production.bro
 
 import java.sql.Timestamp
 
+import base.LogBase
 import com.datastax.spark.connector.SomeColumns
 import org.apache.spark.sql.types._
 
-object Conn {
+object Conn extends LogBase {
+
+  override val topicName: String = "conn"
 
   val cassandraTable = "conn"
 
@@ -93,28 +96,6 @@ object Conn {
     .add("pcr", DoubleType)
     .add("sensor", StringType)
     .add("type", StringType)
-
-  val schemaBaseCSV: StructType = new StructType()
-    .add("timestamp", StringType)
-    .add("uid", StringType)
-    .add("source_ip", StringType)
-    .add("source_port", IntegerType)
-    .add("dest_ip", StringType)
-    .add("dest_port", IntegerType)
-    .add("proto", StringType)
-    .add("service", StringType)
-    .add("duration", DoubleType)
-    .add("orig_bytes", DoubleType)
-    .add("resp_bytes", DoubleType)
-    .add("conn_state", StringType)
-    .add("local_orig", BooleanType)
-    .add("local_resp", BooleanType)
-    .add("missed_bytes", DoubleType)
-    .add("history", StringType)
-    .add("orig_pkts", DoubleType)
-    .add("orig_ip_bytes", DoubleType)
-    .add("resp_pkts", DoubleType)
-    .add("resp_ip_bytes", DoubleType)
 }
 
   /*

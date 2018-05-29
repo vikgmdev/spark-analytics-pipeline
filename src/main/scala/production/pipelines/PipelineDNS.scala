@@ -1,19 +1,18 @@
-package pipelines
+package production.pipelines
 
-import bro.Conn
+import base.SinkBase
+import production.bro.DNS
 import com.datastax.spark.connector._
-import enrichment.ConnEnrichment.withDirection
 import org.apache.spark.sql.functions.{col, from_json}
 import org.apache.spark.sql.types.StringType
 import org.apache.spark.sql.{DataFrame, Dataset}
 import spark.SparkHelper
-import enrichment.ConnEnrichment._
-import enrichment.GeoIP._
+import production.enrichment.ConnEnrichment._
 
 /**
   * must be idempotent and synchronous (@TODO check asynchronous/synchronous from Datastax's Spark connector) sink
   */
-class PipelineConn() extends SinkBase {
+class PipelineDNS() extends SinkBase {
   private val spark = SparkHelper.getSparkSession()
   import spark.implicits._
 
@@ -26,18 +25,19 @@ class PipelineConn() extends SinkBase {
     dataset.show()
 
     // Save to Cassandra
-    dataset.rdd.saveToCassandra("bro",
-      Conn.cassandraTable,
-      Conn.cassandraColumns
-    )
+    // dataset.rdd.saveToCassandra("bro", DNS.cassandraTable, DNS.cassandraColumns)
   }
 
-  def getDataset(df: DataFrame): Dataset[Conn.Simple] = {
+  def getDataset(df: DataFrame): Dataset[DNS.Simple] = {
     df.withColumn("data",
-      from_json($"value".cast(StringType), Conn.schemaBase))
+      from_json($"value".cast(StringType), DNS.schemaBase))
       .select("data.*")
-      .withColumn("direction", withDirection(col("local_orig"), col("local_resp")))
-      .as[Conn.Simple]
-    //.addLocation()
+      .withColumnRenamed("AA", "aa")
+      .withColumnRenamed("TC", "tc")
+      .withColumnRenamed("RD", "rd")
+      .withColumnRenamed("RA", "ra")
+      .withColumnRenamed("Z", "z")
+      .withColumnRenamed("TTLs", "ttls")
+      .as[DNS.Simple]
   }
 }

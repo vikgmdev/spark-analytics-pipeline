@@ -1,43 +1,37 @@
-package pipelines
+package production.pipelines
 
-import java.sql.Timestamp
-
-import bro.Conn
+import base.SinkBase
+import production.bro.PCR
 import com.datastax.spark.connector._
-import enrichment.ConnEnrichment.withDirection
 import org.apache.spark.sql.functions.{col, from_json}
-import org.apache.spark.sql._
 import org.apache.spark.sql.types.StringType
 import org.apache.spark.sql.{DataFrame, Dataset}
 import spark.SparkHelper
+import production.enrichment.ConnEnrichment._
 
 /**
   * must be idempotent and synchronous (@TODO check asynchronous/synchronous from Datastax's Spark connector) sink
   */
-class PipelineConnCSV() extends SinkBase {
+class PipelinePCR() extends SinkBase {
   private val spark = SparkHelper.getSparkSession()
   import spark.implicits._
 
   override def startPipeline(df: DataFrame): Unit = {
 
     // Parse DataFrame to Dataset with type of log
-    val dataset = getDataset(df)
+    val dataset: Dataset[PCR.Simple] = getDataset(df)
 
     // Debug only
     dataset.show()
 
     // Save to Cassandra
-    /*
-    dataset.rdd.saveToCassandra("bro",
-      Conn.cassandraTable,
-      Conn.cassandraColumns
-    )*/
+    // dataset.rdd.saveToCassandra("bro", PCR.cassandraTable, PCR.cassandraColumns)
   }
 
-  def getDataset(df: DataFrame): DataFrame = {
+  def getDataset(df: DataFrame): Dataset[PCR.Simple] = {
     df.withColumn("data",
-      from_json($"value".cast(StringType), Conn.schemaBaseCSV))
+      from_json($"value".cast(StringType), PCR.schemaBase))
       .select("data.*")
-    //.addLocation()
+      .as[PCR.Simple]
   }
 }
