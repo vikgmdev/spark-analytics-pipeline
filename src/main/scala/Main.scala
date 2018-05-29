@@ -18,8 +18,7 @@ object Main {
     val streamingDataFrame = spark
       .readStream
       .option("sep", ",")
-      .schema(Conn.schemaBaseCSV).csv("/opt/data/csv/")
-    streamingDataFrame.show()
+      .csv("/opt/data/csv/")
     KafkaSink.debugStream(streamingDataFrame, "conn-from-csv")
     KafkaSource.write(streamingDataFrame, "conn-csv")
 
