@@ -26,7 +26,7 @@ object Main {
       .toDF()
       .writeStream
       .format(s"base.SinkProvider")
-      .option("pipeline", s"production.pipelines.Pipeline$whichProvider")
+      .option("pipeline", s"Pipeline$whichProvider")
       .outputMode(OutputMode.Update())
       .queryName(s"KafkaStreamToPipeline$whichProvider")
       .start()
