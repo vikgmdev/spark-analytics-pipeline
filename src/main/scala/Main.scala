@@ -19,10 +19,12 @@ object Main {
       .readStream
       .option("sep", ",")
       .schema(Conn.schemaBaseCSV).csv("/opt/data/csv/")
+    KafkaSink.debugStream(streamingDataFrame, "conn-from-csv")
     KafkaSource.write(streamingDataFrame, "conn-csv")
 
 
     val kafkaTopicConnCSV = KafkaSource.read("conn-csv")
+    KafkaSink.debugStream(kafkaTopicConnCSV, "conn-csv")
     startNewPipeline(kafkaTopicConnCSV, "ConnCSV")
 
     /*
