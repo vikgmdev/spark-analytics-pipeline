@@ -36,7 +36,7 @@ class PipelineConnCSV() extends SinkBase {
 
   def getDataset(df: DataFrame): DataFrame = {
     df.withColumn("data",
-      from_json($"value".cast(StringType), Conn.schemaBase))
+      from_json($"value".cast(StringType), Conn.schemaBaseCSV))
       .select("data.*")
     //.addLocation()
   }
