@@ -32,7 +32,6 @@ class PipelineConnCSV() extends SinkBase {
   }
 
   def getDataset(df: DataFrame): DataFrame = {
-    val newDF = df.select("value")
-    spark.createDataFrame(newDF.rdd, Conn.schemaBase)
+    df.select("value")
   }
 }
