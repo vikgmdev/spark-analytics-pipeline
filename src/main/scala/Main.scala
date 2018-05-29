@@ -20,7 +20,8 @@ object Main {
 
 
     val kafkaTopicConnCSV = KafkaSource.read("conn-csv")
-    startNewPipeline(kafkaTopicConnCSV, "ConnCSV")
+    KafkaSink.debugStream(kafkaTopicConnCSV, "conn-csv")
+    // startNewPipeline(kafkaTopicConnCSV, "ConnCSV")
 
     /*
     val kafkaTopicDNS = KafkaSource.read("dns")
