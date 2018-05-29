@@ -56,7 +56,7 @@ object KafkaSource {
 
   def write(dataFrame: DataFrame, topic: String) : StreamingQuery = {
     println(s"Writing to Kafka, topic: '$topic'")
-    dataFrame.selectExpr("CAST(id AS STRING) AS key", "to_json(struct(*)) AS value").
+    dataFrame.selectExpr("to_json(struct(*)) AS value").
       writeStream
       .format("kafka")
       .option("subscribe", topic)
