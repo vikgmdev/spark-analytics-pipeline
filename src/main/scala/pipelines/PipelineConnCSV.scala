@@ -33,7 +33,7 @@ class PipelineConnCSV() extends SinkBase {
 
   def getDataset(df: DataFrame): Dataset[Conn.Simple] = {
     df.withColumn("data", $"value".cast(StringType))
-      .select("data.*")
+      .select("data")
     //.addLocation()
   }
 }
