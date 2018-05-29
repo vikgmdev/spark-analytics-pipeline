@@ -15,7 +15,7 @@ object Main {
     startNewPipeline(kafkaTopicConn, "Conn")
     */
 
-    val streamingDataFrame = spark.readStream.schema(Conn.schemaBaseCSV).csv("/opt/data/toyota-data/logs-conn/conn.csv")
+    val streamingDataFrame = spark.readStream.schema(Conn.schemaBaseCSV).csv("/opt/data/csv/")
     KafkaSource.write(streamingDataFrame, "conn-csv")
 
 
