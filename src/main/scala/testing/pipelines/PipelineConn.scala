@@ -23,7 +23,7 @@ class PipelineConn() extends SinkBase {
 
     // Debug only
     dataset.show(10000, truncate = false)
-    dataset.count()
+    println(dataset.count())
 
     // Save to Cassandra
     // dataset.rdd.saveToCassandra("bro", Conn.cassandraTable, Conn.cassandraColumns)
