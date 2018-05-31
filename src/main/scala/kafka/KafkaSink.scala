@@ -1,5 +1,6 @@
 package kafka
 
+import kafka.KafkaSource.kafka_bootstrap_servers
 import org.apache.spark.sql.{DataFrame, Dataset}
 import org.apache.spark.sql.streaming.StreamingQuery
 import spark.SparkHelper
@@ -22,6 +23,16 @@ object KafkaSink {
       .queryName("Debug Stream Kafka - " + queryName)
       .option("truncate", value = true)
       .format("console")
+      .start()
+  }
+
+  def write(dataFrame: DataFrame, topic: String) : StreamingQuery = {
+    println(s"Writing to Kafka, topic: '$topic'")
+    dataFrame.selectExpr("to_json(struct(*)) AS value").
+      writeStream
+      .format("kafka")
+      .option("topic", topic)
+      .option("kafka.bootstrap.servers", kafka_bootstrap_servers)
       .start()
   }
 }

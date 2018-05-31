@@ -31,7 +31,8 @@ object Conn extends LogBase {
                   orig_ip_bytes: Option[Double],
                   resp_pkts: Option[Double],
                   resp_ip_bytes: Option[Double],
-                  tunnel_parents: Vector[String]
+                  tunnel_parents: Vector[String],
+                  pcr: Option[Double]
                  ) extends Serializable
 
   val schemaBase: StructType = new StructType()
