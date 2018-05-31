@@ -10,7 +10,7 @@ object Conn extends LogBase {
   val cassandraTable = "conn"
 
   case class Simple (
-                  timestamp: String,
+                  timestamp: TimestampType,
                   uid: String,
                   source_ip: String,
                   source_port: Option[Int],

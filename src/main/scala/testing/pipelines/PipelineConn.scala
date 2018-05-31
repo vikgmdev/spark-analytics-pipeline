@@ -23,6 +23,7 @@ class PipelineConn() extends SinkBase {
 
     // Debug only
     dataset.show(10000, truncate = false)
+    dataset.count()
 
     // Save to Cassandra
     // dataset.rdd.saveToCassandra("bro", Conn.cassandraTable, Conn.cassandraColumns)
@@ -57,7 +58,7 @@ class PipelineConn() extends SinkBase {
 
       // Enrich
       .withColumn("direction", withDirection(col("local_orig"), col("local_resp")))
-      // .withColumn("pcr", withPCR(col("direction"), col("orig_bytes"), col("resp_bytes")))
+      .withColumn("pcr", withPCR(col("direction"), col("orig_bytes"), col("resp_bytes")))
       .as[Conn.Simple]
   }
 }
