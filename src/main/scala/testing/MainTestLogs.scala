@@ -12,9 +12,7 @@ object MainTestLogs {
   def main(args: Array[String]) {
     val spark = SparkHelper.getAndConfigureSparkSession()
 
-    val kafkaConnStream = KafkaSource.read(Conn.topicName)
-    KafkaSink.debugStream(kafkaConnStream, "ConnDebug")
-    startNewPipeline(kafkaConnStream, Conn.getClass.getSimpleName)
+    startNewPipeline(KafkaSource.read(Conn.topicName), Conn.getClass.getSimpleName)
 
     // startNewPipeline(KafkaSource.read(DNS.topicName), DNS.getClass.getSimpleName)
 
