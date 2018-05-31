@@ -30,8 +30,8 @@ object Conn extends LogBase {
                   orig_pkts: Option[Int],
                   orig_ip_bytes: Option[Int],
                   resp_pkts: Option[Int],
-                  resp_ip_bytes: Option[Int],
-                  tunnel_parents: Option[Vector[String]]
+                  resp_ip_bytes: Option[Int]
+                  //tunnel_parents: Option[Vector[String]]
                  ) extends Serializable
 
   val schemaBase: StructType = new StructType()
@@ -55,5 +55,5 @@ object Conn extends LogBase {
     .add("orig_ip_bytes", IntegerType)
     .add("resp_pkts", IntegerType)
     .add("resp_ip_bytes", IntegerType)
-    .add("tunnel_parents", ArrayType(StringType))
+    //.add("tunnel_parents", ArrayType(StringType))
 }
