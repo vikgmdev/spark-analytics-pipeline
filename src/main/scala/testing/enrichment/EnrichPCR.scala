@@ -14,12 +14,12 @@ object EnrichPCR {
       if (numerator != 0.0) {
 
         val pcr = numerator / denominator
-        lit(pcr)
+        pcr
       } else {
-        lit(None.asInstanceOf[Double])
+        0
       }
     } else {
-      lit(None.asInstanceOf[Double])
+      0
     }
   })
 }

@@ -22,8 +22,8 @@ class PipelineConn() extends SinkBase {
     val dataset = getDataset(df)
 
     // Debug only
-    dataset.show(10000, truncate = false)
-    println(dataset.count())
+    dataset.show()
+    dataset.printSchema()
 
     // Save to Cassandra
     // dataset.rdd.saveToCassandra("bro", Conn.cassandraTable, Conn.cassandraColumns)
@@ -59,7 +59,6 @@ class PipelineConn() extends SinkBase {
       // Enrich
       .withColumn("direction", withDirection(col("local_orig"), col("local_resp")))
       .withColumn("pcr", withPCR($"direction", $"orig_bytes", $"resp_bytes"))
-      .withColumn("pcr", $"pcr".cast(DoubleType))
       .as[Conn.Simple]
   }
 }
