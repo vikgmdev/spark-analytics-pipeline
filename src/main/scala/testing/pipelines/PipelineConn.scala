@@ -28,7 +28,7 @@ class PipelineConn() extends SinkBase {
     // dataset.rdd.saveToCassandra("bro", Conn.cassandraTable, Conn.cassandraColumns)
   }
 
-  def getDataset(df: DataFrame): Dataset[Conn.Simple] = {
+  def getDataset(df: DataFrame): DataFrame = {
     df.withColumn("data",
       from_json($"value".cast(StringType), Conn.schemaBase))
       .select("data.*")
