@@ -58,7 +58,7 @@ class PipelineConn() extends SinkBase {
 
       // Enrich
       .withColumn("direction", withDirection(col("local_orig"), col("local_resp")))
-      // .withColumn("pcr", withPCR(col("direction"), col("orig_bytes"), col("resp_bytes")))
+      .withColumn("pcr", withPCR($"direction", $"orig_bytes", $"resp_bytes"))
       .as[Conn.Simple]
   }
 }
