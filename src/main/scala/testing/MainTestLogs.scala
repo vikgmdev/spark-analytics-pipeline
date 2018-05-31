@@ -12,37 +12,38 @@ object MainTestLogs {
   def main(args: Array[String]) {
     val spark = SparkHelper.getAndConfigureSparkSession()
 
-    startNewPipeline(KafkaSource.read(Conn.topicName), Conn.getClass.getName)
+    startNewPipeline(KafkaSource.read(Conn.topicName), Conn.getClass.getSimpleName)
 
-    startNewPipeline(KafkaSource.read(DNS.topicName), DNS.getClass.getName)
+    startNewPipeline(KafkaSource.read(DNS.topicName), DNS.getClass.getSimpleName)
 
-    startNewPipeline(KafkaSource.read(Files.topicName), Files.getClass.getName)
+    startNewPipeline(KafkaSource.read(Files.topicName), Files.getClass.getSimpleName)
 
-    startNewPipeline(KafkaSource.read(HTTP.topicName), HTTP.getClass.getName)
+    startNewPipeline(KafkaSource.read(HTTP.topicName), HTTP.getClass.getSimpleName)
 
-    startNewPipeline(KafkaSource.read(Kerberos.topicName), Kerberos.getClass.getName)
+    startNewPipeline(KafkaSource.read(Kerberos.topicName), Kerberos.getClass.getSimpleName)
 
-    startNewPipeline(KafkaSource.read(SNMP.topicName), SNMP.getClass.getName)
+    startNewPipeline(KafkaSource.read(SNMP.topicName), SNMP.getClass.getSimpleName)
 
-    startNewPipeline(KafkaSource.read(SSL.topicName), SSL.getClass.getName)
+    startNewPipeline(KafkaSource.read(SSL.topicName), SSL.getClass.getSimpleName)
 
-    startNewPipeline(KafkaSource.read(Syslog.topicName), Syslog.getClass.getName)
+    startNewPipeline(KafkaSource.read(Syslog.topicName), Syslog.getClass.getSimpleName)
 
-    startNewPipeline(KafkaSource.read(X509.topicName), X509.getClass.getName)
+    startNewPipeline(KafkaSource.read(X509.topicName), X509.getClass.getSimpleName)
 
     //Wait for all streams to finish
     spark.streams.awaitAnyTermination()
   }
 
-  def startNewPipeline(ds: Dataset[Row], whichProvider: String): StreamingQuery = {
-    KafkaSink.debugStream(ds, whichProvider)
+  def startNewPipeline(ds: Dataset[Row], provider: String): StreamingQuery = {
+    val withProvider = provider.replace("$","")
+    KafkaSink.debugStream(ds, withProvider)
     ds
       .toDF()
       .writeStream
       .format(s"base.SinkProvider")
-      .option("pipeline", s"testing.pipelines.Pipeline$whichProvider")
+      .option("pipeline", s"testing.pipelines.Pipeline$withProvider")
       .outputMode(OutputMode.Update())
-      .queryName(s"KafkaStreamToPipeline$whichProvider")
+      .queryName(s"KafkaStreamToPipeline$withProvider")
       .start()
   }
 }
