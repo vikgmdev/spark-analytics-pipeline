@@ -6,12 +6,12 @@ import org.apache.spark.sql.expressions.UserDefinedFunction
 object EnrichPCR {
 
   val withPCR: UserDefinedFunction = udf((direction: String, orig_bytes: Double, resp_bytes: Double) => {
-    if (direction == "inbound") None
+    if (direction == "inbound") lit(None)
 
     val numerator = (orig_bytes + 0.0) - (resp_bytes + 0.0)
     val denominator = (orig_bytes + 0.0) + (resp_bytes + 0.0)
 
-    if (numerator == 0.0) None
+    if (numerator == 0.0) lit(None)
 
     val pcr = numerator / denominator
     lit(pcr)
