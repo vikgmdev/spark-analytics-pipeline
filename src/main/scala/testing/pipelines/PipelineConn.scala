@@ -41,7 +41,7 @@ class PipelineConn() extends SinkBase {
       .withColumnRenamed("id.resp_p", "dest_port")
 
       // Change column's to the righ type
-      /*.withColumn("source_port", $"source_port".cast(IntegerType))
+      .withColumn("source_port", $"source_port".cast(IntegerType))
       .withColumn("dest_port", $"dest_port".cast(IntegerType))
       .withColumn("duration", $"duration".cast(IntegerType))
       .withColumn("orig_bytes", $"orig_bytes".cast(IntegerType))
@@ -52,10 +52,11 @@ class PipelineConn() extends SinkBase {
       .withColumn("orig_pkts", $"orig_pkts".cast(IntegerType))
       .withColumn("orig_ip_bytes", $"orig_ip_bytes".cast(IntegerType))
       .withColumn("resp_pkts", $"resp_pkts".cast(IntegerType))
-      .withColumn("resp_ip_bytes", $"resp_ip_bytes".cast(IntegerType))*/
+      .withColumn("resp_ip_bytes", $"resp_ip_bytes".cast(IntegerType))
+      .withColumn("tunnel_parents", $"tunnel_parents".cast(ArrayType(StringType)))
 
       // .withColumn("direction", withDirection(col("local_orig"), col("local_resp")))
       // .withColumn("pcr", withPCR(col("direction"), col("orig_bytes"), col("resp_bytes")))
-      // .as[Conn.Simple]
+      .as[Conn.Simple]
   }
 }
