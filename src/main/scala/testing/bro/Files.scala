@@ -10,7 +10,7 @@ object Files extends LogBase {
   val cassandraTable = "files"
 
   case class Simple (
-                  ts: String,
+                  timestamp: String,
                   fuid: String,
                   tx_hosts: Vector[String],
                   rx_hosts: Vector[String],
