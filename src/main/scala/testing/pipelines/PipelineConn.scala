@@ -38,7 +38,7 @@ class PipelineConn() extends SinkBase {
       .withColumnRenamed("id.resp_h", "dest_ip")
       .withColumnRenamed("id.resp_p", "dest_port")
       .withColumn("direction", withDirection(col("local_orig"), col("local_resp")))
-      .withColumn("pcr", withPCR(col("direction"), col("orig_bytes"), col("resp_bytes")))
+      // .withColumn("pcr", withPCR(col("direction"), col("orig_bytes"), col("resp_bytes")))
       .as[Conn.Simple]
   }
 }
