@@ -32,9 +32,17 @@ class PipelineConn() extends SinkBase {
     df.withColumn("data",
       from_json($"value".cast(StringType), Conn.schemaBase))
       .select("data.*")
+
+      // Rename column normalization
+      .withColumnRenamed("ts", "timestamp")
+      .withColumnRenamed("id.orig_h", "source_ip")
+      .withColumnRenamed("id.orig_p", "source_port")
+      .withColumnRenamed("id.resp_h", "dest_ip")
+      .withColumnRenamed("id.resp_p", "dest_port")
+
       // Change column's to the righ type
-      .withColumn("id.orig_p", $"id.orig_p".cast(IntegerType))
-      .withColumn("id.resp_p", $"id.resp_p".cast(IntegerType))
+      .withColumn("source_port", $"source_port".cast(IntegerType))
+      .withColumn("dest_port", $"dest_port".cast(IntegerType))
       .withColumn("duration", $"duration".cast(IntegerType))
       .withColumn("orig_bytes", $"orig_bytes".cast(IntegerType))
       .withColumn("resp_bytes", $"resp_bytes".cast(IntegerType))
@@ -45,13 +53,6 @@ class PipelineConn() extends SinkBase {
       .withColumn("orig_ip_bytes", $"orig_ip_bytes".cast(IntegerType))
       .withColumn("resp_pkts", $"resp_pkts".cast(IntegerType))
       .withColumn("resp_ip_bytes", $"resp_ip_bytes".cast(ArrayType(StringType)))
-
-      // Rename column normalization
-      .withColumnRenamed("ts", "timestamp")
-      .withColumnRenamed("id.orig_h", "source_ip")
-      .withColumnRenamed("id.orig_p", "source_port")
-      .withColumnRenamed("id.resp_h", "dest_ip")
-      .withColumnRenamed("id.resp_p", "dest_port")
 
       .withColumn("direction", withDirection(col("local_orig"), col("local_resp")))
       // .withColumn("pcr", withPCR(col("direction"), col("orig_bytes"), col("resp_bytes")))
