@@ -55,5 +55,5 @@ object Conn extends LogBase {
     .add("orig_ip_bytes", StringType)
     .add("resp_pkts", StringType)
     .add("resp_ip_bytes", StringType)
-    //.add("tunnel_parents", ArrayType(StringType))
+    .add("tunnel_parents", ArrayType(StringType))
 }
