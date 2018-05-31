@@ -55,7 +55,8 @@ class PipelineConn() extends SinkBase {
       .withColumn("resp_ip_bytes", $"resp_ip_bytes".cast(DoubleType))
       .withColumn("tunnel_parents", $"tunnel_parents".cast(ArrayType(StringType)))
 
-      // .withColumn("direction", withDirection(col("local_orig"), col("local_resp")))
+      // Enrich
+      .withColumn("direction", withDirection(col("local_orig"), col("local_resp")))
       // .withColumn("pcr", withPCR(col("direction"), col("orig_bytes"), col("resp_bytes")))
       .as[Conn.Simple]
   }
