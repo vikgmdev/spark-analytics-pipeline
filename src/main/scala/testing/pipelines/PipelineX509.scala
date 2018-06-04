@@ -30,6 +30,8 @@ class PipelineX509() extends SinkBase {
     df.withColumn("data",
       from_json($"value".cast(StringType), X509.schemaBase))
       .select("data.*")
+
+      // Rename column normalization
       .withColumnRenamed("ts", "timestamp")
       .withColumnRenamed("certificate.version", "certificate_version")
       .withColumnRenamed("certificate.serial", "certificate_serial")
@@ -49,6 +51,17 @@ class PipelineX509() extends SinkBase {
       .withColumnRenamed("san.ip", "san_ip")
       .withColumnRenamed("basic_constraints.ca", "basic_constraints_ca")
       .withColumnRenamed("basic_constraints.path_len", "basic_constraints_path_len")
+
+      // Change column's to the righ type
+      .withColumn("certificate_version", $"certificate_version".cast(DoubleType))
+      .withColumn("certificate_key_length", $"certificate_key_length".cast(DoubleType))
+      .withColumn("san_dns", $"san_dns".cast(ArrayType(StringType)))
+      .withColumn("san_uri", $"san_uri".cast(ArrayType(StringType)))
+      .withColumn("san_email", $"san_email".cast(ArrayType(StringType)))
+      .withColumn("san_ip", $"san_ip".cast(ArrayType(StringType)))
+      .withColumn("basic_constraints_ca", $"basic_constraints_ca".cast(BooleanType))
+      .withColumn("basic_constraints_path_len", $"basic_constraints_path_len".cast(DoubleType))
+
       .as[X509.Simple]
   }
 }

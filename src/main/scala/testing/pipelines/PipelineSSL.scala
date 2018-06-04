@@ -2,7 +2,7 @@ package testing.pipelines
 
 import base.SinkBase
 import org.apache.spark.sql.functions.{col, from_json}
-import org.apache.spark.sql.types.StringType
+import org.apache.spark.sql.types._
 import org.apache.spark.sql.{DataFrame, Dataset}
 import spark.SparkHelper
 import testing.bro.SSL
@@ -30,11 +30,22 @@ class PipelineSSL() extends SinkBase {
     df.withColumn("data",
       from_json($"value".cast(StringType), SSL.schemaBase))
       .select("data.*")
+
+      // Rename column normalization
       .withColumnRenamed("ts", "timestamp")
       .withColumnRenamed("id.orig_h", "source_ip")
       .withColumnRenamed("id.orig_p", "source_port")
       .withColumnRenamed("id.resp_h", "dest_ip")
       .withColumnRenamed("id.resp_p", "dest_port")
+
+      // Change column's to the righ type
+      .withColumn("source_port", $"source_port".cast(IntegerType))
+      .withColumn("dest_port", $"dest_port".cast(IntegerType))
+      .withColumn("resumed", $"resumed".cast(BooleanType))
+      .withColumn("established", $"established".cast(BooleanType))
+      .withColumn("cert_chain_fuids", $"cert_chain_fuids".cast(ArrayType(StringType)))
+      .withColumn("client_cert_chain_fuids", $"client_cert_chain_fuids".cast(ArrayType(StringType)))
+
       .as[SSL.Simple]
   }
 }

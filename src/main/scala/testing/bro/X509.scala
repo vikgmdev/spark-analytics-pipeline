@@ -35,7 +35,7 @@ object X509 extends LogBase {
   val schemaBase: StructType = new StructType()
     .add("ts", StringType)
     .add("id", StringType)
-    .add("certificate.version", DoubleType)
+    .add("certificate.version", StringType)
     .add("certificate.serial", StringType)
     .add("certificate.subject", StringType)
     .add("certificate.issuer", StringType)
@@ -44,15 +44,15 @@ object X509 extends LogBase {
     .add("certificate.key_alg", StringType)
     .add("certificate.sig_alg", StringType)
     .add("certificate.key_type", StringType)
-    .add("certificate.key_length", DoubleType)
+    .add("certificate.key_length", StringType)
     .add("certificate.exponent", StringType)
     .add("certificate.curve", StringType)
     .add("san.dns", ArrayType(StringType))
     .add("san.uri", ArrayType(StringType))
     .add("san.email", ArrayType(StringType))
     .add("san.ip", ArrayType(StringType))
-    .add("basic_constraints.ca", BooleanType)
-    .add("basic_constraints.path_len", DoubleType)
+    .add("basic_constraints.ca", StringType)
+    .add("basic_constraints.path_len", StringType)
 }
 
 

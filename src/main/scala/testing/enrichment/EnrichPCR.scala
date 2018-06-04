@@ -2,6 +2,7 @@ package testing.enrichment
 
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.expressions.UserDefinedFunction
+import testing.bro.Conn
 
 object EnrichPCR {
 

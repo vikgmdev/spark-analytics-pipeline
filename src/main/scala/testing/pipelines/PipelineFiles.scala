@@ -2,7 +2,7 @@ package testing.pipelines
 
 import base.SinkBase
 import org.apache.spark.sql.functions.{col, from_json}
-import org.apache.spark.sql.types.StringType
+import org.apache.spark.sql.types._
 import org.apache.spark.sql.{DataFrame, Dataset}
 import spark.SparkHelper
 import testing.bro.Files
@@ -30,7 +30,25 @@ class PipelineFiles() extends SinkBase {
     df.withColumn("data",
       from_json($"value".cast(StringType), Files.schemaBase))
       .select("data.*")
+
+      // Rename column normalization
       .withColumnRenamed("ts", "timestamp")
+
+      // Change column's to the righ type
+      .withColumn("tx_hosts", $"tx_hosts".cast(ArrayType(StringType)))
+      .withColumn("rx_hosts", $"rx_hosts".cast(ArrayType(StringType)))
+      .withColumn("conn_uids", $"conn_uids".cast(ArrayType(StringType)))
+      .withColumn("depth", $"depth".cast(DoubleType))
+      .withColumn("analyzers", $"analyzers".cast(ArrayType(StringType)))
+      .withColumn("duration", $"duration".cast(DoubleType))
+      .withColumn("local_orig", $"local_orig".cast(BooleanType))
+      .withColumn("is_orig", $"is_orig".cast(BooleanType))
+      .withColumn("seen_bytes", $"seen_bytes".cast(DoubleType))
+      .withColumn("total_bytes", $"total_bytes".cast(DoubleType))
+      .withColumn("missing_bytes", $"missing_bytes".cast(DoubleType))
+      .withColumn("overflow_bytes", $"overflow_bytes".cast(DoubleType))
+      .withColumn("timedout", $"timedout".cast(BooleanType))
+
       .as[Files.Simple]
   }
 }

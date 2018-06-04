@@ -2,7 +2,7 @@ package testing.pipelines
 
 import base.SinkBase
 import org.apache.spark.sql.functions.{col, from_json}
-import org.apache.spark.sql.types.StringType
+import org.apache.spark.sql.types.{IntegerType, StringType}
 import org.apache.spark.sql.{DataFrame, Dataset}
 import spark.SparkHelper
 import testing.bro.Syslog
@@ -30,11 +30,18 @@ class PipelineSyslog() extends SinkBase {
     df.withColumn("data",
       from_json($"value".cast(StringType), Syslog.schemaBase))
       .select("data.*")
+
+      // Rename column normalization
       .withColumnRenamed("ts", "timestamp")
       .withColumnRenamed("id.orig_h", "source_ip")
       .withColumnRenamed("id.orig_p", "source_port")
       .withColumnRenamed("id.resp_h", "dest_ip")
       .withColumnRenamed("id.resp_p", "dest_port")
+
+      // Change column's to the righ type
+      .withColumn("source_port", $"source_port".cast(IntegerType))
+      .withColumn("dest_port", $"dest_port".cast(IntegerType))
+
       .as[Syslog.Simple]
   }
 }
