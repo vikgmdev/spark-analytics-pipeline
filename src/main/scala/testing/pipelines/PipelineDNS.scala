@@ -21,7 +21,7 @@ class PipelineDNS() extends SinkBase {
 
     // Debug only
     // dataset.show()
-    dataset.groupBy($"qtype_name", $"proto").count().sort($"count".desc_nulls_last)
+    //dataset.groupBy($"qtype_name", $"proto").count().sort($"count".desc_nulls_last)
     dataset.groupBy($"query").count().sort($"count".desc_nulls_last)
 
     //dataset = dataset.withColumn("query_length", length(col("query")))
@@ -32,7 +32,7 @@ class PipelineDNS() extends SinkBase {
     // dataset.rdd.saveToCassandra("bro", DNS.cassandraTable, DNS.cassandraColumns)
   }
 
-  def getDataset(df: DataFrame): DataFrame = {
+  def getDataset(df: DataFrame): Dataset[DNS.Simple] = {
     df.withColumn("data",
       from_json($"value".cast(StringType), DNS.schemaBase))
       .select("data.*")
@@ -67,6 +67,6 @@ class PipelineDNS() extends SinkBase {
       .withColumn("ttls", $"ttls".cast(ArrayType(DoubleType)))
       .withColumn("rejected", $"rejected".cast(BooleanType))
 
-      // .as[DNS.Simple]
+      .as[DNS.Simple]
   }
 }
