@@ -24,9 +24,10 @@ object MainTestLogs {
     // GOOD
     // startNewPipeline(KafkaSource.read(Kerberos.topicName), Kerberos.getClass.getSimpleName)
 
-    startNewPipeline(KafkaSource.read(SNMP.topicName), SNMP.getClass.getSimpleName)
+    // GOOD
+    // startNewPipeline(KafkaSource.read(SNMP.topicName), SNMP.getClass.getSimpleName)
 
-    // startNewPipeline(KafkaSource.read(SSL.topicName), SSL.getClass.getSimpleName)
+    startNewPipeline(KafkaSource.read(SSL.topicName), SSL.getClass.getSimpleName)
 
     // startNewPipeline(KafkaSource.read(Syslog.topicName), Syslog.getClass.getSimpleName)
 
