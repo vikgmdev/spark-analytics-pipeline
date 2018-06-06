@@ -20,7 +20,10 @@ class PipelineDNS() extends SinkBase {
     val dataset = getDataset(df)
 
     // Debug only
-    dataset.show(5000, false)
+    // dataset.show()
+    dataset.groupBy($"qtype_name", $"proto").count().sort("count").show()
+
+    // spark_df.groupby('qtype_name', 'proto').count.sort('count', ascending = False).show
 
     // Save to Cassandra
     // dataset.rdd.saveToCassandra("bro", DNS.cassandraTable, DNS.cassandraColumns)
