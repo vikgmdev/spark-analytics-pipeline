@@ -21,7 +21,7 @@ class PipelineDNS() extends SinkBase {
 
     // Debug only
     // dataset.show()
-    dataset.groupBy($"qtype_name", $"proto").count().sort($"count".asc).show()
+    dataset.groupBy($"qtype_name", $"proto").count().sort($"count".desc_nulls_last).show()
 
     // spark_df.groupby('qtype_name', 'proto').count.sort('count', ascending = False).show
 
