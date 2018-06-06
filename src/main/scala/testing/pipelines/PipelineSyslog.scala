@@ -20,7 +20,7 @@ class PipelineSyslog() extends SinkBase {
     val dataset = getDataset(df)
 
     // Debug only
-    dataset.show(false)
+    dataset.show(5000, false)
 
     // Save to Cassandra
     // dataset.rdd.saveToCassandra("bro", Conn.cassandraTable, Conn.cassandraColumns)
