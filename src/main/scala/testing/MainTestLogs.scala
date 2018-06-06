@@ -14,21 +14,21 @@ object MainTestLogs {
 
     startNewPipeline(KafkaSource.read(Conn.topicName), Conn.getClass.getSimpleName)
 
-    startNewPipeline(KafkaSource.read(DNS.topicName), DNS.getClass.getSimpleName)
+    // startNewPipeline(KafkaSource.read(DNS.topicName), DNS.getClass.getSimpleName)
 
-    startNewPipeline(KafkaSource.read(Files.topicName), Files.getClass.getSimpleName)
+    // startNewPipeline(KafkaSource.read(Files.topicName), Files.getClass.getSimpleName)
 
-    startNewPipeline(KafkaSource.read(HTTP.topicName), HTTP.getClass.getSimpleName)
+    // startNewPipeline(KafkaSource.read(HTTP.topicName), HTTP.getClass.getSimpleName)
 
-    startNewPipeline(KafkaSource.read(Kerberos.topicName), Kerberos.getClass.getSimpleName)
+    // startNewPipeline(KafkaSource.read(Kerberos.topicName), Kerberos.getClass.getSimpleName)
 
-    startNewPipeline(KafkaSource.read(SNMP.topicName), SNMP.getClass.getSimpleName)
+    // startNewPipeline(KafkaSource.read(SNMP.topicName), SNMP.getClass.getSimpleName)
 
-    startNewPipeline(KafkaSource.read(SSL.topicName), SSL.getClass.getSimpleName)
+    // startNewPipeline(KafkaSource.read(SSL.topicName), SSL.getClass.getSimpleName)
 
-    startNewPipeline(KafkaSource.read(Syslog.topicName), Syslog.getClass.getSimpleName)
+    // startNewPipeline(KafkaSource.read(Syslog.topicName), Syslog.getClass.getSimpleName)
 
-    startNewPipeline(KafkaSource.read(X509.topicName), X509.getClass.getSimpleName)
+    // startNewPipeline(KafkaSource.read(X509.topicName), X509.getClass.getSimpleName)
 
     //Wait for all streams to finish
     spark.streams.awaitAnyTermination()
