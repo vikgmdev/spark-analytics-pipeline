@@ -18,9 +18,9 @@ object MainTestLogs {
 
     // startNewPipeline(KafkaSource.read(Files.topicName), Files.getClass.getSimpleName)
 
-    startNewPipeline(KafkaSource.read(HTTP.topicName), HTTP.getClass.getSimpleName)
+    // startNewPipeline(KafkaSource.read(HTTP.topicName), HTTP.getClass.getSimpleName)
 
-    // startNewPipeline(KafkaSource.read(Kerberos.topicName), Kerberos.getClass.getSimpleName)
+    startNewPipeline(KafkaSource.read(Kerberos.topicName), Kerberos.getClass.getSimpleName)
 
     // startNewPipeline(KafkaSource.read(SNMP.topicName), SNMP.getClass.getSimpleName)
 
