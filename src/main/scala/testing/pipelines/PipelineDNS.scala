@@ -24,7 +24,7 @@ class PipelineDNS() extends SinkBase {
     dataset.groupBy($"qtype_name", $"proto").count().sort($"count".desc_nulls_last)
 
     dataset = dataset.withColumn("query_length", length(col("query")))
-    dataset = dataset.withColumn("answer_length", length(col("answers")))
+    // dataset = dataset.withColumn("answer_length", length(col("answers")))
     dataset.show(5000, truncate = false)
 
     // Save to Cassandra
