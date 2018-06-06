@@ -20,7 +20,7 @@ class PipelineHTTP() extends SinkBase {
     val dataset = getDataset(df)
 
     // Debug only
-    dataset.show()
+    dataset.show(false)
 
     // Save to Cassandra
     // dataset.rdd.saveToCassandra("bro", HTTP.cassandraTable, HTTP.cassandraColumns)
