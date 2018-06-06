@@ -27,9 +27,10 @@ object MainTestLogs {
     // GOOD
     // startNewPipeline(KafkaSource.read(SNMP.topicName), SNMP.getClass.getSimpleName)
 
-    startNewPipeline(KafkaSource.read(SSL.topicName), SSL.getClass.getSimpleName)
+    // BAD
+    // startNewPipeline(KafkaSource.read(SSL.topicName), SSL.getClass.getSimpleName)
 
-    // startNewPipeline(KafkaSource.read(Syslog.topicName), Syslog.getClass.getSimpleName)
+    startNewPipeline(KafkaSource.read(Syslog.topicName), Syslog.getClass.getSimpleName)
 
     // startNewPipeline(KafkaSource.read(X509.topicName), X509.getClass.getSimpleName)
 
