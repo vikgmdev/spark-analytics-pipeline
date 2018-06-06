@@ -19,7 +19,8 @@ object MainTestLogs {
 
     // startNewPipeline(KafkaSource.read(Files.topicName), Files.getClass.getSimpleName)
 
-    // startNewPipeline(KafkaSource.read(HTTP.topicName), HTTP.getClass.getSimpleName)
+    //
+    startNewPipeline(KafkaSource.read(HTTP.topicName), HTTP.getClass.getSimpleName)
 
     // GOOD
     // startNewPipeline(KafkaSource.read(Kerberos.topicName), Kerberos.getClass.getSimpleName)
@@ -33,7 +34,8 @@ object MainTestLogs {
     // GOOD
     // startNewPipeline(KafkaSource.read(Syslog.topicName), Syslog.getClass.getSimpleName)
 
-    startNewPipeline(KafkaSource.read(X509.topicName), X509.getClass.getSimpleName)
+    // BAAAAAD
+    // startNewPipeline(KafkaSource.read(X509.topicName), X509.getClass.getSimpleName)
 
     //Wait for all streams to finish
     spark.streams.awaitAnyTermination()
