@@ -12,6 +12,7 @@ object MainTestLogs {
   def main(args: Array[String]) {
     val spark = SparkHelper.getAndConfigureSparkSession()
 
+    // GOOD
     // startNewPipeline(KafkaSource.read(Conn.topicName), Conn.getClass.getSimpleName)
 
     // startNewPipeline(KafkaSource.read(DNS.topicName), DNS.getClass.getSimpleName)
@@ -20,9 +21,10 @@ object MainTestLogs {
 
     // startNewPipeline(KafkaSource.read(HTTP.topicName), HTTP.getClass.getSimpleName)
 
-    startNewPipeline(KafkaSource.read(Kerberos.topicName), Kerberos.getClass.getSimpleName)
+    // GOOD
+    // startNewPipeline(KafkaSource.read(Kerberos.topicName), Kerberos.getClass.getSimpleName)
 
-    // startNewPipeline(KafkaSource.read(SNMP.topicName), SNMP.getClass.getSimpleName)
+    startNewPipeline(KafkaSource.read(SNMP.topicName), SNMP.getClass.getSimpleName)
 
     // startNewPipeline(KafkaSource.read(SSL.topicName), SSL.getClass.getSimpleName)
 
