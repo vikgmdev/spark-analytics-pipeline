@@ -1,7 +1,7 @@
 package testing.pipelines
 
 import base.SinkBase
-import org.apache.spark.sql.functions.{col, from_json}
+import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.{DataFrame, Dataset}
 import spark.SparkHelper
@@ -17,19 +17,21 @@ class PipelineDNS() extends SinkBase {
   override def startPipeline(df: DataFrame): Unit = {
 
     // Parse DataFrame to Dataset with type of log
-    val dataset = getDataset(df)
+    var dataset = getDataset(df)
 
     // Debug only
     // dataset.show()
-    dataset.groupBy($"qtype_name", $"proto").count().sort($"count".desc_nulls_last).show()
+    dataset.groupBy($"qtype_name", $"proto").count().sort($"count".desc_nulls_last)
 
-    // spark_df.groupby('qtype_name', 'proto').count.sort('count', ascending = False).show
+    dataset = dataset.withColumn("query_length", length(col("query")))
+    dataset = dataset.withColumn("answer_length", length(col("answers")))
+    dataset.show(5000, truncate = false)
 
     // Save to Cassandra
     // dataset.rdd.saveToCassandra("bro", DNS.cassandraTable, DNS.cassandraColumns)
   }
 
-  def getDataset(df: DataFrame): Dataset[DNS.Simple] = {
+  def getDataset(df: DataFrame): DataFrame = {
     df.withColumn("data",
       from_json($"value".cast(StringType), DNS.schemaBase))
       .select("data.*")
@@ -64,6 +66,6 @@ class PipelineDNS() extends SinkBase {
       .withColumn("ttls", $"ttls".cast(ArrayType(DoubleType)))
       .withColumn("rejected", $"rejected".cast(BooleanType))
 
-      .as[DNS.Simple]
+      // .as[DNS.Simple]
   }
 }
