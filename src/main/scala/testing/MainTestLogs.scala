@@ -30,9 +30,10 @@ object MainTestLogs {
     // BAD
     // startNewPipeline(KafkaSource.read(SSL.topicName), SSL.getClass.getSimpleName)
 
-    startNewPipeline(KafkaSource.read(Syslog.topicName), Syslog.getClass.getSimpleName)
+    // GOOD
+    // startNewPipeline(KafkaSource.read(Syslog.topicName), Syslog.getClass.getSimpleName)
 
-    // startNewPipeline(KafkaSource.read(X509.topicName), X509.getClass.getSimpleName)
+    startNewPipeline(KafkaSource.read(X509.topicName), X509.getClass.getSimpleName)
 
     //Wait for all streams to finish
     spark.streams.awaitAnyTermination()
