@@ -1,6 +1,6 @@
 .idea/
 checkpoint/
-spark-warehouse/
+com.mantix4.ap.spark-warehouse/
 target/
 project/project/
 project/target/
