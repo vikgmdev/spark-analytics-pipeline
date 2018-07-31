@@ -33,15 +33,7 @@ object DNS extends LogBase {
                       z: Option[Int],
                       answers: Vector[String],
                       ttls: Vector[Option[Double]],
-                      rejected: Option[Boolean],
-                      cyrin_class: String,
-                      cyrin_rule: String,
-                      cyrin_id: String,
-                      cyrin_child: String,
-                      cyrin_severity: String,
-                      cyrin_confidence: String,
-                      cyrin_type: String,
-                      cyrin_stage: String
+                      rejected: Option[Boolean]
                 ) extends Serializable
 
   val schemaBase: StructType = new StructType()
@@ -69,12 +61,4 @@ object DNS extends LogBase {
     .add("answers", ArrayType(StringType))
     .add("TTLs", ArrayType(StringType))
     .add("rejected", StringType)
-    .add("cyrin_class", StringType)
-    .add("cyrin_rule", StringType)
-    .add("cyrin_id", StringType)
-    .add("cyrin_child", StringType)
-    .add("cyrin_severity", StringType)
-    .add("cyrin_confidence", StringType)
-    .add("cyrin_type", StringType)
-    .add("cyrin_stage", StringType)
 }
