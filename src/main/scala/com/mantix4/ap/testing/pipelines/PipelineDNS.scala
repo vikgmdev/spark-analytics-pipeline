@@ -21,12 +21,9 @@ class PipelineDNS() extends SinkBase {
     var dataset = getDataset(df)
 
     // Debug only
-    // dataset.show()
+    dataset.show(5000, false)
     //dataset.groupBy($"qtype_name", $"proto").count().sort($"count".desc_nulls_last)
-    dataset.groupBy($"query").count().sort($"count".desc_nulls_last)
-
-
-    AnomalyDetection.main(dataset)
+    // dataset.groupBy($"query").count().sort($"count".desc_nulls_last)
 
     //dataset = dataset.withColumn("query_length", length(col("query")))
     // dataset = dataset.withColumn("answer_length", length(col("answers")))
