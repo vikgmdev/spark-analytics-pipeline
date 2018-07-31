@@ -9,7 +9,7 @@ import com.mantix4.ap.spark.SparkHelper
 object KafkaSource {
   private val spark = SparkHelper.getSparkSession()
 
-  val kafka_bootstrap_servers = "node5:9094,node5:9095"
+  val kafka_bootstrap_servers = "node4:9092,node5:9092"
 
   /**
     * will return, we keep some kafka metadata for our example, otherwise we would only focus on "radioCount" structure

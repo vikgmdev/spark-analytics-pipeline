@@ -21,6 +21,7 @@ object HTTP extends LogBase {
                       host: String,
                       uri: String,
                       referrer: String,
+                      version: String,
                       user_agent: String,
                       request_body_len: Option[Double],
                       response_body_len: Option[Double],
@@ -28,23 +29,16 @@ object HTTP extends LogBase {
                       status_msg: String,
                       info_code: Option[Double],
                       info_msg: String,
-                      filename: String,
                       tags: Vector[String],
                       username: String,
                       password: String,
                       proxied: Vector[String],
                       orig_fuids: Vector[String],
+                      orig_filenames: Vector[String],
                       orig_mime_types: Vector[String],
                       resp_fuids: Vector[String],
-                      resp_mime_types: Vector[String],
-                      cyrin_rule: String,
-                      cyrin_id: String,
-                      cyrin_child: String,
-                      cyrin_severity: String,
-                      cyrin_confidence: String,
-                      cyrin_class: String,
-                      cyrin_type: String,
-                      cyrin_stage: String
+                      resp_filenames: Vector[String],
+                      resp_mime_types: Vector[String]
                     ) extends Serializable
 
   val schemaBase: StructType = new StructType()
@@ -59,6 +53,7 @@ object HTTP extends LogBase {
     .add("host", StringType)
     .add("uri", StringType)
     .add("referrer", StringType)
+    .add("version", StringType)
     .add("user_agent", StringType)
     .add("request_body_len", StringType)
     .add("response_body_len", StringType)
@@ -66,24 +61,18 @@ object HTTP extends LogBase {
     .add("status_msg", StringType)
     .add("info_code", StringType)
     .add("info_msg", StringType)
-    .add("filename", StringType)
     .add("tags", ArrayType(StringType))
     .add("username", StringType)
     .add("password", StringType)
     .add("proxied", ArrayType(StringType))
     .add("orig_fuids", ArrayType(StringType))
+    .add("orig_filenames", ArrayType(StringType))
     .add("orig_mime_types", ArrayType(StringType))
     .add("resp_fuids", ArrayType(StringType))
+    .add("resp_filenames", ArrayType(StringType))
     .add("resp_mime_types", ArrayType(StringType))
-    .add("cyrin_rule", StringType)
-    .add("cyrin_id", StringType)
-    .add("cyrin_child", StringType)
-    .add("cyrin_severity", StringType)
-    .add("cyrin_confidence", StringType)
-    .add("cyrin_class", StringType)
-    .add("cyrin_type", StringType)
-    .add("cyrin_stage", StringType)
 }
+
 
 
 

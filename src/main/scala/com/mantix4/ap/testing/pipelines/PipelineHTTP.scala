@@ -22,6 +22,14 @@ class PipelineHTTP() extends SinkBase {
     // Debug only
     dataset.show(5000, false)
 
+    /*
+    val scriptPath = "/opt/development/python_ml/anomaly_detection_k.py"
+
+    val pipeRDD = dataset.rdd.pipe(scriptPath)
+
+    pipeRDD.foreach(println)
+    */
+
     // Save to Cassandra
     // dataset.rdd.saveToCassandra("bro", HTTP.cassandraTable, HTTP.cassandraColumns)
   }
@@ -49,8 +57,10 @@ class PipelineHTTP() extends SinkBase {
       .withColumn("tags", $"tags".cast(ArrayType(StringType)))
       .withColumn("proxied", $"proxied".cast(ArrayType(StringType)))
       .withColumn("orig_fuids", $"orig_fuids".cast(ArrayType(StringType)))
+      .withColumn("orig_filenames", $"orig_filenames".cast(ArrayType(StringType)))
       .withColumn("orig_mime_types", $"orig_mime_types".cast(ArrayType(StringType)))
       .withColumn("resp_fuids", $"resp_fuids".cast(ArrayType(StringType)))
+      .withColumn("resp_filenames", $"resp_filenames".cast(ArrayType(StringType)))
       .withColumn("resp_mime_types", $"resp_mime_types".cast(ArrayType(StringType)))
 
       .as[HTTP.Simple]
