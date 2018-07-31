@@ -8,7 +8,7 @@ object SparkHelper {
   def getAndConfigureSparkSession(): SparkSession = {
     val conf = new SparkConf()
       .setAppName("Analytics Pipeline")
-      .set("com.mantix4.ap.spark.sql.streaming.checkpointLocation", "checkpoint")
+      .set("spark.sql.streaming.checkpointLocation", "checkpoint")
 
     val sc = new SparkContext(conf)
     sc.setLogLevel("WARN")
