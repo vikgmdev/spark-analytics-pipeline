@@ -25,9 +25,9 @@ class PipelineDNS() extends SinkBase {
 
     val scriptPath = "/opt/development/python_ml/pipe_test.py"
 
-    val pipeRDD = dataset.rdd.pipe(scriptPath)
+    // val pipeRDD = dataset.rdd.pipe(scriptPath)
 
-    pipeRDD.foreach(println)
+    dataset.rdd.foreach(println)
 
     //dataset.groupBy($"qtype_name", $"proto").count().sort($"count".desc_nulls_last)
     // dataset.groupBy($"query").count().sort($"count".desc_nulls_last)
