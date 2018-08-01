@@ -21,7 +21,7 @@ class PipelineDNS() extends SinkBase {
     var dataset = getDataset(df)
 
     // Debug only
-    // dataset.show(5000, false)
+    dataset.show(5000, truncate = false)
 
     val scriptPath = "/opt/development/python_ml/pipe_test.py"
 
