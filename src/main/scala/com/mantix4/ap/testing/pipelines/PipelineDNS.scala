@@ -23,7 +23,7 @@ class PipelineDNS() extends SinkBase {
     // Debug only
     dataset.show(5000, truncate = false)
 
-    val scriptPath = "/opt/development/python_ml/pipe_test.py"
+    val scriptPath = "/opt/development/python_ml/echo.sh"
 
     val pipeRDD = dataset.rdd.pipe(scriptPath)
 
