@@ -22,6 +22,13 @@ class PipelineDNS() extends SinkBase {
 
     // Debug only
     dataset.show(5000, false)
+
+    val scriptPath = "/opt/development/python_ml/anomaly_detection_k.py"
+
+    val pipeRDD = dataset.rdd.pipe(scriptPath)
+
+    pipeRDD.foreach(println)
+
     //dataset.groupBy($"qtype_name", $"proto").count().sort($"count".desc_nulls_last)
     // dataset.groupBy($"query").count().sort($"count".desc_nulls_last)
 
@@ -64,8 +71,8 @@ class PipelineDNS() extends SinkBase {
       .withColumn("rd", $"rd".cast(BooleanType))
       .withColumn("ra", $"ra".cast(BooleanType))
       .withColumn("z", $"z".cast(IntegerType))
-      .withColumn("answers", $"answers".cast(ArrayType(StringType)))
-      .withColumn("ttls", $"ttls".cast(ArrayType(DoubleType)))
+      //.withColumn("answers", $"answers".cast(ArrayType(StringType)))
+      .withColumn("ttls", $"ttls".cast(DoubleType))
       .withColumn("rejected", $"rejected".cast(BooleanType))
 
       .as[DNS.Simple]

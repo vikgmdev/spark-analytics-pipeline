@@ -31,8 +31,8 @@ object DNS extends LogBase {
                       rd: Option[Boolean],
                       ra: Option[Boolean],
                       z: Option[Int],
-                      answers: Vector[String],
-                      ttls: Vector[Option[Double]],
+                      answers: String,
+                      ttls: Option[Double],
                       rejected: Option[Boolean]
                 ) extends Serializable
 
@@ -58,7 +58,7 @@ object DNS extends LogBase {
     .add("RD", StringType)
     .add("RA", StringType)
     .add("Z", StringType)
-    .add("answers", ArrayType(StringType))
-    .add("TTLs", ArrayType(StringType))
+    .add("answers", StringType)
+    .add("TTLs", StringType)
     .add("rejected", StringType)
 }
