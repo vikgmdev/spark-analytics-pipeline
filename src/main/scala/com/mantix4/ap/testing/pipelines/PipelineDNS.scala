@@ -25,7 +25,7 @@ class PipelineDNS() extends SinkBase {
 
     val scriptPath = "/opt/development/python_ml/pipe_test.py"
 
-    val pipeRDD = dataset.rdd.pipe(scriptPath)
+    val pipeRDD = dataset.toDF().rdd.pipe(scriptPath)
 
     pipeRDD.collect().foreach(println)
 
