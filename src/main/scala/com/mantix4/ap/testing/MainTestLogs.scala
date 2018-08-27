@@ -16,7 +16,7 @@ object MainTestLogs {
     // startNewPipeline(KafkaSource.read(Conn.topicName), Conn.getClass.getSimpleName)
 
     // GOOD
-    startNewPipeline(KafkaSource.read(DNS.topicName), DNS.getClass.getSimpleName)
+    // startNewPipeline(KafkaSource.read(DNS.topicName), DNS.getClass.getSimpleName)
 
     // BAD
     // startNewPipeline(KafkaSource.read(Files.topicName), Files.getClass.getSimpleName)
