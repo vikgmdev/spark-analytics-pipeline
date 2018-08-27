@@ -21,7 +21,7 @@ class PipelineNetworkAssets() extends SinkBase {
     val dataset = getDataset(df)
 
     // Debug only
-    dataset.show(5000, truncate = true)
+    dataset.show(5000, truncate = false)
 
     // Save to Cassandra
     // dataset.rdd.saveToCassandra("bro", Conn.cassandraTable, Conn.cassandraColumns)
