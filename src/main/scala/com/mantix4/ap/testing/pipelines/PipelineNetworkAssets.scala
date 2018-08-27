@@ -36,6 +36,6 @@ class PipelineNetworkAssets() extends SinkBase {
       .select(
         $"date",
         $"p0f_log")
-      .withColumn("_tmp", split($"p0f_log", "\\|"))
+      .withColumn("_tmp", split("p0f_log", "\\|"))
   }
 }
