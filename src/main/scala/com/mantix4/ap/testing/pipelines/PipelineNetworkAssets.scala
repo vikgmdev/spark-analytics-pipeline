@@ -21,7 +21,7 @@ class PipelineNetworkAssets() extends SinkBase {
     val dataset = getDataset(df)
 
     // Debug only
-    dataset.show(5000, truncate = false)
+    dataset.show(5000, truncate = true)
 
     // Save to Cassandra
     // dataset.rdd.saveToCassandra("bro", Conn.cassandraTable, Conn.cassandraColumns)
@@ -31,8 +31,11 @@ class PipelineNetworkAssets() extends SinkBase {
     df.withColumn("data",
       from_json($"value".cast(StringType), Filebeat.schemaBase))
       .select("data.*")
-        .withColumn("date", substring_index($"message", "] ", 1))
-        .withColumn("p0f_log", substring_index($"message", "] ", -1))
+      .withColumn("date", substring_index($"message", "]", 1))
+      .withColumn("p0f_log", substring_index($"message", "] ", -1))
+      .select(
+        $"date",
+        $"p0f_log")
       //.withColumn("_tmp", split($"p0f_log", "\\|"))
   }
 }
