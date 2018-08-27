@@ -31,7 +31,7 @@ class PipelineNetworkAssets() extends SinkBase {
     df.withColumn("data",
       from_json($"value".cast(StringType), Filebeat.schemaBase))
       .select("data.*")
-      .withColumn("date", substring_index($"message", "]", 1))
+      .withColumn("date", substring($"message", 1, 19))
       .withColumn("p0f_log", substring_index($"message", "] ", -1))
       .select(
         $"date",
