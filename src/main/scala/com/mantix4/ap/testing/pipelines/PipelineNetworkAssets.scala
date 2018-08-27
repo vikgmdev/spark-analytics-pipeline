@@ -1,6 +1,5 @@
 package com.mantix4.ap.testing.pipelines
 
-import breeze.linalg.split
 import com.mantix4.ap.base.{Filebeat, SinkBase}
 import com.mantix4.ap.spark.SparkHelper
 import com.mantix4.ap.testing.bro.X509
@@ -36,6 +35,6 @@ class PipelineNetworkAssets() extends SinkBase {
       .select(
         $"date",
         $"p0f_log")
-      .withColumn("_tmp", split("p0f_log", "\\|"))
+      .withColumn("_tmp", split($"p0f_log", "\\|"))
   }
 }
