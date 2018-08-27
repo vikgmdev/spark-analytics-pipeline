@@ -36,9 +36,8 @@ class PipelineNetworkAssets() extends SinkBase {
         $"date",
         $"p0f_log")
       .withColumn("_tmp", split($"p0f_log", "\\|"))
-
       .withColumn("emp", getColumnsUDF($"_tmp"))
-      .select("emp.*")
+      //.select("emp.*")
   }
 
   val getColumnsUDF = udf((details: Seq[String]) => {
