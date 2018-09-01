@@ -6,7 +6,7 @@ import com.mantix4.ap.testing.bro.X509
 import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types.{ArrayType, BooleanType, DoubleType, StringType}
-import org.apache.spark.sql.{DataFrame, Dataset}
+import org.apache.spark.sql.{Column, DataFrame, Dataset}
 import java.util.regex.Pattern
 
 /**
@@ -46,7 +46,7 @@ class PipelineNetworkAssets() extends SinkBase {
     details.map(_.split("=")).map(x => (x(0), x(1)))
   })
 
-  val regexp_extractAll = udf((job: String, exp: String, groupIdx: Int) => {
+  def regexp_extractAll = udf((job: String, exp: String, groupIdx: Int) => {
     println("the column value is" + job.toString)
     val pattern = Pattern.compile(exp.toString)
     val m = pattern.matcher(job.toString)
