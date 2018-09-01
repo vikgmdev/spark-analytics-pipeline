@@ -3,9 +3,11 @@ package com.mantix4.ap.testing.pipelines
 import com.mantix4.ap.base.{Filebeat, SinkBase}
 import com.mantix4.ap.spark.SparkHelper
 import com.mantix4.ap.testing.bro.X509
+import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types.{ArrayType, BooleanType, DoubleType, StringType}
 import org.apache.spark.sql.{DataFrame, Dataset}
+import java.util.regex.Pattern
 
 /**
   * must be idempotent and synchronous (@TODO check asynchronous/synchronous from Datastax's Spark connector) sink
@@ -37,10 +39,23 @@ class PipelineNetworkAssets() extends SinkBase {
         $"p0f_log")
       .withColumn("_tmp", split($"p0f_log", "\\|"))
       .withColumn("emp", getColumnsUDF($"_tmp"))
-      .select("emp")
+      .withColumn("mod", regexp_extractAll($"_tmp", lit("mod=\\w+|"), lit(0)))
   }
 
   val getColumnsUDF = udf((details: Seq[String]) => {
     details.map(_.split("=")).map(x => (x(0), x(1)))
+  })
+
+  def regexp_extractAll = udf((job: String, exp: String, groupIdx: Int) => {
+    println("the column value is" + job.toString)
+    val pattern = Pattern.compile(exp.toString)
+    val m = pattern.matcher(job.toString)
+    println("The value is: " + m.toString)
+    /*var result = Seq[String]()
+    while (m.find) {
+      val temp =
+        result =result:+m.group(groupIdx)
+    }
+    result.mkString(",")*/
   })
 }
