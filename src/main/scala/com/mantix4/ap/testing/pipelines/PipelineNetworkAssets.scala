@@ -37,8 +37,7 @@ class PipelineNetworkAssets() extends SinkBase {
       .select(
         $"date",
         $"p0f_log")
-      .withColumn("mod", col("p0f_log").like("mod=\\\\w+|"))
-      // .withColumn("mod", regexp_extractAll($"p0f_log", lit("mod=\\w+|"), lit(0)))
+      .withColumn("mod", regexp_extractAll($"p0f_log", lit("mod=\\w+|"), lit(0)))
       //.withColumn("_tmp", split($"p0f_log", "\\|"))
       //.withColumn("emp", getColumnsUDF($"_tmp"))
   }
@@ -53,10 +52,11 @@ class PipelineNetworkAssets() extends SinkBase {
     val m = pattern.matcher(job.toString)
     //println("The value is: " + m.toString)
     var result = Seq[String]()
-    while (m.find) {
+    m.find().toString
+    /*while (m.find) {
       val temp =
         result =result:+m.group(groupIdx)
     }
-    result.mkString(",")
+    result.mkString(",")*/
   })
 }
