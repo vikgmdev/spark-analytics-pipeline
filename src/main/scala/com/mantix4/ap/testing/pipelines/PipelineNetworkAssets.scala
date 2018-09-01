@@ -46,11 +46,12 @@ class PipelineNetworkAssets() extends SinkBase {
     details.map(_.split("=")).map(x => (x(0), x(1)))
   })
 
-  def regexp_extractAll = udf((job: String, exp: String, groupIdx: Int) => {
+  val regexp_extractAll = udf((job: String, exp: String, groupIdx: Int) => {
     println("the column value is" + job.toString)
     val pattern = Pattern.compile(exp.toString)
     val m = pattern.matcher(job.toString)
     println("The value is: " + m.toString)
+    m
     /*var result = Seq[String]()
     while (m.find) {
       val temp =
