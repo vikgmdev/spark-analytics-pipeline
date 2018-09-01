@@ -23,6 +23,7 @@ class PipelineNetworkAssets() extends SinkBase {
 
     // Debug only
     dataset.show(5000)
+    dataset.printSchema
 
     // Save to Cassandra
     // dataset.rdd.saveToCassandra("bro", Conn.cassandraTable, Conn.cassandraColumns)
@@ -37,14 +38,14 @@ class PipelineNetworkAssets() extends SinkBase {
       .select(
         $"date",
         $"p0f_log")
-      .withColumn("mod", regexp_extractAll($"p0f_log", lit("mod=\\w+|"), lit(0)))
-      //.withColumn("_tmp", split($"p0f_log", "\\|"))
-      //.withColumn("emp", getColumnsUDF($"_tmp"))
+      .withColumn("_tmp", split($"p0f_log", "\\|"))
+      .withColumn("emp", getColumnsUDF($"_tmp"))
   }
 
   val getColumnsUDF = udf((details: Seq[String]) => {
     details.map(_.split("=")).map(x => (x(0), x(1)))
   })
+
 
   def regexp_extractAll = udf((job: String, exp: String, groupIdx: Int) => {
     println("the column value is" + job.toString)
