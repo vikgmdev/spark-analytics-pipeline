@@ -52,7 +52,7 @@ class PipelineNetworkAssets() extends SinkBase {
     val m = pattern.matcher(job.toString)
     //println("The value is: " + m.toString)
     var result = Seq[String]()
-    m.find().toString
+    m.group(groupIdx)
     /*while (m.find) {
       val temp =
         result =result:+m.group(groupIdx)
