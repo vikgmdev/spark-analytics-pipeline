@@ -39,7 +39,7 @@ object MainTestLogs {
     // BAAAAAD
     // startNewPipeline(KafkaSource.read(X509.topicName), X509.getClass.getSimpleName)
 
-    startNewPipeline(KafkaSource.read(NetworkAssets.topicName), NetworkAssets.getClass.getSimpleName)
+    startNewPipeline(KafkaSource.read(P0f.topicName), P0f.getClass.getSimpleName)
 
     //Wait for all streams to finish
     spark.streams.awaitAnyTermination()

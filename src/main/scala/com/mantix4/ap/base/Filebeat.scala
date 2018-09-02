@@ -13,7 +13,7 @@ object Filebeat {
       .add("topic", StringType))
     .add("source", StringType)
     .add("offset", IntegerType)
-    .add("message", StringType)
+    .add("json", StringType)
     .add("prospector", new StructType()
       .add("type", StringType))
     .add("input", new StructType()
@@ -28,29 +28,39 @@ object Filebeat {
 
 /*
 {
-  "@timestamp": "2018-08-21T11:49:39.670Z",
-  "@metadata": {
-      "beat": "filebeat",
-      "type": "doc",
-      "version": "6.3.2",
-      "topic": "network-assets"
+  "@timestamp":"2018-09-02T11:28:44.163Z",
+  "@metadata":{
+    "beat":"filebeat",
+    "type":"doc",
+    "version":"6.3.2",
+    "topic":"p0f-topic"
+    },
+  "offset":61207,
+  "prospector":{
+    "type":"log"
+    },
+  "input":{
+    "type":"log"
+    },
+  "beat":{
+    "name":"node4",
+    "hostname":"node4",
+    "version":"6.3.2"
+    },
+  "host":{
+    "name":"node4"
+    },
+  "json":{
+    "srv":"31.13.78.17/443",
+    "mod":"syn+ack",
+    "subj":"srv",
+    "date":"2018/09/02 11:24:02",
+    "cli":"192.168.10.24/56802",
+    "os":"???",
+    "dist":"43",
+    "raw_sig":"4:85+?:0:1410:mss*20,8:mss,sok,ts,nop,ws:df:0",
+    "params":"excess_dist"
   },
-  "source": "/opt/development/network_assets/logs/network_assets.log",
-  "offset": 366078,
-  "message": "[2018/08/21 05:49:33] mod=mtu|cli=172.16.0.105/43188|srv=172.16.0.104/10180|subj=cli|link=Ethernet or modem|raw_mtu=1500",
-  "prospector": {
-      "type": "log"
-  },
-  "input": {
-      "type": "log"
-  },
-  "beat": {
-      "version": "6.3.2",
-      "name": "node4",
-      "hostname": "node4"
-  },
-  "host": {
-      "name": "node4"
-  }
+  "source":"/opt/development/network_assets/logs/network_assets-p0f-2.log"
 }
 */
