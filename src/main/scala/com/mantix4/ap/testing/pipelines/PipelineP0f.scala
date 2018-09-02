@@ -22,7 +22,7 @@ class PipelineP0f() extends SinkBase {
     val dataset = getDataset(df)
 
     // Debug only
-    dataset.show(5000, false)
+    dataset.show(5000)
     dataset.printSchema()
 
     // Save to Cassandra
