@@ -32,7 +32,7 @@ class PipelineP0f() extends SinkBase {
   def getDataset(df: DataFrame): Dataset[P0f.Simple] = {
     df.withColumn("filebeat_log",
         from_json($"value".cast(StringType), Filebeat.schemaBase))
-      .select("value.*")
+      .select("filebeat_log.*")
       .withColumn("p0f_log",
         from_json($"json".cast(StringType), P0f.schemaBase))
       .select("p0f_log.*")
