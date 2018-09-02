@@ -40,10 +40,15 @@ class PipelineNetworkAssets() extends SinkBase {
         $"p0f_log")
       .withColumn("_tmp", split($"p0f_log", "\\|"))
       .withColumn("emp", getColumnsUDF($"_tmp"))
+      .withColumn("_emp", getColumnsUDF2($"emp"))
   }
 
   val getColumnsUDF = udf((details: Seq[String]) => {
     details.map(_.split("=")).map(x => (x(0), x(1)))
+  })
+
+  val getColumnsUDF2 = udf((details: Seq[Seq[String]], name: String) => {
+    details.toArray.intersect(name)
   })
 
 
