@@ -8,6 +8,7 @@ import com.mantix4.ap.core.enrichments.AddConnDirection._
 import com.mantix4.ap.core.enrichments.AddPCR._
 import com.mantix4.ap.abstracts.spark.SparkHelper
 import com.mantix4.ap.core.logs.NetworkProtocols.Conn
+import org.apache.spark.sql.catalyst.encoders.RowEncoder
 
 /**
   * must be idempotent and synchronous (@TODO check asynchronous/synchronous from Datastax's Spark connector) sink
@@ -45,7 +46,8 @@ class PipelineConn() extends Pipeline[Conn] {
 
   override def getDataframeType(df: DataFrame): DataFrame = {
     val schema_base = Encoders.product[Conn].asInstanceOf[Conn]
+    val encoder = RowEncoder(schema_base.schemaBase)
     df.withColumn("data",
-      from_json($"value".cast(StringType), schema_base.schemaBase))
+      from_json($"value".cast(StringType), encoder.schema))
   }
 }
