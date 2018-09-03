@@ -45,9 +45,7 @@ class PipelineConn() extends Pipeline[Conn] {
   }
 
   override def getDataframeType(df: DataFrame): DataFrame = {
-    val schema_base = Encoders.product[Conn].asInstanceOf[Conn]
-    val encoder = RowEncoder(schema_base.schemaBase)
     df.withColumn("data",
-      from_json($"value".cast(StringType), encoder.schema))
+      from_json($"value".cast(StringType), new StructType()))
   }
 }
