@@ -1,12 +1,13 @@
 package com.mantix4.ap.abstracts.base
 
 import com.mantix4.ap.abstracts.spark.SparkHelper
-import org.apache.spark.sql.{DataFrame, Dataset}
+import org.apache.spark.sql.{DataFrame, Dataset, Encoders}
 import org.apache.spark.sql.execution.streaming.Sink
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types._
+import scala.reflect.runtime.universe.TypeTag
 
-trait Pipeline[T] extends Sink {
+abstract case class Pipeline[T <: Product : TypeTag]() extends Sink {
   private val spark = SparkHelper.getSparkSession()
   import spark.implicits._
 
@@ -20,7 +21,9 @@ trait Pipeline[T] extends Sink {
   }
 
   def getDataset(df: DataFrame): Dataset[T] = {
-    val logBase: LogBase = Class[T].asInstanceOf[LogBase]
+    /*
+    // val logBase: LogBase = Class[T].asInstanceOf[LogBase]
+    val logBase: LogBase = ClassTag[T].asInstanceOf[LogBase]
 
     logBase.stream_source match {
 
@@ -34,14 +37,19 @@ trait Pipeline[T] extends Sink {
           .select("filebeat_log.*")
           .withColumn("data",
             from_json($"json".cast(StringType), logBase.schemaBase))
-    }
+    }*/
 
-      // Select new column with the real log data
-      df.select("data.*")
+    val log_type = Encoders.product[T].asInstanceOf[LogBase]
 
-      val parsed_dataframe = this.customParsing(df)
+    df.withColumn("data",
+        from_json($"value".cast(StringType), log_type.schemaBase))
 
-      // Convert to a class dataset
-      parsed_dataframe.as[T]
+    // Select new column with the real log data
+    df.select("data.*")
+
+    val parsed_dataframe = this.customParsing(df)
+
+    // Convert to a class dataset
+    parsed_dataframe.as[T]
   }
 }

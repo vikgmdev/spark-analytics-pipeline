@@ -16,7 +16,7 @@ class PipelineConn() extends Pipeline[Conn] {
   private val spark = SparkHelper.getSparkSession()
   import spark.implicits._
 
-  override def startPipeline(dt: Dataset[Conn]): Unit = {
+  def startPipeline(dt: Dataset[Conn]): Unit = {
     // Debug only
     dt.show(5000, truncate = true)
   }

@@ -1,7 +1,6 @@
 package com.mantix4.ap.core.logs.NetworkProtocols
 
 import com.mantix4.ap.abstracts.base.{LogBase, Sources}
-import org.apache.spark.sql.Encoders
 import org.apache.spark.sql.types.{ArrayType, StringType, StructType}
 
 case class Conn (
