@@ -13,11 +13,11 @@ import org.apache.spark.sql.catalyst.encoders.RowEncoder
 /**
   * must be idempotent and synchronous (@TODO check asynchronous/synchronous from Datastax's Spark connector) sink
   */
-class PipelineConn() extends Pipeline[Conn] {
+class PipelineConn() extends Pipeline[Conn.Conn] {
   private val spark = SparkHelper.getSparkSession()
   import spark.implicits._
 
-  def startPipeline(dt: Dataset[Conn]): Unit = {
+  def startPipeline(dt: Dataset[Conn.Conn]): Unit = {
     // Debug only
     dt.show(5000, truncate = true)
   }
@@ -49,7 +49,7 @@ class PipelineConn() extends Pipeline[Conn] {
 
   override def getDataframeType(df: DataFrame): DataFrame = {
     df.withColumn("data",
-      from_json($"value".cast(StringType), new StructType()))
-      .select("data")
+      from_json($"value".cast(StringType), Conn.schemaBase))
+      .select("data.*")
   }
 }

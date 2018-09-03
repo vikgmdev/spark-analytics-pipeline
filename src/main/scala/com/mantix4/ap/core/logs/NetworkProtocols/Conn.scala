@@ -3,36 +3,35 @@ package com.mantix4.ap.core.logs.NetworkProtocols
 import com.mantix4.ap.abstracts.base.{LogBase, Sources}
 import org.apache.spark.sql.types.{ArrayType, StringType, StructType}
 
-case class Conn (
-              timestamp: String,
-              uid: String,
-              source_ip: String,
-              source_port: Option[Int],
-              dest_ip: String,
-              dest_port: Option[Int],
-              proto: String,
-              service: String,
-              direction: String,
-              duration: Option[Double],
-              orig_bytes: Option[Double],
-              resp_bytes: Option[Double],
-              conn_state: String,
-              local_orig: Option[Boolean],
-              local_resp: Option[Boolean],
-              missed_bytes: Option[Double],
-              history: String,
-              orig_pkts: Option[Double],
-              orig_ip_bytes: Option[Double],
-              resp_pkts: Option[Double],
-              resp_ip_bytes: Option[Double],
-              tunnel_parents: Option[Vector[String]],
-              orig_l2_addr: String,
-              resp_l2_addr: String,
-              sensor: String,
-              pcr: Option[Double]
-             ) extends LogBase {
-
-  override val stream_source: Sources.Value = Sources.KAFKA
+object Conn {
+  case class Conn (
+                timestamp: String,
+                uid: String,
+                source_ip: String,
+                source_port: Option[Int],
+                dest_ip: String,
+                dest_port: Option[Int],
+                proto: String,
+                service: String,
+                direction: String,
+                duration: Option[Double],
+                orig_bytes: Option[Double],
+                resp_bytes: Option[Double],
+                conn_state: String,
+                local_orig: Option[Boolean],
+                local_resp: Option[Boolean],
+                missed_bytes: Option[Double],
+                history: String,
+                orig_pkts: Option[Double],
+                orig_ip_bytes: Option[Double],
+                resp_pkts: Option[Double],
+                resp_ip_bytes: Option[Double],
+                tunnel_parents: Option[Vector[String]],
+                orig_l2_addr: String,
+                resp_l2_addr: String,
+                sensor: String,
+                pcr: Option[Double]
+               ) extends Serializable
 
   // val schemaBase: StructType = Encoders.product[Conn].schema
 
