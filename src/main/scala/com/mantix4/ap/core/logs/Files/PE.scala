@@ -1,9 +1,9 @@
-package com.mantix4.ap.core.logs
+package com.mantix4.ap.core.logs.Files
 
 import com.mantix4.ap.abstracts.base.{LogBase, Sources}
-import org.apache.spark.sql.types._
+import org.apache.spark.sql.types.{ArrayType, StringType, StructType}
 
-case class X509 (
+case class PE (
                       timestamp: String,
                       id: String,
                       certificate_version: Option[Double],
@@ -50,6 +50,3 @@ case class X509 (
     .add("basic_constraints.ca", StringType)
     .add("basic_constraints.path_len", StringType)
 }
-
-
-

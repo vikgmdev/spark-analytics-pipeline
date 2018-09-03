@@ -2,7 +2,7 @@ package com.mantix4.ap.core.ml
 
 /*
 import com.mantix4.ap.abstracts.spark.SparkHelper
-import com.mantix4.ap.core.logs.DNS
+import com.mantix4.ap.core.logs.network_protocols.DNS
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.ml.feature.{StringIndexer, VectorAssembler}
 import org.apache.spark.ml.iforest.IForest

@@ -4,7 +4,7 @@ import com.mantix4.ap.abstracts.base.Pipeline
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.{DataFrame, Dataset}
 import com.mantix4.ap.abstracts.spark.SparkHelper
-import com.mantix4.ap.core.logs.SNMP
+import com.mantix4.ap.core.logs.NetworkProtocols.SNMP
 
 class PipelineSNMP() extends Pipeline[SNMP] {
   private val spark = SparkHelper.getSparkSession

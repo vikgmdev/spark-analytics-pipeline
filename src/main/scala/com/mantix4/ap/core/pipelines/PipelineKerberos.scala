@@ -4,7 +4,7 @@ import com.mantix4.ap.abstracts.base.Pipeline
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.{DataFrame, Dataset}
 import com.mantix4.ap.abstracts.spark.SparkHelper
-import com.mantix4.ap.core.logs.Kerberos
+import com.mantix4.ap.core.logs.NetworkProtocols.Kerberos
 
 class PipelineKerberos() extends Pipeline[Kerberos] {
   private val spark = SparkHelper.getSparkSession

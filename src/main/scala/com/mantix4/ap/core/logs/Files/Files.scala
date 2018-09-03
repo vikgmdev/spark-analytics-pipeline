@@ -1,7 +1,7 @@
-package com.mantix4.ap.core.logs
+package com.mantix4.ap.core.logs.Files
 
 import com.mantix4.ap.abstracts.base.{LogBase, Sources}
-import org.apache.spark.sql.types._
+import org.apache.spark.sql.types.{ArrayType, StringType, StructType}
 
 case class Files (
                   timestamp: String,
@@ -72,4 +72,3 @@ case class Files (
     .add("http_uri", StringType)
     .add("filename_http", StringType)
 }
-

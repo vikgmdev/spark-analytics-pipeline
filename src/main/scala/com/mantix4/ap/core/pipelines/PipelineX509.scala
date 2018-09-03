@@ -4,7 +4,7 @@ import com.mantix4.ap.abstracts.base.Pipeline
 import org.apache.spark.sql.types.{ArrayType, BooleanType, DoubleType, StringType}
 import org.apache.spark.sql.{DataFrame, Dataset}
 import com.mantix4.ap.abstracts.spark.SparkHelper
-import com.mantix4.ap.core.logs.X509
+import com.mantix4.ap.core.logs.Files.X509
 
 class PipelineX509() extends Pipeline[X509] {
   private val spark = SparkHelper.getSparkSession

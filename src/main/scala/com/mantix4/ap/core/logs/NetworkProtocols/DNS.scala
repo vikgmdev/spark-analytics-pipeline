@@ -1,7 +1,7 @@
-package com.mantix4.ap.core.logs
+package com.mantix4.ap.core.logs.NetworkProtocols
 
 import com.mantix4.ap.abstracts.base.{LogBase, Sources}
-import org.apache.spark.sql.types._
+import org.apache.spark.sql.types.{StringType, StructType}
 
 case class DNS (
                       timestamp: String,
@@ -33,12 +33,12 @@ case class DNS (
   override val stream_source: Sources.Value = Sources.KAFKA
 
   val schemaBase: StructType = new StructType()
-    .add("ts", StringType)
+    .add("timestamp", StringType)
     .add("uid", StringType)
-    .add("id.orig_h", StringType)
-    .add("id.orig_p", StringType)
-    .add("id.resp_h", StringType)
-    .add("id.resp_p", StringType)
+    .add("source_ip", StringType)
+    .add("source_port", StringType)
+    .add("dest_ip", StringType)
+    .add("dest_port", StringType)
     .add("proto", StringType)
     .add("trans_id", StringType)
     .add("rtt", StringType)
@@ -57,4 +57,9 @@ case class DNS (
     .add("answers", StringType)
     .add("TTLs", StringType)
     .add("rejected", StringType)
+
+    .add("total_answers", StringType)
+    .add("total_replies", StringType)
+    .add("saw_query", StringType)
+    .add("saw_reply", StringType)
 }

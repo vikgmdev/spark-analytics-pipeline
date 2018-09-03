@@ -4,7 +4,7 @@ import com.mantix4.ap.abstracts.base.Pipeline
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.{DataFrame, Dataset}
 import com.mantix4.ap.abstracts.spark.SparkHelper
-import com.mantix4.ap.core.logs.HTTP
+import com.mantix4.ap.core.logs.NetworkProtocols.HTTP
 
 class PipelineHTTP() extends Pipeline[HTTP] {
   private val spark = SparkHelper.getSparkSession

@@ -1,7 +1,7 @@
-package com.mantix4.ap.core.logs
+package com.mantix4.ap.core.logs.NetworkProtocols
 
 import com.mantix4.ap.abstracts.base.{LogBase, Sources}
-import org.apache.spark.sql.types._
+import org.apache.spark.sql.types.{StringType, StructType}
 
 case class Syslog (
                         timestamp: String,
@@ -30,4 +30,3 @@ case class Syslog (
     .add("severity", StringType)
     .add("message", StringType)
 }
-

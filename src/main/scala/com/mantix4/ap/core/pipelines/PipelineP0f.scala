@@ -2,8 +2,7 @@ package com.mantix4.ap.core.pipelines
 
 import com.mantix4.ap.abstracts.base.{Filebeat, Pipeline}
 import com.mantix4.ap.abstracts.spark.SparkHelper
-import com.mantix4.ap.core.logs.P0f
-
+import com.mantix4.ap.core.logs.NetworkObservations.P0f
 import org.apache.spark.sql.{DataFrame, Dataset}
 
 class PipelineP0f() extends Pipeline[P0f] {

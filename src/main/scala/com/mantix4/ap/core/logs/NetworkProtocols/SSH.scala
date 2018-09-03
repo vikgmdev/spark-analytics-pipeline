@@ -1,9 +1,9 @@
-package com.mantix4.ap.core.logs
+package com.mantix4.ap.core.logs.NetworkProtocols
 
 import com.mantix4.ap.abstracts.base.{LogBase, Sources}
-import org.apache.spark.sql.types._
+import org.apache.spark.sql.types.{ArrayType, StringType, StructType}
 
-case class SSL (
+case class SSH (
                         timestamp: String,
                         uid: String,
                         source_ip: String,
@@ -68,6 +68,3 @@ case class SSL (
     .add("cyrin_type", StringType)
     .add("cyrin_stage", StringType)
 }
-
-
-

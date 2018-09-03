@@ -5,7 +5,7 @@ import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.{DataFrame, Dataset}
 import com.mantix4.ap.abstracts.spark.SparkHelper
-import com.mantix4.ap.core.logs.DNS
+import com.mantix4.ap.core.logs.NetworkProtocols.DNS
 
 class PipelineDNS() extends Pipeline[DNS] {
   private val spark = SparkHelper.getSparkSession

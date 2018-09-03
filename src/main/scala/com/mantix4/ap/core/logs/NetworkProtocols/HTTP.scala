@@ -1,7 +1,7 @@
-package com.mantix4.ap.core.logs
+package com.mantix4.ap.core.logs.NetworkProtocols
 
 import com.mantix4.ap.abstracts.base.{LogBase, Sources}
-import org.apache.spark.sql.types._
+import org.apache.spark.sql.types.{ArrayType, StringType, StructType}
 
 case class HTTP (
                       timestamp: String,
@@ -26,6 +26,7 @@ case class HTTP (
                       tags: Vector[String],
                       username: String,
                       password: String,
+                      capture_password: Option[Boolean],
                       proxied: Vector[String],
                       orig_fuids: Vector[String],
                       orig_filenames: Vector[String],
@@ -38,12 +39,12 @@ case class HTTP (
   override val stream_source: Sources.Value = Sources.KAFKA
 
   val schemaBase: StructType = new StructType()
-    .add("ts", StringType)
+    .add("timestamp", StringType)
     .add("uid", StringType)
-    .add("id.orig_h", StringType)
-    .add("id.orig_p", StringType)
-    .add("id.resp_h", StringType)
-    .add("id.resp_p", StringType)
+    .add("source_ip", StringType)
+    .add("source_port", StringType)
+    .add("dest_ip", StringType)
+    .add("dest_port", StringType)
     .add("trans_depth", StringType)
     .add("method", StringType)
     .add("host", StringType)
@@ -60,7 +61,10 @@ case class HTTP (
     .add("tags", ArrayType(StringType))
     .add("username", StringType)
     .add("password", StringType)
+    .add("capture_password", StringType)
+    .add("range_request", StringType)
     .add("proxied", ArrayType(StringType))
+    .add("range_request", StringType)
     .add("orig_fuids", ArrayType(StringType))
     .add("orig_filenames", ArrayType(StringType))
     .add("orig_mime_types", ArrayType(StringType))
@@ -68,7 +72,3 @@ case class HTTP (
     .add("resp_filenames", ArrayType(StringType))
     .add("resp_mime_types", ArrayType(StringType))
 }
-
-
-
-

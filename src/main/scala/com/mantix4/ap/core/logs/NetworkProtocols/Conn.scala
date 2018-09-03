@@ -1,8 +1,8 @@
-package com.mantix4.ap.core.logs
+package com.mantix4.ap.core.logs.NetworkProtocols
 
 import com.mantix4.ap.abstracts.base.{LogBase, Sources}
-import org.apache.spark.sql.types._
 import org.apache.spark.sql.Encoders
+import org.apache.spark.sql.types.{ArrayType, StringType, StructType}
 
 case class Conn (
               timestamp: String,
@@ -27,6 +27,9 @@ case class Conn (
               resp_pkts: Option[Double],
               resp_ip_bytes: Option[Double],
               tunnel_parents: Option[Vector[String]],
+              orig_l2_addr: String,
+              resp_l2_addr: String,
+              sensor: String,
               pcr: Option[Double]
              ) extends LogBase {
 
@@ -35,12 +38,12 @@ case class Conn (
   // val schemaBase: StructType = Encoders.product[Conn].schema
 
   val schemaBase: StructType = new StructType()
-    .add("ts", StringType)
+    .add("timestamp", StringType)
     .add("uid", StringType)
-    .add("id.orig_h", StringType)
-    .add("id.orig_p", StringType)
-    .add("id.resp_h", StringType)
-    .add("id.resp_p", StringType)
+    .add("source_ip", StringType)
+    .add("source_port", StringType)
+    .add("dest_ip", StringType)
+    .add("dest_port", StringType)
     .add("proto", StringType)
     .add("service", StringType)
     .add("duration", StringType)
@@ -56,4 +59,7 @@ case class Conn (
     .add("resp_pkts", StringType)
     .add("resp_ip_bytes", StringType)
     .add("tunnel_parents", ArrayType(StringType))
+    .add("orig_l2_addr", StringType)
+    .add("resp_l2_addr", StringType)
+    .add("sensor", StringType)
 }
