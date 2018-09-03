@@ -14,10 +14,10 @@ object SparkHelper {
     sc.setLogLevel("WARN")
 
     // return com.mantix4.ap.abstracts.spark session
-    getSparkSession
+    getSparkSession()
   }
 
-  def getSparkSession: SparkSession = {
+  def getSparkSession(): SparkSession = {
     SparkSession
       .builder()
       .getOrCreate()

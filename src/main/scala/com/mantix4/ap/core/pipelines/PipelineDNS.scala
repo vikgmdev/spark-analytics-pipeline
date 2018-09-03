@@ -8,7 +8,7 @@ import com.mantix4.ap.abstracts.spark.SparkHelper
 import com.mantix4.ap.core.logs.NetworkProtocols.DNS
 
 class PipelineDNS() extends Pipeline[DNS] {
-  private val spark = SparkHelper.getSparkSession
+  private val spark = SparkHelper.getSparkSession()
   import spark.implicits._
 
   override def startPipeline(dt: Dataset[DNS]): Unit = {

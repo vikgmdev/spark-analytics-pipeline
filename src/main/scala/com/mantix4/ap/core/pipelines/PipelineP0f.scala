@@ -6,7 +6,7 @@ import com.mantix4.ap.core.logs.NetworkObservations.P0f
 import org.apache.spark.sql.{DataFrame, Dataset}
 
 class PipelineP0f() extends Pipeline[P0f] {
-  private val spark = SparkHelper.getSparkSession
+  private val spark = SparkHelper.getSparkSession()
   import spark.implicits._
 
   override def startPipeline(dt: Dataset[P0f]): Unit = {

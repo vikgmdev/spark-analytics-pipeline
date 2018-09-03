@@ -13,7 +13,7 @@ import com.mantix4.ap.core.logs.NetworkProtocols.Conn
   * must be idempotent and synchronous (@TODO check asynchronous/synchronous from Datastax's Spark connector) sink
   */
 class PipelineConn() extends Pipeline[Conn] {
-  private val spark = SparkHelper.getSparkSession
+  private val spark = SparkHelper.getSparkSession()
   import spark.implicits._
 
   override def startPipeline(dt: Dataset[Conn]): Unit = {

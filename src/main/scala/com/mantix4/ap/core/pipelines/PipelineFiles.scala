@@ -7,7 +7,7 @@ import com.mantix4.ap.abstracts.spark.SparkHelper
 import com.mantix4.ap.core.logs.Files.Files
 
 class PipelineFiles() extends Pipeline[Files] {
-  private val spark = SparkHelper.getSparkSession
+  private val spark = SparkHelper.getSparkSession()
   import spark.implicits._
 
   override def startPipeline(dt: Dataset[Files]): Unit = {
