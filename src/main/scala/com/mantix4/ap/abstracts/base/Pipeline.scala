@@ -28,8 +28,6 @@ abstract case class Pipeline[T <: Product : TypeTag]() extends SinkBase {
 
   def getDataset(df: DataFrame): Dataset[T] = {
     // Select new column with the real log data
-    df.select("data.*")
-
     val parsed_dataframe = this.customParsing(df)
 
     // Convert to a class dataset

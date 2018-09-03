@@ -44,7 +44,5 @@ object KafkaSource {
       .option("group.id", s"Kafka-Streaming-Topic-$topic")
       .option("failOnDataLoss", value = false)
       .load()
-
-    //.withColumn("typeLog", from_json($"value".cast(StringType), KafkaService.schemaTypeColumn).getField("type"))
   }
 }
