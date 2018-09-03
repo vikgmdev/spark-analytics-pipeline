@@ -50,6 +50,6 @@ class PipelineConn() extends Pipeline[Conn] {
   override def getDataframeType(df: DataFrame): DataFrame = {
     df.withColumn("data",
       from_json($"value".cast(StringType), new StructType()))
-      .select("data.*")
+      .select("data")
   }
 }
