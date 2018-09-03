@@ -24,6 +24,7 @@ class PipelineConn() extends Pipeline[Conn] {
 
   override def customParsing(df: DataFrame): DataFrame = {
     df
+      /*
       // Change column's to the righ type
       .withColumn("source_port", $"source_port".cast(IntegerType))
       .withColumn("dest_port", $"dest_port".cast(IntegerType))
@@ -42,6 +43,7 @@ class PipelineConn() extends Pipeline[Conn] {
       // Enrich
       .withColumn("direction", withDirection(col("local_orig"), col("local_resp")))
       .withColumn("pcr", withPCR($"direction", $"orig_bytes", $"resp_bytes"))
+    */
   }
 
   override def getDataframeType(df: DataFrame): DataFrame = {
