@@ -19,10 +19,11 @@ class PipelineConn() extends Pipeline[Conn] {
 
   def startPipeline(dt: Dataset[Conn]): Unit = {
     // Debug only
-    dt.show(5000, truncate = true)
+    //dt.show(5000, truncate = true)
   }
 
   override def customParsing(df: DataFrame): DataFrame = {
+    df.show(5000, truncate = true)
     df
       /*
       // Change column's to the righ type
@@ -44,6 +45,7 @@ class PipelineConn() extends Pipeline[Conn] {
       .withColumn("direction", withDirection(col("local_orig"), col("local_resp")))
       .withColumn("pcr", withPCR($"direction", $"orig_bytes", $"resp_bytes"))
     */
+
   }
 
   override def getDataframeType(df: DataFrame): DataFrame = {
