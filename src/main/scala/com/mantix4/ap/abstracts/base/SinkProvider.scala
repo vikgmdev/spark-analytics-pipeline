@@ -10,12 +10,12 @@ From Holden Karau's High Performance Spark
   *
   */
 
-/*class SinkProvider extends StreamSinkProvider {
+class SinkProvider extends StreamSinkProvider {
   override def createSink(sqlContext: SQLContext,
                           parameters: Map[String, String],
                           partitionColumns: Seq[String],
-                          outputMode: OutputMode): Pipeline = {
+                          outputMode: OutputMode): SinkBase = {
     val className: String = parameters("pipeline")
-    Class.forName(className).newInstance().asInstanceOf[Pipeline]
+    Class.forName(className).newInstance().asInstanceOf[SinkBase]
   }
-}*/
+}

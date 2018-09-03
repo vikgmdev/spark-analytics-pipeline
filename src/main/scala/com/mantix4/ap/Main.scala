@@ -54,7 +54,7 @@ object Main {
       .toDF()
       .writeStream
       .format(s"com.mantix4.ap.abstracts.base.SinkProvider")
-      .option("pipeline", s"com.mantix4.ap.testing.pipelines.Pipeline$withProvider")
+      .option("pipeline", s"com.mantix4.ap.core.pipelines.Pipeline$withProvider")
       .outputMode(OutputMode.Update())
       .queryName(s"KafkaStreamToPipeline$withProvider")
       .start()

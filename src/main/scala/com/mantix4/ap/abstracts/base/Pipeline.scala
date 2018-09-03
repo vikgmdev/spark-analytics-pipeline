@@ -7,7 +7,7 @@ import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types._
 import scala.reflect.runtime.universe.TypeTag
 
-abstract case class Pipeline[T <: Product : TypeTag]() extends Sink {
+abstract case class Pipeline[T <: Product : TypeTag]() extends SinkBase {
   private val spark = SparkHelper.getSparkSession()
   import spark.implicits._
 
