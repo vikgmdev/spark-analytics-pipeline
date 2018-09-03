@@ -3,7 +3,7 @@ package com.mantix4.ap.core.pipelines
 import com.mantix4.ap.abstracts.base.Pipeline
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types._
-import org.apache.spark.sql.{DataFrame, Dataset}
+import org.apache.spark.sql.{DataFrame, Dataset, Encoders}
 import com.mantix4.ap.abstracts.spark.SparkHelper
 import com.mantix4.ap.core.logs.NetworkProtocols.DNS
 
@@ -52,5 +52,11 @@ class PipelineDNS() extends Pipeline[DNS] {
       //.withColumn("answers", $"answers".cast(ArrayType(StringType)))
       .withColumn("ttls", $"ttls".cast(DoubleType))
       .withColumn("rejected", $"rejected".cast(BooleanType))
+  }
+
+  override def getDataframeType(df: DataFrame): DataFrame = {
+    val schema_base = Encoders.product[DNS].asInstanceOf[DNS]
+    df.withColumn("data",
+      from_json($"value".cast(StringType), schema_base.schemaBase))
   }
 }

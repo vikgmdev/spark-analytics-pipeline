@@ -2,9 +2,10 @@ package com.mantix4.ap.core.pipelines
 
 import com.mantix4.ap.abstracts.base.Pipeline
 import org.apache.spark.sql.types._
-import org.apache.spark.sql.{DataFrame, Dataset}
+import org.apache.spark.sql.{DataFrame, Dataset, Encoders}
 import com.mantix4.ap.abstracts.spark.SparkHelper
 import com.mantix4.ap.core.logs.Files.Files
+import org.apache.spark.sql.functions.from_json
 
 class PipelineFiles() extends Pipeline[Files] {
   private val spark = SparkHelper.getSparkSession()
@@ -34,5 +35,11 @@ class PipelineFiles() extends Pipeline[Files] {
       .withColumn("missing_bytes", $"missing_bytes".cast(DoubleType))
       .withColumn("overflow_bytes", $"overflow_bytes".cast(DoubleType))
       .withColumn("timedout", $"timedout".cast(BooleanType))
+  }
+
+  override def getDataframeType(df: DataFrame): DataFrame = {
+    val schema_base = Encoders.product[Files].asInstanceOf[Files]
+    df.withColumn("data",
+      from_json($"value".cast(StringType), schema_base.schemaBase))
   }
 }

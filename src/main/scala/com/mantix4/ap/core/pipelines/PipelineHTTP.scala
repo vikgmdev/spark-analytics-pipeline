@@ -2,9 +2,10 @@ package com.mantix4.ap.core.pipelines
 
 import com.mantix4.ap.abstracts.base.Pipeline
 import org.apache.spark.sql.types._
-import org.apache.spark.sql.{DataFrame, Dataset}
+import org.apache.spark.sql.{DataFrame, Dataset, Encoders}
 import com.mantix4.ap.abstracts.spark.SparkHelper
 import com.mantix4.ap.core.logs.NetworkProtocols.HTTP
+import org.apache.spark.sql.functions.from_json
 
 class PipelineHTTP() extends Pipeline[HTTP] {
   private val spark = SparkHelper.getSparkSession()
@@ -40,5 +41,11 @@ class PipelineHTTP() extends Pipeline[HTTP] {
       .withColumn("resp_fuids", $"resp_fuids".cast(ArrayType(StringType)))
       .withColumn("resp_filenames", $"resp_filenames".cast(ArrayType(StringType)))
       .withColumn("resp_mime_types", $"resp_mime_types".cast(ArrayType(StringType)))
+  }
+
+  override def getDataframeType(df: DataFrame): DataFrame = {
+    val schema_base = Encoders.product[HTTP].asInstanceOf[HTTP]
+    df.withColumn("data",
+      from_json($"value".cast(StringType), schema_base.schemaBase))
   }
 }

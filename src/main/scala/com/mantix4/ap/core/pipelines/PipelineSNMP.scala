@@ -2,9 +2,10 @@ package com.mantix4.ap.core.pipelines
 
 import com.mantix4.ap.abstracts.base.Pipeline
 import org.apache.spark.sql.types._
-import org.apache.spark.sql.{DataFrame, Dataset}
+import org.apache.spark.sql.{DataFrame, Dataset, Encoders}
 import com.mantix4.ap.abstracts.spark.SparkHelper
 import com.mantix4.ap.core.logs.NetworkProtocols.SNMP
+import org.apache.spark.sql.functions.from_json
 
 class PipelineSNMP() extends Pipeline[SNMP] {
   private val spark = SparkHelper.getSparkSession()
@@ -32,5 +33,11 @@ class PipelineSNMP() extends Pipeline[SNMP] {
       .withColumn("get_bulk_requests", $"get_bulk_requests".cast(DoubleType))
       .withColumn("get_responses", $"get_responses".cast(DoubleType))
       .withColumn("set_requests", $"set_requests".cast(DoubleType))
+  }
+
+  override def getDataframeType(df: DataFrame): DataFrame = {
+    val schema_base = Encoders.product[SNMP].asInstanceOf[SNMP]
+    df.withColumn("data",
+      from_json($"value".cast(StringType), schema_base.schemaBase))
   }
 }
