@@ -16,6 +16,7 @@ object ConnEnricher {
   })
 
   val withPCR: UserDefinedFunction = udf((direction: String, orig_bytes: Double, resp_bytes: Double) => {
+    var pcr: Double = 0.0
     if (direction != "inbound") {
 
       val numerator = (orig_bytes + 0.0) - (resp_bytes + 0.0)
@@ -23,13 +24,11 @@ object ConnEnricher {
 
       if (numerator != 0.0) {
 
-        val pcr = numerator / denominator
-        pcr
-      } else {
-        0
+        pcr = numerator / denominator
       }
-    } else {
-      0
     }
+
+    // return PCR value
+    pcr
   })
 }
