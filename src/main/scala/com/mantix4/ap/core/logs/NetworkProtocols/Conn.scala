@@ -1,7 +1,7 @@
 package com.mantix4.ap.core.logs.NetworkProtocols
 
 import com.mantix4.ap.abstracts.base.{LogBase, Sources}
-import org.apache.spark.sql.types.{ArrayType, StringType, StructType}
+import org.apache.spark.sql.types._
 
 object Conn {
   case class Conn (
@@ -39,23 +39,23 @@ object Conn {
     .add("timestamp", StringType)
     .add("uid", StringType)
     .add("source_ip", StringType)
-    .add("source_port", StringType)
+    .add("source_port", IntegerType)
     .add("dest_ip", StringType)
-    .add("dest_port", StringType)
+    .add("dest_port", IntegerType)
     .add("proto", StringType)
     .add("service", StringType)
-    .add("duration", StringType)
-    .add("orig_bytes", StringType)
-    .add("resp_bytes", StringType)
+    .add("duration", DoubleType)
+    .add("orig_bytes", DoubleType)
+    .add("resp_bytes", DoubleType)
     .add("conn_state", StringType)
-    .add("local_orig", StringType)
-    .add("local_resp", StringType)
-    .add("missed_bytes", StringType)
+    .add("local_orig", BooleanType)
+    .add("local_resp", BooleanType)
+    .add("missed_bytes", DoubleType)
     .add("history", StringType)
-    .add("orig_pkts", StringType)
-    .add("orig_ip_bytes", StringType)
-    .add("resp_pkts", StringType)
-    .add("resp_ip_bytes", StringType)
+    .add("orig_pkts", DoubleType)
+    .add("orig_ip_bytes", DoubleType)
+    .add("resp_pkts", DoubleType)
+    .add("resp_ip_bytes", DoubleType)
     .add("tunnel_parents", ArrayType(StringType))
     .add("orig_l2_addr", StringType)
     .add("resp_l2_addr", StringType)

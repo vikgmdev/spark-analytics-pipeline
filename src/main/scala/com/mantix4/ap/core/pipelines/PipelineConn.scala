@@ -24,6 +24,7 @@ class PipelineConn() extends Pipeline[Conn.Conn] {
   override def customParsing(df: DataFrame): DataFrame = {
     df
       // Change column's to the righ type
+      /*
       .withColumn("source_port", $"source_port".cast(IntegerType))
       .withColumn("dest_port", $"dest_port".cast(IntegerType))
       .withColumn("duration", $"duration".cast(DoubleType))
@@ -37,7 +38,7 @@ class PipelineConn() extends Pipeline[Conn.Conn] {
       .withColumn("resp_pkts", $"resp_pkts".cast(DoubleType))
       .withColumn("resp_ip_bytes", $"resp_ip_bytes".cast(DoubleType))
       .withColumn("tunnel_parents", $"tunnel_parents".cast(ArrayType(StringType)))
-
+      */
       // Enrich
       .withColumn("direction", ConnEnricher.withDirection(col("local_orig"), col("local_resp")))
       .withColumn("pcr", ConnEnricher.withPCR($"direction", $"orig_bytes", $"resp_bytes"))
