@@ -4,9 +4,8 @@ import com.mantix4.ap.abstracts.base.Pipeline
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.{DataFrame, Dataset, Encoders}
-import com.mantix4.ap.core.enrichments.AddConnDirection._
-import com.mantix4.ap.core.enrichments.AddPCR._
 import com.mantix4.ap.abstracts.spark.SparkHelper
+import com.mantix4.ap.core.enrichments.ConnEnricher
 import com.mantix4.ap.core.logs.NetworkProtocols.Conn
 import org.apache.spark.sql.catalyst.encoders.RowEncoder
 
@@ -19,7 +18,7 @@ class PipelineConn() extends Pipeline[Conn.Conn] {
 
   def startPipeline(dt: Dataset[Conn.Conn]): Unit = {
     // Debug only
-    dt.show(5000, truncate = true)
+    dt.filter($"direction" !== "local").show(5000)
   }
 
   override def customParsing(df: DataFrame): DataFrame = {
@@ -40,8 +39,8 @@ class PipelineConn() extends Pipeline[Conn.Conn] {
       .withColumn("tunnel_parents", $"tunnel_parents".cast(ArrayType(StringType)))
 
       // Enrich
-      .withColumn("direction", withDirection(col("local_orig"), col("local_resp")))
-      .withColumn("pcr", withPCR($"direction", $"orig_bytes", $"resp_bytes"))
+      .withColumn("direction", ConnEnricher.withDirection(col("local_orig"), col("local_resp")))
+      .withColumn("pcr", ConnEnricher.withPCR($"direction", $"orig_bytes", $"resp_bytes"))
   }
 
   override def getDataframeType(df: DataFrame): DataFrame = {
