@@ -28,7 +28,7 @@ class PipelineConn() extends Pipeline[Conn.Conn] {
                     $"resp_bytes",
                     $"direction",
                     $"pcr",
-                    $"sensor",
+                    $"sensor"
     ).show(5000)
   }
 
