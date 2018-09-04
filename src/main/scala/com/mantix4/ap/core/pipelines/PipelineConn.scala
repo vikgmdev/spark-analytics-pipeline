@@ -18,18 +18,7 @@ class PipelineConn() extends Pipeline[Conn.Conn] {
 
   def startPipeline(dt: Dataset[Conn.Conn]): Unit = {
     // Debug only
-    dt.select($"timestamp",
-                    $"source_ip",
-                    $"source_port",
-                    $"dest_ip",
-                    $"dest_port",
-                    $"proto",
-                    $"orig_bytes",
-                    $"resp_bytes",
-                    $"direction",
-                    $"pcr",
-                    $"sensor"
-    ).show(5000)
+    dt.show(5000)
   }
 
   override def customParsing(df: DataFrame): DataFrame = {
