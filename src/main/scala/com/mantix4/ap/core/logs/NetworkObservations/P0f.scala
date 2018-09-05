@@ -1,9 +1,9 @@
 package com.mantix4.ap.core.logs.NetworkObservations
 
-import com.mantix4.ap.abstracts.base.{LogBase, Sources}
-import org.apache.spark.sql.types.{StringType, StructType}
+import org.apache.spark.sql.types._
 
-case class P0f (
+object P0f {
+  case class P0f (
                       date: String,
                       mod: String,
                       cli: String,
@@ -21,9 +21,7 @@ case class P0f (
                       raw_freq: String,
                       reason: String,
                       raw_hits: String
-                 ) extends LogBase {
-
-  override val stream_source: Sources.Value = Sources.FILEBEAT
+                 ) extends Serializable
 
   val schemaBase: StructType = new StructType()
     // Base keys in p0f log

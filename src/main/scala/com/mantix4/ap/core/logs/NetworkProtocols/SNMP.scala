@@ -1,9 +1,9 @@
 package com.mantix4.ap.core.logs.NetworkProtocols
 
-import com.mantix4.ap.abstracts.base.{LogBase, Sources}
-import org.apache.spark.sql.types.{StringType, StructType}
+import org.apache.spark.sql.types._
 
-case class SNMP (
+object SNMP {
+  case class SNMP (
                       timestamp: String,
                       uid: String,
                       source_ip: String,
@@ -13,30 +13,30 @@ case class SNMP (
                       duration: Option[Double],
                       version: String,
                       community: String,
-                      get_requests: Option[Double],
-                      get_bulk_requests: Option[Double],
-                      get_responses: Option[Double],
-                      set_requests: Option[Double],
+                      get_requests: Option[Int],
+                      get_bulk_requests: Option[Int],
+                      get_responses: Option[Int],
+                      set_requests: Option[Int],
                       display_string: String,
-                      up_since: String
-                    ) extends LogBase {
-
-  override val stream_source: Sources.Value = Sources.KAFKA
+                      up_since: String,
+                      sensor: String
+                    ) extends Serializable
 
   val schemaBase: StructType = new StructType()
-    .add("ts", StringType)
+    .add("timestamp", StringType)
     .add("uid", StringType)
-    .add("id.orig_h", StringType)
-    .add("id.orig_p", StringType)
-    .add("id.resp_h", StringType)
-    .add("id.resp_p", StringType)
-    .add("duration", StringType)
+    .add("source_ip", StringType)
+    .add("source_port", IntegerType)
+    .add("dest_ip", StringType)
+    .add("dest_port", IntegerType)
+    .add("duration", DoubleType)
     .add("version", StringType)
     .add("community", StringType)
-    .add("get_requests", StringType)
-    .add("get_bulk_requests", StringType)
-    .add("get_responses", StringType)
-    .add("set_requests", StringType)
+    .add("get_requests", IntegerType)
+    .add("get_bulk_requests", IntegerType)
+    .add("get_responses", IntegerType)
+    .add("set_requests", IntegerType)
     .add("display_string", StringType)
     .add("up_since", StringType)
+    .add("sensor", StringType)
 }

@@ -1,9 +1,9 @@
 package com.mantix4.ap.core.logs.NetworkProtocols
 
-import com.mantix4.ap.abstracts.base.{LogBase, Sources}
-import org.apache.spark.sql.types.{StringType, StructType}
+import org.apache.spark.sql.types._
 
-case class Syslog (
+object Syslog {
+  case class Syslog (
                         timestamp: String,
                         uid: String,
                         source_ip: String,
@@ -13,20 +13,20 @@ case class Syslog (
                         proto: String,
                         facility: String,
                         severity: String,
-                        message: String
-                    ) extends LogBase {
-
-  override val stream_source: Sources.Value = Sources.KAFKA
+                        message: String,
+                          sensor: String
+                    ) extends Serializable
 
   val schemaBase: StructType = new StructType()
-    .add("ts", StringType)
+    .add("timestamp", StringType)
     .add("uid", StringType)
-    .add("id.orig_h", StringType)
-    .add("id.orig_p", StringType)
-    .add("id.resp_h", StringType)
-    .add("id.resp_p", StringType)
+    .add("source_ip", StringType)
+    .add("source_port", IntegerType)
+    .add("dest_ip", StringType)
+    .add("dest_port", IntegerType)
     .add("proto", StringType)
     .add("facility", StringType)
     .add("severity", StringType)
     .add("message", StringType)
+    .add("sensor", StringType)
 }

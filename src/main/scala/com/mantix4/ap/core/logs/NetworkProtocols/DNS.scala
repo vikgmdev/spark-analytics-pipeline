@@ -1,9 +1,10 @@
 package com.mantix4.ap.core.logs.NetworkProtocols
 
 import com.mantix4.ap.abstracts.base.{LogBase, Sources}
-import org.apache.spark.sql.types.{StringType, StructType}
+import org.apache.spark.sql.types._
 
-case class DNS (
+object DNS {
+  case class DNS (
                       timestamp: String,
                       uid: String,
                       source_ip: String,
@@ -25,41 +26,42 @@ case class DNS (
                       rd: Option[Boolean],
                       ra: Option[Boolean],
                       z: Option[Int],
-                      answers: String,
-                      ttls: Option[Double],
-                      rejected: Option[Boolean]
-                ) extends LogBase {
-
-  override val stream_source: Sources.Value = Sources.KAFKA
+                      answers: Option[Vector[String]],
+                      ttls: Option[Vector[Double]],
+                      rejected: Option[Boolean],
+                      total_answers: Option[Int],
+                      total_replies: Option[Int],
+                      saw_query: Option[Boolean],
+                      saw_reply: Option[Boolean]
+                ) extends Serializable
 
   val schemaBase: StructType = new StructType()
     .add("timestamp", StringType)
     .add("uid", StringType)
     .add("source_ip", StringType)
-    .add("source_port", StringType)
+    .add("source_port", IntegerType)
     .add("dest_ip", StringType)
-    .add("dest_port", StringType)
+    .add("dest_port", IntegerType)
     .add("proto", StringType)
-    .add("trans_id", StringType)
-    .add("rtt", StringType)
+    .add("trans_id", IntegerType)
+    .add("rtt", DoubleType)
     .add("query", StringType)
-    .add("qclass", StringType)
+    .add("qclass", IntegerType)
     .add("qclass_name", StringType)
-    .add("qtype", StringType)
+    .add("qtype", IntegerType)
     .add("qtype_name", StringType)
-    .add("rcode", StringType)
+    .add("rcode", IntegerType)
     .add("rcode_name", StringType)
-    .add("AA", StringType)
-    .add("TC", StringType)
-    .add("RD", StringType)
-    .add("RA", StringType)
-    .add("Z", StringType)
-    .add("answers", StringType)
-    .add("TTLs", StringType)
-    .add("rejected", StringType)
-
-    .add("total_answers", StringType)
-    .add("total_replies", StringType)
-    .add("saw_query", StringType)
-    .add("saw_reply", StringType)
+    .add("AA", BooleanType)
+    .add("TC", BooleanType)
+    .add("RD", BooleanType)
+    .add("RA", BooleanType)
+    .add("Z", IntegerType)
+    .add("answers", ArrayType(StringType))
+    .add("TTLs",ArrayType(DoubleType))
+    .add("rejected", BooleanType)
+    .add("total_answers", IntegerType)
+    .add("total_replies", IntegerType)
+    .add("saw_query", BooleanType)
+    .add("saw_reply", BooleanType)
 }

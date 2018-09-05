@@ -4,7 +4,7 @@ import com.mantix4.ap.abstracts.base.Pipeline
 import org.apache.spark.sql.types.{ArrayType, BooleanType, DoubleType, StringType}
 import org.apache.spark.sql.{DataFrame, Dataset, Encoders}
 import com.mantix4.ap.abstracts.spark.SparkHelper
-import com.mantix4.ap.core.logs.Files.X509
+import .X509
 import org.apache.spark.sql.functions.from_json
 
 class PipelineX509() extends Pipeline[X509] {

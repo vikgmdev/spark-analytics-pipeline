@@ -1,69 +1,70 @@
 package com.mantix4.ap.core.logs.NetworkProtocols
 
-import com.mantix4.ap.abstracts.base.{LogBase, Sources}
-import org.apache.spark.sql.types.{ArrayType, StringType, StructType}
+import org.apache.spark.sql.types._
 
-case class SMTP (
-              timestamp: String,
-              uid: String,
-              source_ip: String,
-              source_port: Option[Int],
-              dest_ip: String,
-              dest_port: Option[Int],
-              proto: String,
-              service: String,
-              direction: String,
-              duration: Option[Double],
-              orig_bytes: Option[Double],
-              resp_bytes: Option[Double],
-              conn_state: String,
-              local_orig: Option[Boolean],
-              local_resp: Option[Boolean],
-              missed_bytes: Option[Double],
-              history: String,
-              orig_pkts: Option[Double],
-              orig_ip_bytes: Option[Double],
-              resp_pkts: Option[Double],
-              resp_ip_bytes: Option[Double],
-              tunnel_parents: Option[Vector[String]],
-              pcr: Option[Double]
-             ) extends LogBase {
-
-  override val stream_source: Sources.Value = Sources.KAFKA
-
-  // val schemaBase: StructType = Encoders.product[Conn].schema
+object SMTP {
+  case class SMTP (
+                    timestamp: String,
+                    uid: String,
+                    source_ip: String,
+                    source_port: Option[Int],
+                    dest_ip: String,
+                    dest_port: Option[Int],
+                    cc: Option[Vector[String]],
+                    first_received: String,
+                    msg_id: String,
+                    x_originating_ip: String,
+                    helo: String,
+                    subject: String,
+                    trans_depth: Option[Int],
+                    from: String,
+                    to: Option[Vector[String]],
+                    is_webmail: Option[Boolean],
+                    fuids: Option[Vector[String]],
+                    last_reply: String,
+                    date: String,
+                    path: Option[Vector[String]],
+                    in_reply_to: String,
+                    tls: Option[Boolean],
+                    process_received_from: Option[Boolean],
+                    has_client_activity: Option[Boolean],
+                    mailfrom: String,
+                    second_received: String,
+                    rcptto: Option[Vector[String]],
+                    user_agent: String,
+                    reply_to: String,
+                    sensor: String
+                  ) extends Serializable
 
   val schemaBase: StructType = new StructType()
     .add("timestamp", StringType)
     .add("uid", StringType)
     .add("source_ip", StringType)
-    .add("source_port", StringType)
+    .add("source_port", IntegerType)
     .add("dest_ip", StringType)
-    .add("dest_port", StringType)
-    .add("proto", StringType)
-    .add("service", StringType)
-    .add("duration", StringType)
-    .add("orig_bytes", StringType)
-    .add("resp_bytes", StringType)
-    .add("conn_state", StringType)
-    .add("local_orig", StringType)
-    .add("local_resp", StringType)
-    .add("missed_bytes", StringType)
-    .add("history", StringType)
-    .add("orig_pkts", StringType)
-    .add("orig_ip_bytes", StringType)
-    .add("resp_pkts", StringType)
-    .add("resp_ip_bytes", StringType)
-    .add("tunnel_parents", ArrayType(StringType))
-
-    .add("orig_l2_addr", StringType)
-    .add("resp_l2_addr", StringType)
-
+    .add("dest_port", IntegerType)
+    .add("cc", ArrayType(StringType))
+    .add("first_received", StringType)
+    .add("msg_id", StringType)
+    .add("x_originating_ip", StringType)
+    .add("helo", StringType)
+    .add("subject", StringType)
+    .add("trans_depth", IntegerType)
+    .add("from", StringType)
+    .add("to", ArrayType(StringType))
+    .add("is_webmail", BooleanType)
+    .add("fuids", ArrayType(StringType))
+    .add("last_reply", StringType)
+    .add("date", StringType)
+    .add("path", ArrayType(StringType))
+    .add("in_reply_to", StringType)
+    .add("tls", BooleanType)
+    .add("process_received_from", BooleanType)
+    .add("has_client_activity", BooleanType)
+    .add("mailfrom", StringType)
+    .add("second_received", StringType)
+    .add("rcptto", ArrayType(StringType))
+    .add("user_agent", StringType)
+    .add("reply_to", StringType)
     .add("sensor", StringType)
-    .add("type", StringType)
-
-  /*
-
-
-    */
 }

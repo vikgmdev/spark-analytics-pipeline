@@ -1,52 +1,48 @@
 package com.mantix4.ap.core.logs.Files
 
-import com.mantix4.ap.abstracts.base.{LogBase, Sources}
-import org.apache.spark.sql.types.{ArrayType, StringType, StructType}
+import org.apache.spark.sql.types._
 
-case class PE (
-                      timestamp: String,
-                      id: String,
-                      certificate_version: Option[Double],
-                      certificate_serial: String,
-                      certificate_subject: String,
-                      certificate_issuer: String,
-                      certificate_not_valid_before: String,
-                      certificate_not_valid_after: String,
-                      certificate_key_alg: String,
-                      certificate_sig_alg: String,
-                      certificate_key_type: String,
-                      certificate_key_length: Option[Double],
-                      certificate_exponent: String,
-                      certificate_curve: String,
-                      san_dns: Vector[String],
-                      san_uri: Vector[String],
-                      san_email: Vector[String],
-                      san_ip: Vector[String],
-                      basic_constraints_ca: Option[Boolean],
-                      basic_constraints_path_len: Option[Double]
-                    ) extends LogBase {
-
-  override val stream_source: Sources.Value = Sources.KAFKA
+object PE {
+  case class PE (
+                  timestamp: String,
+                  id: String,
+                  machine: String,
+                  compile_ts: String,
+                  os: String,
+                  subsystem: String,
+                  is_exe: Option[Boolean],
+                  is_64bit: Option[Boolean],
+                  uses_aslr: Option[Boolean],
+                  uses_dep: Option[Boolean],
+                  uses_code_integrity: Option[Boolean],
+                  uses_seh: Option[Boolean],
+                  has_import_table: Option[Boolean],
+                  has_export_table: Option[Boolean],
+                  has_cert_table: Option[Boolean],
+                  has_debug_data: Option[Boolean],
+                  section_names: Option[Vector[String]],
+                  sensor: String
+                 ) extends Serializable
 
   val schemaBase: StructType = new StructType()
     .add("ts", StringType)
     .add("id", StringType)
-    .add("certificate.version", StringType)
-    .add("certificate.serial", StringType)
-    .add("certificate.subject", StringType)
-    .add("certificate.issuer", StringType)
-    .add("certificate.not_valid_before", StringType)
-    .add("certificate.not_valid_after", StringType)
-    .add("certificate.key_alg", StringType)
-    .add("certificate.sig_alg", StringType)
-    .add("certificate.key_type", StringType)
-    .add("certificate.key_length", StringType)
-    .add("certificate.exponent", StringType)
-    .add("certificate.curve", StringType)
-    .add("san.dns", ArrayType(StringType))
-    .add("san.uri", ArrayType(StringType))
-    .add("san.email", ArrayType(StringType))
-    .add("san.ip", ArrayType(StringType))
-    .add("basic_constraints.ca", StringType)
-    .add("basic_constraints.path_len", StringType)
+    .add("machine", StringType)
+    .add("compile_ts", StringType)
+    .add("os", StringType)
+    .add("subsystem", StringType)
+    .add("is_exe", BooleanType)
+    .add("is_64bit", BooleanType)
+    .add("uses_aslr", BooleanType)
+    .add("uses_dep", BooleanType)
+    .add("uses_code_integrity", BooleanType)
+    .add("uses_seh", BooleanType)
+    .add("has_import_table", BooleanType)
+    .add("has_export_table", BooleanType)
+    .add("has_cert_table", BooleanType)
+    .add("has_debug_data", BooleanType)
+    .add("section_names", ArrayType(StringType))
+    .add("sensor", StringType)
 }
+
+

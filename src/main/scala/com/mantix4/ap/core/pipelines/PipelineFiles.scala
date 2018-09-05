@@ -4,7 +4,7 @@ import com.mantix4.ap.abstracts.base.Pipeline
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.{DataFrame, Dataset, Encoders}
 import com.mantix4.ap.abstracts.spark.SparkHelper
-import com.mantix4.ap.core.logs.Files.Files
+import .Files
 import org.apache.spark.sql.functions.from_json
 
 class PipelineFiles() extends Pipeline[Files] {

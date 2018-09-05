@@ -1,59 +1,38 @@
 package com.mantix4.ap.core.logs.NetworkObservations
 
-import com.mantix4.ap.abstracts.base.{LogBase, Sources}
-import org.apache.spark.sql.types.{StringType, StructType}
+import org.apache.spark.sql.types._
 
-case class Software (
-                      date: String,
-                      mod: String,
-                      cli: String,
-                      srv: String,
-                      subj: String,
-                      os: String,
-                      dist: String,
-                      app: String,
-                      lang: String,
-                      params: String,
-                      raw_sig: String,
-                      link: String,
-                      raw_mtu: String,
-                      uptime: String,
-                      raw_freq: String,
-                      reason: String,
-                      raw_hits: String
-                 ) extends LogBase {
-
-  override val stream_source: Sources.Value = Sources.FILEBEAT
+object Software {
+  case class Software (
+                    timestamp: String,
+                    host: String,
+                    host_p: Option[Int],
+                    software_type: String,
+                    name: String,
+                    version_major: Option[Int],
+                    version_minor: Option[Int],
+                    version_minor2: Option[Int],
+                    version_minor3: Option[Int],
+                    version_addl: String,
+                    unparsed_version: String,
+                    force_log: Option[Boolean],
+                    url: String,
+                    sensor: String
+                  ) extends Serializable
 
   val schemaBase: StructType = new StructType()
-    // Base keys in p0f log
-    .add("date", StringType)
-    .add("mod", StringType)
-    .add("cli", StringType)
-    .add("srv", StringType)
-    .add("subj", StringType)
-
-    // Values when 'os' key is present
-    .add("os", StringType)
-    .add("dist", StringType)
-
-    // Values when 'app' key is present
-    .add("app", StringType)
-    .add("lang", StringType)
-
-    // Values when 'os' and 'app' keys is present
-    .add("params", StringType)
-    .add("raw_sig", StringType)
-
-    // Values when 'link' key is present
-    .add("link", StringType)
-    .add("raw_mtu", StringType)
-
-    // Values when 'uptime' key is present
-    .add("uptime", StringType)
-    .add("raw_freq", StringType)
-
-    // Values when 'reason' key is present
-    .add("reason", StringType)
-    .add("raw_hits", StringType)
+    .add("timestamp", StringType)
+    .add("host", StringType)
+    .add("host_p", IntegerType)
+    .add("software_type", StringType)
+    .add("name", StringType)
+    .add("version.major", IntegerType)
+    .add("version.minor", IntegerType)
+    .add("version.minor2", IntegerType)
+    .add("version.minor3", IntegerType)
+    .add("version.addl", StringType)
+    .add("unparsed_version", StringType)
+    .add("force_log", BooleanType)
+    .add("url", StringType) //(present if policy/protocols/http/detect-webapps.bro is loaded)
+    .add("sensor", StringType)
 }

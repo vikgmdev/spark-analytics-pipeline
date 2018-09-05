@@ -1,59 +1,24 @@
 package com.mantix4.ap.core.logs.NetworkObservations
 
-import com.mantix4.ap.abstracts.base.{LogBase, Sources}
-import org.apache.spark.sql.types.{StringType, StructType}
+import org.apache.spark.sql.types._
 
-case class Known_Certs (
-                      date: String,
-                      mod: String,
-                      cli: String,
-                      srv: String,
-                      subj: String,
-                      os: String,
-                      dist: String,
-                      app: String,
-                      lang: String,
-                      params: String,
-                      raw_sig: String,
-                      link: String,
-                      raw_mtu: String,
-                      uptime: String,
-                      raw_freq: String,
-                      reason: String,
-                      raw_hits: String
-                 ) extends LogBase {
-
-  override val stream_source: Sources.Value = Sources.FILEBEAT
+object Known_Certs {
+  case class Known_Certs (
+                    timestamp: String,
+                    host: String,
+                    port_num: Option[Int],
+                    subject: String,
+                    issuer_subject: String,
+                    serial: String,
+                    sensor: String
+                  ) extends Serializable
 
   val schemaBase: StructType = new StructType()
-    // Base keys in p0f log
-    .add("date", StringType)
-    .add("mod", StringType)
-    .add("cli", StringType)
-    .add("srv", StringType)
-    .add("subj", StringType)
-
-    // Values when 'os' key is present
-    .add("os", StringType)
-    .add("dist", StringType)
-
-    // Values when 'app' key is present
-    .add("app", StringType)
-    .add("lang", StringType)
-
-    // Values when 'os' and 'app' keys is present
-    .add("params", StringType)
-    .add("raw_sig", StringType)
-
-    // Values when 'link' key is present
-    .add("link", StringType)
-    .add("raw_mtu", StringType)
-
-    // Values when 'uptime' key is present
-    .add("uptime", StringType)
-    .add("raw_freq", StringType)
-
-    // Values when 'reason' key is present
-    .add("reason", StringType)
-    .add("raw_hits", StringType)
+    .add("timestamp", StringType)
+    .add("host", StringType)
+    .add("port_num", IntegerType)
+    .add("subject", StringType)
+    .add("issuer_subject", StringType)
+    .add("serial", StringType)
+    .add("sensor", StringType)
 }

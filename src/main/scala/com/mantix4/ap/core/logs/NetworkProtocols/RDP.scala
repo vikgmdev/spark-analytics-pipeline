@@ -1,35 +1,35 @@
 package com.mantix4.ap.core.logs.NetworkProtocols
 
-import com.mantix4.ap.abstracts.base.{LogBase, Sources}
-import org.apache.spark.sql.types.{ArrayType, StringType, StructType}
+import org.apache.spark.sql.types._
 
-case class RDP (
-              timestamp: String,
-              uid: String,
-              source_ip: String,
-              source_port: Option[Int],
-              dest_ip: String,
-              dest_port: Option[Int],
-              proto: String,
-              service: String,
-              direction: String,
-              duration: Option[Double],
-              orig_bytes: Option[Double],
-              resp_bytes: Option[Double],
-              conn_state: String,
-              local_orig: Option[Boolean],
-              local_resp: Option[Boolean],
-              missed_bytes: Option[Double],
-              history: String,
-              orig_pkts: Option[Double],
-              orig_ip_bytes: Option[Double],
-              resp_pkts: Option[Double],
-              resp_ip_bytes: Option[Double],
-              tunnel_parents: Option[Vector[String]],
-              pcr: Option[Double]
-             ) extends LogBase {
-
-  override val stream_source: Sources.Value = Sources.KAFKA
+object RDP {
+  case class RDP (
+                    timestamp: String,
+                    uid: String,
+                    source_ip: String,
+                    source_port: Option[Int],
+                    dest_ip: String,
+                    dest_port: Option[Int],
+                    cookie: String,
+                    result: String,
+                    security_protocol: String,
+                    keyboard_layout: String,
+                    client_build: String,
+                    client_name: String,
+                    client_dig_product_id: String,
+                    desktop_width: Option[Int],
+                    desktop_height: Option[Int],
+                    requested_color_depth: String,
+                    cert_type: String,
+                    cert_count: Option[Int],
+                    cert_permanent: Option[Boolean],
+                    encryption_level: String,
+                    encryption_method: String,
+                    analyzer_id: Option[Int],
+                    done: Option[Boolean],
+                    ssl: Option[Boolean],
+                    sensor: String
+                  ) extends Serializable
 
   // val schemaBase: StructType = Encoders.product[Conn].schema
 
@@ -37,33 +37,26 @@ case class RDP (
     .add("timestamp", StringType)
     .add("uid", StringType)
     .add("source_ip", StringType)
-    .add("source_port", StringType)
+    .add("source_port", IntegerType)
     .add("dest_ip", StringType)
-    .add("dest_port", StringType)
-    .add("proto", StringType)
-    .add("service", StringType)
-    .add("duration", StringType)
-    .add("orig_bytes", StringType)
-    .add("resp_bytes", StringType)
-    .add("conn_state", StringType)
-    .add("local_orig", StringType)
-    .add("local_resp", StringType)
-    .add("missed_bytes", StringType)
-    .add("history", StringType)
-    .add("orig_pkts", StringType)
-    .add("orig_ip_bytes", StringType)
-    .add("resp_pkts", StringType)
-    .add("resp_ip_bytes", StringType)
-    .add("tunnel_parents", ArrayType(StringType))
-
-    .add("orig_l2_addr", StringType)
-    .add("resp_l2_addr", StringType)
-
+    .add("dest_port", IntegerType)
+    .add("cookie", StringType)
+    .add("result", StringType)
+    .add("security_protocol", StringType)
+    .add("keyboard_layout", StringType)
+    .add("client_build", StringType)
+    .add("client_name", StringType)
+    .add("client_dig_product_id", StringType)
+    .add("desktop_width", IntegerType)
+    .add("desktop_height", IntegerType)
+    .add("requested_color_depth", StringType)
+    .add("cert_type", StringType)
+    .add("cert_count", IntegerType)
+    .add("cert_permanent", BooleanType)
+    .add("encryption_level", StringType)
+    .add("encryption_method", StringType)
+    .add("analyzer_id", IntegerType)
+    .add("done", BooleanType)
+    .add("ssl", BooleanType) //(present if policy/protocols/rdp/indicate_ssl.bro is loaded)
     .add("sensor", StringType)
-    .add("type", StringType)
-
-  /*
-
-
-    */
 }
