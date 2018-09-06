@@ -2,9 +2,9 @@ package com.mantix4.ap.core.ml
 
 import com.mantix4.ap.abstracts.spark.SparkHelper
 import com.mantix4.ap.core.logs.NetworkProtocols.Conn.Conn
-import org.apache.spark.ml.Pipeline
+import org.apache.spark.ml.{Pipeline, PipelineStage}
 import org.apache.spark.ml.clustering.KMeans
-import org.apache.spark.ml.feature.{PCA, OneHotEncoder, StringIndexer, VectorAssembler}
+import org.apache.spark.ml.feature.{OneHotEncoder, PCA, StringIndexer, VectorAssembler}
 import org.apache.spark.ml.iforest.IForest
 import org.apache.spark.sql.Dataset
 
@@ -19,7 +19,7 @@ object AnomalyDetection_Conn {
     val numericCols = Array("pcr")
 
     var assemblerInputs: Array[String] = Array()
-    var stages = Array()
+    var stages: Array[PipelineStage] = Array()
 
     for (categoricalCol <- categoricalColumns) {
       val stringIndexer = new StringIndexer()
