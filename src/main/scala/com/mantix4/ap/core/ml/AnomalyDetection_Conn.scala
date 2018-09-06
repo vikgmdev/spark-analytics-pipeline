@@ -67,8 +67,6 @@ object AnomalyDetection_Conn {
 
     predictions_dataset.select("features").show()
 
-    /*
-
     // Trains a k-means model.
     val kmeans = new KMeans().setK(70)
     val model = kmeans.fit(predictions_dataset)
@@ -80,7 +78,6 @@ object AnomalyDetection_Conn {
     // Shows the result.
     println("Cluster Centers: ")
     model.clusterCenters.foreach(println)
-    */
 
     /*
     val pca = new PCA()
