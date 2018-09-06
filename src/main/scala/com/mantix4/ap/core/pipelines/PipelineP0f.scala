@@ -2,16 +2,16 @@ package com.mantix4.ap.core.pipelines
 
 import com.mantix4.ap.abstracts.base.{Filebeat, Pipeline}
 import com.mantix4.ap.abstracts.spark.SparkHelper
-import com.mantix4.ap.core.logs.NetworkObservations.P0f.P0f
+import com.mantix4.ap.core.logs.NetworkObservations.P0f
 import org.apache.spark.sql.functions.from_json
 import org.apache.spark.sql.types.StringType
 import org.apache.spark.sql.{DataFrame, Dataset, Encoders}
 
-class PipelineP0f() extends Pipeline[P0f] {
+class PipelineP0f() extends Pipeline[P0f.P0f] {
   private val spark = SparkHelper.getSparkSession()
   import spark.implicits._
 
-  override def startPipeline(dt: Dataset[P0f]): Unit = {
+  override def startPipeline(dt: Dataset[P0f.P0f]): Unit = {
     // Debug only
     dt.show(5000, truncate = true)
   }
@@ -21,10 +21,7 @@ class PipelineP0f() extends Pipeline[P0f] {
   }
 
   override def getDataframeType(df: DataFrame): DataFrame = {
-    /*
-    val schema_base = Encoders.product[P0f].asInstanceOf[P0f]
     df.withColumn("data",
-      from_json($"value".cast(StringType), schema_base.schemaBase))
-      */
+      from_json($"value".cast(StringType), P0f.schemaBase))
   }
 }

@@ -6,13 +6,12 @@ import org.apache.spark.sql.types._
 import org.apache.spark.sql.{DataFrame, Dataset, Encoders}
 import com.mantix4.ap.abstracts.spark.SparkHelper
 import com.mantix4.ap.core.logs.NetworkProtocols.DNS
-import com.mantix4.ap.core.logs.NetworkProtocols.DNS.DNS
 
-class PipelineDNS() extends Pipeline[DNS] {
+class PipelineDNS() extends Pipeline[DNS.DNS] {
   private val spark = SparkHelper.getSparkSession()
   import spark.implicits._
 
-  override def startPipeline(dt: Dataset[DNS]): Unit = {
+  override def startPipeline(dt: Dataset[DNS.DNS]): Unit = {
     // Debug only
     // dataset.show(5000, truncate = false)
 
@@ -56,8 +55,7 @@ class PipelineDNS() extends Pipeline[DNS] {
   }
 
   override def getDataframeType(df: DataFrame): DataFrame = {
-    /*val schema_base = Encoders.product[DNS].asInstanceOf[DNS]
     df.withColumn("data",
-      from_json($"value".cast(StringType), schema_base.schemaBase))*/
+      from_json($"value".cast(StringType), DNS.schemaBase))
   }
 }
