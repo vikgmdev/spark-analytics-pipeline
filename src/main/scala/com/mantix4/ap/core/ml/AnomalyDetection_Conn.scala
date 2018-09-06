@@ -17,7 +17,7 @@ object AnomalyDetection_Conn {
     // Log start time just for debug
     val startTime = System.currentTimeMillis()
 
-    val categoricalColumns = Array("proto", "direction")
+    val categoricalColumns = Array("direction")
     val numericCols = Array("pcr")
 
     var assemblerInputs: Array[String] = Array()
