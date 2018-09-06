@@ -62,7 +62,7 @@ object Conn {
     .add("inner_vlan", IntegerType)
     .add("sensor", StringType)
 }
-
+/*
 {'sensor':'sensor_NOCCC',
   'resp_bytes': 161,
   'uid': 'CETkJrbj7HHggPfXe',
@@ -89,3 +89,4 @@ object Conn {
   'source_ip': '71.95.230.54',
   'dest_port': 443,
   'history': 'ShADadFf'}
+*/
