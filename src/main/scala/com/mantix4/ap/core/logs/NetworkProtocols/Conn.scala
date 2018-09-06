@@ -16,8 +16,8 @@ object Conn {
                     orig_bytes: Option[Double],
                     resp_bytes: Option[Double],
                     conn_state: String,
-                    local_orig: Option[Boolean],
-                    local_resp: Option[Boolean],
+                    //local_orig: Option[Boolean],
+                    //local_resp: Option[Boolean],
                     missed_bytes: Option[Double],
                     history: String,
                     orig_pkts: Option[Double],
@@ -30,8 +30,8 @@ object Conn {
                     vlan: Option[Int],
                     inner_vlan: Option[Int],
                     sensor: String,
-                    direction: String,
-                    pcr: Option[Double]
+                    //direction: String,
+                    //pcr: Option[Double]
                   ) extends Serializable
 
   val schemaBase: StructType = new StructType()
@@ -47,8 +47,8 @@ object Conn {
     .add("orig_bytes", DoubleType)
     .add("resp_bytes", DoubleType)
     .add("conn_state", StringType)
-    .add("local_orig", BooleanType)
-    .add("local_resp", BooleanType)
+    // .add("local_orig", BooleanType)
+    // .add("local_resp", BooleanType)
     .add("missed_bytes", DoubleType)
     .add("history", StringType)
     .add("orig_pkts", DoubleType)
