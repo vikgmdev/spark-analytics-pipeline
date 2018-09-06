@@ -18,7 +18,13 @@ class PipelineConn() extends Pipeline[Conn.Conn] {
 
   def startPipeline(dt: Dataset[Conn.Conn]): Unit = {
     // Debug only
-    dt.show(5000)
+    //dt.show(5000)
+
+    val scriptPath = "/opt/development/python_ml/pipe_test.py"
+
+    val pipeRDD = dt.toDF().rdd.pipe(scriptPath)
+
+    pipeRDD.collect().foreach(println)
   }
 
   override def customParsing(df: DataFrame): DataFrame = {
