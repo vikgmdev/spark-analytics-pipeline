@@ -7,7 +7,8 @@ import org.apache.spark.ml.clustering.KMeans
 import org.apache.spark.ml.feature.{OneHotEncoder, PCA, StringIndexer, VectorAssembler}
 import org.apache.spark.ml.iforest.IForest
 import org.apache.spark.sql.Dataset
-import org.apache.spark.sql.types.{DoubleType, StringType, StructType}
+import org.apache.spark.sql.functions._
+import org.apache.spark.sql.types.{ArrayType, DoubleType, StringType, StructType}
 
 import scala.collection.mutable.ArrayBuffer
 
@@ -89,7 +90,9 @@ object AnomalyDetection_Conn {
       .setK(3)
       .fit(featured_dataset)
 
-    val result = pca.transform(featured_dataset).select("pcaFeatures.*")
+    val result = pca.transform(featured_dataset).select("pcaFeatures")
+    result.withColumn("x", $"pcaFeatures".cast(ArrayType(DoubleType)).getItem(0))
+    result.withColumn("y", $"pcaFeatures".cast(ArrayType(DoubleType)).getItem(1))
     result.printSchema()
     result.show(false)
 
