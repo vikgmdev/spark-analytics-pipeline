@@ -16,21 +16,21 @@ object Conn {
                     orig_bytes: Option[Double],
                     resp_bytes: Option[Double],
                     conn_state: String,
-                    //local_orig: Option[Boolean],
-                    //local_resp: Option[Boolean],
+                    local_orig: Option[Boolean],
+                    local_resp: Option[Boolean],
                     missed_bytes: Option[Double],
                     history: String,
                     orig_pkts: Option[Double],
                     orig_ip_bytes: Option[Double],
                     resp_pkts: Option[Double],
                     resp_ip_bytes: Option[Double],
-                    //tunnel_parents: Option[Vector[String]],
+                    tunnel_parents: Option[Vector[String]],
                     orig_l2_addr: String,
                     resp_l2_addr: String,
                     vlan: Option[Int],
                     inner_vlan: Option[Int],
-                    //direction: String,
-                    //pcr: Option[Double]
+                    direction: String,
+                    pcr: Option[Double],
                     sensor: String
                   ) extends Serializable
 
@@ -47,68 +47,18 @@ object Conn {
     .add("orig_bytes", DoubleType)
     .add("resp_bytes", DoubleType)
     .add("conn_state", StringType)
-    // .add("local_orig", BooleanType)
-    // .add("local_resp", BooleanType)
+    .add("local_orig", BooleanType)
+    .add("local_resp", BooleanType)
     .add("missed_bytes", DoubleType)
     .add("history", StringType)
     .add("orig_pkts", DoubleType)
     .add("orig_ip_bytes", DoubleType)
     .add("resp_pkts", DoubleType)
     .add("resp_ip_bytes", DoubleType)
-    //.add("tunnel_parents", ArrayType(StringType))
+    .add("tunnel_parents", ArrayType(StringType))
     .add("orig_l2_addr", StringType)
     .add("resp_l2_addr", StringType)
     .add("vlan", IntegerType)
     .add("inner_vlan", IntegerType)
     .add("sensor", StringType)
 }
-/*
-{'sensor':'sensor_NOCCC',
-  'resp_bytes': 161,
-  'uid': 'CETkJrbj7HHggPfXe',
-  'tunnel_parents': [],
-  'duration': 24.617,
-  'orig_l2_addr': '00:1e:be:79:7c:2f',
-  'service': 'ssl',
-  'proto': 'tcp',
-  'resp_pkts': 12,
-  'orig_pkts': 16,
-  'timestamp': '1528182350.751834',
-  'resp_ip_bytes': 962,
-  'local_resp': True,
-  'orig_ip_bytes': 1466,
-  'vlan': 0,
-  'local_orig': False,
-  'missed_bytes': 0,
-  'orig_bytes': 309,
-  'inner_vlan': 0,
-  'conn_state': 'SF',
-  'source_port': 55081,
-  'dest_ip': '10.200.3.50',
-  'resp_l2_addr': '00:00:0c:07:ac:fe',
-  'source_ip': '71.95.230.54',
-  'dest_port': 443,
-  'history': 'ShADadFf'}
-*/
-/*
-{"timestamp":"2018-09-06T09:27:55.198194Z",
-  "uid":"Ct7zmc3Lec49JCZ5jf",
-  "source_ip":"172.16.0.103",
-  "source_port":58956,
-  "dest_ip":"172.16.0.105",
-  "dest_port":9092,
-  "proto":"tcp",
-  "conn_state":"OTH",
-  "local_orig":true,
-  "local_resp":true,
-  "missed_bytes":0,
-  "history":"Cc",
-  "orig_pkts":0,
-  "orig_ip_bytes":0,
-  "resp_pkts":0,
-  "resp_ip_bytes":0,
-  "orig_l2_addr":"e4:1f:13:ed:e0:cb",
-  "resp_l2_addr":"e4:1f:13:ee:70:63",
-  "sensor":"sensor_node3",
-  "type":"conn"}
-*/
