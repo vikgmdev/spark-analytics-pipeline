@@ -7,6 +7,7 @@ import org.apache.spark.sql.{DataFrame, Dataset, Encoders}
 import com.mantix4.ap.abstracts.spark.SparkHelper
 import com.mantix4.ap.core.enrichments.ConnEnricher
 import com.mantix4.ap.core.logs.NetworkProtocols.Conn
+import com.mantix4.ap.core.ml.AnomalyDetection_Conn
 import org.apache.spark.sql.catalyst.encoders.RowEncoder
 
 /**
@@ -20,11 +21,7 @@ class PipelineConn() extends Pipeline[Conn.Conn] {
     // Debug only
     //dt.show(5000)
 
-    val scriptPath = "/opt/development/python_ml/anomaly_detection_conn.py"
-
-    val pipeRDD = dt.toDF().rdd.pipe(scriptPath)
-
-    pipeRDD.collect().foreach(println)
+    AnomalyDetection_Conn(dt)
   }
 
   override def customParsing(df: DataFrame): DataFrame = {
