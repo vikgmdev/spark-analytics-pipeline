@@ -81,14 +81,13 @@ object AnomalyDetection_Conn {
     println("Cluster Centers: ")
     model.clusterCenters.foreach(println)
 
-    /*
     val pca = new PCA()
       .setInputCol("features")
       .setOutputCol("pcaFeatures")
       .setK(5)
-      .fit(predictions_dataset)
+      .fit(featured_dataset)
 
-    val result = pca.transform(df).select("pcaFeatures")
-    result.show(false)*/
+    val result = pca.transform(featured_dataset).select("pcaFeatures")
+    result.show(false)
   }
 }
