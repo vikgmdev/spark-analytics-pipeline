@@ -21,7 +21,7 @@ class PipelineConn() extends Pipeline[Conn.Conn] {
     // Debug only
     //dt.show(5000)
 
-    AnomalyDetection_Conn(dt)
+    AnomalyDetection_Conn.main(dt)
   }
 
   override def customParsing(df: DataFrame): DataFrame = {
