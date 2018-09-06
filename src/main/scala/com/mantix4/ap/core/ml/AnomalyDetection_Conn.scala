@@ -87,7 +87,8 @@ object AnomalyDetection_Conn {
       .setK(3)
       .fit(featured_dataset)
 
-    val result = pca.transform(featured_dataset).select("pcaFeatures")
+    val result = pca.transform(featured_dataset) //.select("pcaFeatures")
+    result.printSchema()
     result.show(false)
   }
 }
