@@ -89,18 +89,9 @@ object AnomalyDetection_Conn {
       .setK(3)
       .fit(featured_dataset)
 
-    val result = pca.transform(featured_dataset).select("pcaFeatures")
-
-    //result.withColumn("x", $"pcaFeatures".getItem(0))
-//          .withColumn("y", $"pcaFeatures".getItem(1))
-    val elements = Array("x", "y", "z")
-    // Create a SQL-like expression using the array
-    val sqlExpr = elements.zipWithIndex.map{ case (alias, idx) => $"pcaFeatures".getItem(idx).as(alias) }
-
-    // Extract Elements from dfArr
-    val pca_dataset = result.select(sqlExpr : _*)
-    pca_dataset.printSchema()
-    pca_dataset.show(false)
+    val result = pca.transform(featured_dataset).select("pcaFeatures.*")
+    result.printSchema()
+    result.show(false)
 
     /*
 
