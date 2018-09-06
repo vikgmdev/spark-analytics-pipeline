@@ -20,19 +20,29 @@ object AnomalyDetection_Conn {
     val categoricalColumns = Array("proto", "direction")
     val numericCols = Array("pcr")
 
+    var assemblerInputs: Array[String] = Array()
+    var stages = ArrayBuffer[PipelineStage]()
 
-    // StringIndexer
-    val stringIndexer_1 = new StringIndexer().setInputCol("proto").setOutputCol("proto" + "Index")
-    val stringIndexer_2 = new StringIndexer().setInputCol("direction").setOutputCol("direction" + "Index")
+    for (categoricalCol <- categoricalColumns) {
+      val stringIndexer = new StringIndexer()
+        .setInputCol(categoricalCol)
+        .setOutputCol(categoricalCol + "Index")
+      stages += stringIndexer
 
-    // OneHotEncoder
-    val encoder_1 = new OneHotEncoder().setInputCol("proto" + "Index").setOutputCol("proto" + "classVec")
-    val encoder_2 = new OneHotEncoder().setInputCol("direction" + "Index").setOutputCol("direction" + "classVec")
+      val encoder = new OneHotEncoder()
+        .setInputCol(categoricalCol + "Index")
+        .setOutputCol(categoricalCol + "classVec")
+      stages += encoder
+    }
 
-    var assemblerInputs = Array("proto" + "classVec", "direction" + "classVec", "pcr")
+    for (categoricalCol <- categoricalColumns) {
+      assemblerInputs = numericCols :+ categoricalCol + "classVec"
+    }
+
     val assembler = new VectorAssembler()
       .setInputCols(assemblerInputs)
       .setOutputCol("features")
+    stages += assembler
 
     // Train/fit and Predict anomalous instances
     // using the Isolation Forest model
@@ -44,9 +54,9 @@ object AnomalyDetection_Conn {
       .setMaxDepth(100)
       .setSeed(123456L)
 
-    val stages = Array(stringIndexer_1, stringIndexer_2, encoder_1, encoder_2, assembler, iForest)
+    stages += iForest
 
-    val pipeline = new Pipeline().setStages(stages)
+    val pipeline = new Pipeline().setStages(stages.toArray)
     val pipelineModel = pipeline.fit(dataset)
     val predictions_dataset = pipelineModel.transform(dataset)
 
