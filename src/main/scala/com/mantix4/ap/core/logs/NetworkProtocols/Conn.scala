@@ -1,6 +1,5 @@
 package com.mantix4.ap.core.logs.NetworkProtocols
 
-import com.mantix4.ap.abstracts.base.{LogBase, Sources}
 import org.apache.spark.sql.types._
 
 object Conn {
@@ -28,14 +27,12 @@ object Conn {
                     tunnel_parents: Option[Vector[String]],
                     orig_l2_addr: String,
                     resp_l2_addr: String,
-                    sensor: String,
                     vlan: Option[Int],
                     inner_vlan: Option[Int],
+                    sensor: String,
                     direction: String,
                     pcr: Option[Double]
                   ) extends Serializable
-
-  // val schemaBase: StructType = Encoders.product[Conn].schema
 
   val schemaBase: StructType = new StructType()
     .add("timestamp", StringType)
@@ -61,33 +58,7 @@ object Conn {
     .add("tunnel_parents", ArrayType(StringType))
     .add("orig_l2_addr", StringType)
     .add("resp_l2_addr", StringType)
-    .add("sensor", StringType)
     .add("vlan", IntegerType)
     .add("inner_vlan", IntegerType)
-
-  val schemaBaseTest: StructType = new StructType()
-    .add("ts", StringType)
-    .add("uid", StringType)
-    .add("id.orig_h", StringType)
-    .add("id.orig_p", IntegerType)
-    .add("id.resp_h", StringType)
-    .add("id.resp_p", IntegerType)
-    .add("proto", StringType)
-    .add("service", StringType)
-    .add("duration", DoubleType)
-    .add("orig_bytes", DoubleType)
-    .add("resp_bytes", DoubleType)
-    .add("conn_state", StringType)
-    .add("local_orig", BooleanType)
-    .add("local_resp", BooleanType)
-    .add("missed_bytes", DoubleType)
-    .add("history", StringType)
-    .add("orig_pkts", DoubleType)
-    .add("orig_ip_bytes", DoubleType)
-    .add("resp_pkts", DoubleType)
-    .add("resp_ip_bytes", DoubleType)
-    .add("tunnel_parents", ArrayType(StringType))
-    .add("orig_l2_addr", StringType)
-    .add("resp_l2_addr", StringType)
     .add("sensor", StringType)
 }
