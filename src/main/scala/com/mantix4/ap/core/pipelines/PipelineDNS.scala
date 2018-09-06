@@ -6,6 +6,7 @@ import org.apache.spark.sql.types._
 import org.apache.spark.sql.{DataFrame, Dataset, Encoders}
 import com.mantix4.ap.abstracts.spark.SparkHelper
 import com.mantix4.ap.core.logs.NetworkProtocols.DNS
+import com.mantix4.ap.core.logs.NetworkProtocols.DNS.DNS
 
 class PipelineDNS() extends Pipeline[DNS] {
   private val spark = SparkHelper.getSparkSession()
@@ -55,8 +56,8 @@ class PipelineDNS() extends Pipeline[DNS] {
   }
 
   override def getDataframeType(df: DataFrame): DataFrame = {
-    val schema_base = Encoders.product[DNS].asInstanceOf[DNS]
+    /*val schema_base = Encoders.product[DNS].asInstanceOf[DNS]
     df.withColumn("data",
-      from_json($"value".cast(StringType), schema_base.schemaBase))
+      from_json($"value".cast(StringType), schema_base.schemaBase))*/
   }
 }

@@ -4,7 +4,7 @@ import com.mantix4.ap.abstracts.base.Pipeline
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.{DataFrame, Dataset, Encoders}
 import com.mantix4.ap.abstracts.spark.SparkHelper
-import .Files
+import com.mantix4.ap.core.logs.Files.Files.Files
 import org.apache.spark.sql.functions.from_json
 
 class PipelineFiles() extends Pipeline[Files] {
@@ -38,8 +38,10 @@ class PipelineFiles() extends Pipeline[Files] {
   }
 
   override def getDataframeType(df: DataFrame): DataFrame = {
+    /*
     val schema_base = Encoders.product[Files].asInstanceOf[Files]
     df.withColumn("data",
       from_json($"value".cast(StringType), schema_base.schemaBase))
+    */
   }
 }

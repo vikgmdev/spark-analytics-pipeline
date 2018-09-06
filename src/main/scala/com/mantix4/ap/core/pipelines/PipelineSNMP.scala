@@ -4,7 +4,7 @@ import com.mantix4.ap.abstracts.base.Pipeline
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.{DataFrame, Dataset, Encoders}
 import com.mantix4.ap.abstracts.spark.SparkHelper
-import com.mantix4.ap.core.logs.NetworkProtocols.SNMP
+import com.mantix4.ap.core.logs.NetworkProtocols.SNMP.SNMP
 import org.apache.spark.sql.functions.from_json
 
 class PipelineSNMP() extends Pipeline[SNMP] {
@@ -36,8 +36,10 @@ class PipelineSNMP() extends Pipeline[SNMP] {
   }
 
   override def getDataframeType(df: DataFrame): DataFrame = {
+    /*
     val schema_base = Encoders.product[SNMP].asInstanceOf[SNMP]
     df.withColumn("data",
       from_json($"value".cast(StringType), schema_base.schemaBase))
+      */
   }
 }
