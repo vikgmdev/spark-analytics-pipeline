@@ -29,9 +29,9 @@ object Conn {
                     resp_l2_addr: String,
                     vlan: Option[Int],
                     inner_vlan: Option[Int],
-                    sensor: String,
                     //direction: String,
                     //pcr: Option[Double]
+                    sensor: String
                   ) extends Serializable
 
   val schemaBase: StructType = new StructType()
@@ -89,4 +89,26 @@ object Conn {
   'source_ip': '71.95.230.54',
   'dest_port': 443,
   'history': 'ShADadFf'}
+*/
+/*
+{"timestamp":"2018-09-06T09:27:55.198194Z",
+  "uid":"Ct7zmc3Lec49JCZ5jf",
+  "source_ip":"172.16.0.103",
+  "source_port":58956,
+  "dest_ip":"172.16.0.105",
+  "dest_port":9092,
+  "proto":"tcp",
+  "conn_state":"OTH",
+  "local_orig":true,
+  "local_resp":true,
+  "missed_bytes":0,
+  "history":"Cc",
+  "orig_pkts":0,
+  "orig_ip_bytes":0,
+  "resp_pkts":0,
+  "resp_ip_bytes":0,
+  "orig_l2_addr":"e4:1f:13:ed:e0:cb",
+  "resp_l2_addr":"e4:1f:13:ee:70:63",
+  "sensor":"sensor_node3",
+  "type":"conn"}
 */
