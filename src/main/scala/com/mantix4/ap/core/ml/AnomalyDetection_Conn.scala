@@ -7,11 +7,13 @@ import org.apache.spark.ml.clustering.KMeans
 import org.apache.spark.ml.feature.{OneHotEncoder, PCA, StringIndexer, VectorAssembler}
 import org.apache.spark.ml.iforest.IForest
 import org.apache.spark.sql.Dataset
+import org.apache.spark.sql.types.{DoubleType, StringType, StructType}
 
 import scala.collection.mutable.ArrayBuffer
 
 object AnomalyDetection_Conn {
   private val spark = SparkHelper.getSparkSession()
+  import spark.implicits._
 
   def main(dataset: Dataset[Conn]): Unit = {
     // Log start time just for debug
@@ -87,8 +89,19 @@ object AnomalyDetection_Conn {
       .setK(3)
       .fit(featured_dataset)
 
-    val result = pca.transform(featured_dataset) //.select("pcaFeatures")
+    val result = pca.transform(featured_dataset).select("pcaFeatures")
+
+    result.withColumn("x", $"pcaFeatures".getItem(0))
+          .withColumn("y", $"pcaFeatures".getItem(1))
     result.printSchema()
     result.show(false)
+
+    /*
+
+    // Now we can put our ML results back onto our dataframe!
+    predictions_dataset.withColumn("x",result.select("x"))
+    predictions_dataset['y'] = pca[:, 1] # PCA Y Column
+    predictions_dataset['cluster'] = kmeans
+    */
   }
 }
