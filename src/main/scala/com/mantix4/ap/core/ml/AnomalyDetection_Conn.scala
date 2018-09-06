@@ -84,7 +84,7 @@ object AnomalyDetection_Conn {
     val pca = new PCA()
       .setInputCol("features")
       .setOutputCol("pcaFeatures")
-      .setK(5)
+      .setK(3)
       .fit(featured_dataset)
 
     val result = pca.transform(featured_dataset).select("pcaFeatures")
