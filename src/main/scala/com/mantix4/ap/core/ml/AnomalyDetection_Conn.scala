@@ -91,8 +91,8 @@ object AnomalyDetection_Conn {
 
     val result = pca.transform(featured_dataset).select("pcaFeatures")
 
-    result.withColumn("x", $"pcaFeatures".getItem(0))
-          .withColumn("y", $"pcaFeatures".getItem(1))
+    //result.withColumn("x", $"pcaFeatures".getItem(0))
+//          .withColumn("y", $"pcaFeatures".getItem(1))
     result.printSchema()
     result.show(false)
 
