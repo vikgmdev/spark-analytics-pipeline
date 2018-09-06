@@ -8,6 +8,8 @@ import org.apache.spark.ml.feature.{OneHotEncoder, PCA, StringIndexer, VectorAss
 import org.apache.spark.ml.iforest.IForest
 import org.apache.spark.sql.Dataset
 
+import scala.collection.mutable.ArrayBuffer
+
 object AnomalyDetection_Conn {
   private val spark = SparkHelper.getSparkSession()
 
@@ -19,18 +21,18 @@ object AnomalyDetection_Conn {
     val numericCols = Array("pcr")
 
     var assemblerInputs: Array[String] = Array()
-    var stages: Array[PipelineStage] = Array()
+    var stages = ArrayBuffer[PipelineStage]()
 
     for (categoricalCol <- categoricalColumns) {
       val stringIndexer = new StringIndexer()
         .setInputCol(categoricalCol)
         .setOutputCol(categoricalCol + "Index")
-      stages = stages :+ stringIndexer
+      stages += stringIndexer
 
       val encoder = new OneHotEncoder()
         .setInputCol(categoricalCol + "Index")
         .setOutputCol(categoricalCol + "classVec")
-      stages = stages :+ encoder
+      stages += encoder
     }
 
     for (categoricalCol <- categoricalColumns) {
@@ -40,7 +42,7 @@ object AnomalyDetection_Conn {
     val assembler = new VectorAssembler()
       .setInputCols(assemblerInputs)
       .setOutputCol("features")
-    stages = stages :+ assembler
+    stages += assembler
 
     // Train/fit and Predict anomalous instances
     // using the Isolation Forest model
@@ -52,9 +54,9 @@ object AnomalyDetection_Conn {
       .setMaxDepth(100)
       .setSeed(123456L)
 
-    stages = stages :+ iForest
+    stages += iForest
 
-    val pipeline = new Pipeline().setStages(stages)
+    val pipeline = new Pipeline().setStages(stages.toArray)
     val pipelineModel = pipeline.fit(dataset)
     val predictions_dataset = pipelineModel.transform(dataset)
 
