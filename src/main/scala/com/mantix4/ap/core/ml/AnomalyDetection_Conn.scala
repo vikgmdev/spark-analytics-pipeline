@@ -17,7 +17,7 @@ object AnomalyDetection_Conn {
     // Log start time just for debug
     val startTime = System.currentTimeMillis()
 
-    val categoricalColumns = Array("direction")
+    val categoricalColumns = Array("proto", "direction")
     val numericCols = Array("pcr")
 
     var assemblerInputs: Array[String] = Array()
@@ -27,6 +27,7 @@ object AnomalyDetection_Conn {
       val stringIndexer = new StringIndexer()
         .setInputCol(categoricalCol)
         .setOutputCol(categoricalCol + "Index")
+        .setHandleInvalid("skip")
       stages += stringIndexer
 
       val encoder = new OneHotEncoder()
