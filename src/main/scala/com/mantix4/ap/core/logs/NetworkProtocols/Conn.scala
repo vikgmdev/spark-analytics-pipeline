@@ -24,7 +24,7 @@ object Conn {
                     orig_ip_bytes: Option[Double],
                     resp_pkts: Option[Double],
                     resp_ip_bytes: Option[Double],
-                    tunnel_parents: Option[Vector[String]],
+                    //tunnel_parents: Option[Vector[String]],
                     orig_l2_addr: String,
                     resp_l2_addr: String,
                     vlan: Option[Int],
@@ -55,7 +55,7 @@ object Conn {
     .add("orig_ip_bytes", DoubleType)
     .add("resp_pkts", DoubleType)
     .add("resp_ip_bytes", DoubleType)
-    .add("tunnel_parents", ArrayType(StringType))
+    //.add("tunnel_parents", ArrayType(StringType))
     .add("orig_l2_addr", StringType)
     .add("resp_l2_addr", StringType)
     .add("vlan", IntegerType)

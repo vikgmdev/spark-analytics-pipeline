@@ -24,8 +24,8 @@ class PipelineConn() extends Pipeline[Conn.Conn] {
   override def customParsing(df: DataFrame): DataFrame = {
     df
       // Enrich
-      .withColumn("direction", ConnEnricher.withDirection(col("local_orig"), col("local_resp")))
-      .withColumn("pcr", ConnEnricher.withPCR($"direction", $"orig_bytes", $"resp_bytes"))
+      //.withColumn("direction", ConnEnricher.withDirection(col("local_orig"), col("local_resp")))
+      //.withColumn("pcr", ConnEnricher.withPCR($"direction", $"orig_bytes", $"resp_bytes"))
   }
 
   override def getDataframeType(df: DataFrame): DataFrame = {
