@@ -62,3 +62,30 @@ object Conn {
     .add("inner_vlan", IntegerType)
     .add("sensor", StringType)
 }
+
+{'sensor':'sensor_NOCCC',
+  'resp_bytes': 161,
+  'uid': 'CETkJrbj7HHggPfXe',
+  'tunnel_parents': [],
+  'duration': 24.617,
+  'orig_l2_addr': '00:1e:be:79:7c:2f',
+  'service': 'ssl',
+  'proto': 'tcp',
+  'resp_pkts': 12,
+  'orig_pkts': 16,
+  'timestamp': '1528182350.751834',
+  'resp_ip_bytes': 962,
+  'local_resp': True,
+  'orig_ip_bytes': 1466,
+  'vlan': 0,
+  'local_orig': False,
+  'missed_bytes': 0,
+  'orig_bytes': 309,
+  'inner_vlan': 0,
+  'conn_state': 'SF',
+  'source_port': 55081,
+  'dest_ip': '10.200.3.50',
+  'resp_l2_addr': '00:00:0c:07:ac:fe',
+  'source_ip': '71.95.230.54',
+  'dest_port': 443,
+  'history': 'ShADadFf'}
