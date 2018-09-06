@@ -65,14 +65,16 @@ object AnomalyDetection_Conn {
     val endTime = System.currentTimeMillis()
     println(s"Training and predicting time: ${(endTime - startTime) / 1000} seconds.")
 
-    predictions_dataset.show(truncate = false)
+    predictions_dataset.select("features").show()
+
+    val featured_dataset = predictions_dataset.select("features")
 
     // Trains a k-means model.
     val kmeans = new KMeans().setK(70)
-    val model = kmeans.fit(dataset)
+    val model = kmeans.fit(featured_dataset)
 
     // Evaluate clustering by computing Within Set Sum of Squared Errors.
-    val WSSSE = model.computeCost(predictions_dataset)
+    val WSSSE = model.computeCost(featured_dataset)
     println(s"Within Set Sum of Squared Errors = $WSSSE")
 
     // Shows the result.
