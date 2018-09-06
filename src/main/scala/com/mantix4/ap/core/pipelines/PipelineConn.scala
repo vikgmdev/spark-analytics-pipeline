@@ -20,7 +20,7 @@ class PipelineConn() extends Pipeline[Conn.Conn] {
     // Debug only
     //dt.show(5000)
 
-    val scriptPath = "/opt/development/python_ml/pipe_test.py"
+    val scriptPath = "/opt/development/python_ml/anomaly_detection_conn.py"
 
     val pipeRDD = dt.toDF().rdd.pipe(scriptPath)
 
