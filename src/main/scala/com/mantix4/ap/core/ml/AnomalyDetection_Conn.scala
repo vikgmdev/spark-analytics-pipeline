@@ -92,7 +92,6 @@ object AnomalyDetection_Conn {
       .fit(featured_dataset)
 
 
-
     val result = pca.transform(featured_dataset).select("pcaFeatures")
 
     // A UDF to convert VectorUDT to ArrayType
@@ -101,14 +100,13 @@ object AnomalyDetection_Conn {
     // Add a ArrayType Column
     val result_pca = result.withColumn("pcaFeaturesArray" , vecToArray($"pcaFeatures") )
 
-    // Now we can put our ML results back onto our dataframe!
-    result_pca.withColumn("x", $"pcaFeaturesArray".getItem(0))
-    result_pca.withColumn("y", $"pcaFeaturesArray".getItem(1))
+    result_pca.select(
+      $"pcaFeaturesArray".getItem(0).as("x"),
+      $"pcaFeaturesArray".getItem(1).as("y"),
+      $"pcaFeaturesArray".getItem(2).as("z")
+    )
 
     result_pca.printSchema()
     result_pca.show(false)
-
-//    predictions_dataset['y'] = pca[:, 1]
-//    predictions_dataset['cluster'] = kmeans
   }
 }
