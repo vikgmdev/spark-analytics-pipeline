@@ -69,10 +69,10 @@ object AnomalyDetection_Conn {
     val endTime = System.currentTimeMillis()
     println(s"Training and predicting time: ${(endTime - startTime) / 1000} seconds.")
 
-    predictions_dataset.select("uid","features").show()
+//    predictions_dataset.select("uid","features").show()
 
     val featured_dataset = predictions_dataset.select("uid", "features")
-    featured_dataset.printSchema()
+//    featured_dataset.printSchema()
 
     // Trains a k-means model.
     val kmeans = new KMeans().setK(70)
@@ -100,14 +100,14 @@ object AnomalyDetection_Conn {
     // Add a ArrayType Column
     val result_pca = result.withColumn("pcaFeaturesArray" , vecToArray($"pcaFeatures") )
       .select($"uid", $"pcaFeaturesArray", $"pcaFeaturesArray".getItem(0).as("x"), $"pcaFeaturesArray".getItem(1).as("y"))
-
+/*
     println("Result PCA schema: ")
     result_pca.printSchema()
-    result_pca.show(false)
+    result_pca.show(false)*/
 
     val final_df = predictions_dataset.join(result_pca, "uid")
     println("Final DF schema: ")
     final_df.printSchema()
-    final_df.show(false)
+    final_df.show()
   }
 }
