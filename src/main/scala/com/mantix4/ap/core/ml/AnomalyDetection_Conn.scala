@@ -69,7 +69,7 @@ object AnomalyDetection_Conn {
     val endTime = System.currentTimeMillis()
     println(s"Training and predicting time: ${(endTime - startTime) / 1000} seconds.")
 
-    predictions_dataset.select("features").show()
+    predictions_dataset.select("uid","features").show()
 
     val featured_dataset = predictions_dataset.select("uid", "features")
     featured_dataset.printSchema()
