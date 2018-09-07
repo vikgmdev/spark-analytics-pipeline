@@ -99,12 +99,7 @@ object AnomalyDetection_Conn {
 
     // Add a ArrayType Column
     val result_pca = result.withColumn("pcaFeaturesArray" , vecToArray($"pcaFeatures") )
-
-    result_pca.select(
-      $"pcaFeaturesArray".getItem(0).as("x"),
-      $"pcaFeaturesArray".getItem(1).as("y"),
-      $"pcaFeaturesArray".getItem(2).as("z")
-    )
+      .select($"pcaFeaturesArray", $"pcaFeaturesArray._1".as("x"), $"pcaFeaturesArray._2".as("y"))
 
     result_pca.printSchema()
     result_pca.show(false)
