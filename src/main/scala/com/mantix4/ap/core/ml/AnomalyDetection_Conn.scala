@@ -111,10 +111,11 @@ object AnomalyDetection_Conn {
 
     // Add a ArrayType Column
     val result_pca = result.withColumn("pcaFeaturesArray" , vecToArray($"pcaFeatures") )
-      .select($"uid", $"pcaFeaturesArray", $"pcaFeaturesArray".getItem(0).as("x"), $"pcaFeaturesArray".getItem(1).as("y"))
+      .select($"uid", $"cluster", $"pcaFeaturesArray", $"pcaFeaturesArray".getItem(0).as("x"), $"pcaFeaturesArray".getItem(1).as("y"))
 
     val final_df = predictions_dataset.join(result_pca, "uid")
     println("Final DF schema: ")
+    final_df.printSchema()
     final_df.show()
   }
 }
