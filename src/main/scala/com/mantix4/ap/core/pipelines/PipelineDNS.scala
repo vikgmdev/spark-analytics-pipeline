@@ -37,7 +37,7 @@ class PipelineDNS() extends Pipeline[DNS.DNS] {
       .withColumnRenamed("RD", "rd")
       .withColumnRenamed("RA", "ra")
       .withColumnRenamed("Z", "z")
-      .withColumnRenamed("TTLs", "ttls")
+      //.withColumnRenamed("TTLs", "ttls")
 
       // Change column's to the righ type
       /*
