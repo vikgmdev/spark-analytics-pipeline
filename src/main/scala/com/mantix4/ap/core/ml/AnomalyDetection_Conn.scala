@@ -69,10 +69,11 @@ object AnomalyDetection_Conn {
     val endTime = System.currentTimeMillis()
     println(s"Training and predicting time: ${(endTime - startTime) / 1000} seconds.")
 
-//    predictions_dataset.select("uid","features").show()
+    //predictions_dataset.select("uid","features").show()
 
-    val featured_dataset = predictions_dataset.select("uid", "features")
-    featured_dataset.printSchema()
+    val featured_dataset = predictions_dataset.select("uid", "proto", "direction", "pcr" ,"features")
+    // val featured_dataset = predictions_dataset.select("uid", "features")
+    // featured_dataset.printSchema()
 
     // Trains a k-means model.
     val kmeans = new KMeans().setK(70)
@@ -87,8 +88,11 @@ object AnomalyDetection_Conn {
     model.clusterCenters.foreach(println)
 
     val featured_dataset_clusters = model.transform(featured_dataset)
-    featured_dataset_clusters.printSchema()
-    featured_dataset_clusters.show()
+    featured_dataset_clusters
+      .groupBy("proto", "direction", "pcr" ,"prediction")
+      .count()
+      .sort("prediction")
+      .show(50)
 
     /*
 
