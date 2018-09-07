@@ -91,7 +91,7 @@ object AnomalyDetection_Conn {
     featured_dataset_clusters
       .groupBy("proto", "direction", "pcr" ,"prediction")
       .count()
-      .sort("prediction")
+      .sort("count")
       .show(5000)
 
     /*
