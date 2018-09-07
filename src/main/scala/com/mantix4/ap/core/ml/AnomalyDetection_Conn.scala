@@ -9,7 +9,6 @@ import org.apache.spark.ml.iforest.IForest
 import org.apache.spark.sql.Dataset
 import org.apache.spark.sql.functions._
 import org.apache.spark.ml._
-import org.apache.spark.sql.types.{ArrayType, DoubleType, StringType, StructType}
 
 import scala.collection.mutable.ArrayBuffer
 
