@@ -104,7 +104,8 @@ object AnomalyDetection_Conn {
     val result = pca.transform(featured_dataset_clusters_renamed)
     result.printSchema()
     result.show()
-    /*
+
+
     // A UDF to convert VectorUDT to ArrayType
     val vecToArray = udf( (xs: linalg.Vector) => xs.toArray )
 
@@ -115,6 +116,5 @@ object AnomalyDetection_Conn {
     val final_df = predictions_dataset.join(result_pca, "uid")
     println("Final DF schema: ")
     final_df.show()
-    */
   }
 }
