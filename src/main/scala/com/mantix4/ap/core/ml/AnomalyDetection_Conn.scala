@@ -103,5 +103,10 @@ object AnomalyDetection_Conn {
 
     result_pca.printSchema()
     result_pca.show(false)
+    result_pca.select($"uid", $"x", $"y")
+
+    predictions_dataset.join(result_pca, $"uid")
+    result_pca.printSchema()
+    result_pca.show(false)
   }
 }
