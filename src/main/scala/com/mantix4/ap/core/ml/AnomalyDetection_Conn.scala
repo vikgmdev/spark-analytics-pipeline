@@ -8,6 +8,7 @@ import org.apache.spark.ml.feature.{OneHotEncoder, PCA, StringIndexer, VectorAss
 import org.apache.spark.ml.iforest.IForest
 import org.apache.spark.sql.Dataset
 import org.apache.spark.sql.functions._
+import org.apache.spark.ml._
 import org.apache.spark.sql.types.{ArrayType, DoubleType, StringType, StructType}
 
 import scala.collection.mutable.ArrayBuffer
@@ -91,8 +92,17 @@ object AnomalyDetection_Conn {
       .fit(featured_dataset)
 
     val result = pca.transform(featured_dataset).select("pcaFeatures")
-    result.withColumn("x", $"pcaFeatures".cast(ArrayType(DoubleType)).getItem(0))
-    result.withColumn("y", $"pcaFeatures".cast(ArrayType(DoubleType)).getItem(1))
+
+    // A UDF to convert VectorUDT to ArrayType
+    val vecToArray = udf( (xs: linalg.Vector) => xs.toArray )
+
+    val elements = Array("x", "y")
+
+    // Create a SQL-like expression using the array
+    val sqlExpr = elements.zipWithIndex.map{ case (alias, idx) => col("pcaFeatures").getItem(idx).as(alias) }
+
+    // Extract Elements from dfArr
+    result.select(sqlExpr : _*)
     result.printSchema()
     result.show(false)
 
