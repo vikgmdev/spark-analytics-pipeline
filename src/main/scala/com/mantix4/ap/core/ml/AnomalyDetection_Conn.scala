@@ -71,8 +71,8 @@ object AnomalyDetection_Conn {
 
     //predictions_dataset.select("uid","features").show()
 
-    val featured_dataset = predictions_dataset.select("uid", "proto", "direction", "pcr" ,"features")
-    // val featured_dataset = predictions_dataset.select("uid", "features")
+    // val featured_dataset = predictions_dataset.select("uid", "proto", "direction", "pcr" ,"features")
+    val featured_dataset = predictions_dataset.select("uid", "features")
     // featured_dataset.printSchema()
 
     // Trains a k-means model.
@@ -88,21 +88,19 @@ object AnomalyDetection_Conn {
     model.clusterCenters.foreach(println)
 
     val featured_dataset_clusters = model.transform(featured_dataset)
-    featured_dataset_clusters
-      .groupBy("proto", "direction", "pcr" ,"prediction")
+    featured_dataset_clusters.withColumnRenamed("prediction", "cluster")
+      /*.groupBy("proto", "direction", "pcr" ,"prediction")
       .count()
       .sort($"count".desc)
-      .show(5000)
-
-    /*
+      .show(50)*/
 
     val pca = new PCA()
       .setInputCol("features")
       .setOutputCol("pcaFeatures")
       .setK(3)
-      .fit(featured_dataset)
+      .fit(featured_dataset_clusters)
 
-    val result = pca.transform(featured_dataset)
+    val result = pca.transform(featured_dataset_clusters)
 
     // A UDF to convert VectorUDT to ArrayType
     val vecToArray = udf( (xs: linalg.Vector) => xs.toArray )
@@ -110,15 +108,10 @@ object AnomalyDetection_Conn {
     // Add a ArrayType Column
     val result_pca = result.withColumn("pcaFeaturesArray" , vecToArray($"pcaFeatures") )
       .select($"uid", $"pcaFeaturesArray", $"pcaFeaturesArray".getItem(0).as("x"), $"pcaFeaturesArray".getItem(1).as("y"))
-/*
-    println("Result PCA schema: ")
-    result_pca.printSchema()
-    result_pca.show(false)*/
 
     val final_df = predictions_dataset.join(result_pca, "uid")
     println("Final DF schema: ")
     final_df.printSchema()
-    final_df.show()
-    */
+    final_df.show(50)
   }
 }
