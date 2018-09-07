@@ -116,6 +116,6 @@ object AnomalyDetection_Conn {
     val final_df = predictions_dataset.join(result_pca, "uid")
     println("Final DF schema: ")
     final_df.printSchema()
-    final_df.show()
+    final_df.head()
   }
 }
