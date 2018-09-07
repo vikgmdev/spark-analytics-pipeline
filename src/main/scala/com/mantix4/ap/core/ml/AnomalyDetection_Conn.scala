@@ -96,10 +96,13 @@ object AnomalyDetection_Conn {
     // A UDF to convert VectorUDT to ArrayType
     val vecToArray = udf( (xs: linalg.Vector) => xs.toArray )
 
+    // Add a ArrayType Column
+    result.withColumn("pcaFeaturesArray" , vecToArray($"pcaFeatures") )
+
     val elements = Array("x", "y")
 
     // Create a SQL-like expression using the array
-    val sqlExpr = elements.zipWithIndex.map{ case (alias, idx) => col("pcaFeatures").getItem(idx).as(alias) }
+    val sqlExpr = elements.zipWithIndex.map{ case (alias, idx) => col("pcaFeaturesArray").getItem(idx).as(alias) }
 
     // Extract Elements from dfArr
     result.select(sqlExpr : _*)
