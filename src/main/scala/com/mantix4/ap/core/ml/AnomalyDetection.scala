@@ -6,7 +6,7 @@ import org.apache.spark.ml.{Pipeline, PipelineStage}
 import org.apache.spark.ml.clustering.KMeans
 import org.apache.spark.ml.feature.{OneHotEncoder, PCA, StringIndexer, VectorAssembler}
 import org.apache.spark.ml.iforest.IForest
-import org.apache.spark.sql.Dataset
+import org.apache.spark.sql.{DataFrame, Dataset}
 import org.apache.spark.sql.functions._
 import org.apache.spark.ml._
 
@@ -16,18 +16,10 @@ object AnomalyDetection {
   private val spark = SparkHelper.getSparkSession()
   import spark.implicits._
 
-  def main(dataset: Dataset[Conn]): Unit = {
+  def main(dataset: Dataset[Conn], categoricalColumns: Array[String], numericCols: Array[String]): DataFrame = {
 
     // Log start time just for debug
     val startTime = System.currentTimeMillis()
-
-    // Set Categorical columns features for analyze
-    // TODO: Pass categoricalColums as parameter
-    val categoricalColumns = Array("proto", "direction")
-
-    // Set Numeric columns features for analyze
-    // TODO: Pass numericCols as parameter
-    val numericCols = Array("pcr")
 
     // Initialize Array of Pipeline's Stages
     var stages = ArrayBuffer[PipelineStage]()
@@ -153,7 +145,7 @@ object AnomalyDetection {
     endTime = System.currentTimeMillis()
     println(s"Anomaly Detection time: ${(endTime - startTime) / 1000} seconds.")
 
-    predictions_dataset.printSchema()
-    predictions_dataset.show()
+    // Return original dataset with the new outliers columns "x", "y" and "cluster"
+    predictions_dataset
   }
 }

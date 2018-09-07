@@ -21,7 +21,15 @@ class PipelineConn() extends Pipeline[Conn.Conn] {
     // Debug only
     //dt.show(5000)
 
-    AnomalyDetection.main(dt)
+    // Set Categorical and Numeric columns features to detect outliers
+    val categoricalColumns = Array("proto", "direction")
+    val numericCols = Array("pcr")
+
+    val data_with_outliers = AnomalyDetection.main(dt, categoricalColumns, numericCols)
+
+    println("Outliers detected: ")
+    data_with_outliers.printSchema()
+    data_with_outliers.show()
   }
 
   override def customParsing(df: DataFrame): DataFrame = {
