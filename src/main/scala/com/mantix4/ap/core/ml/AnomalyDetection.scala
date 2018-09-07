@@ -82,14 +82,15 @@ object AnomalyDetection {
     val pipelineModel = pipeline.fit(dataset)
 
     // Now create a new dataframe using the prediction from our classifier
-    var predictions_dataset = pipelineModel.transform(dataset)
+    val predictions_dataset = pipelineModel.transform(dataset)
 
     // Log end time of the pipeline just for debug
     var endTime = System.currentTimeMillis()
     println(s"Training and predicting time: ${(endTime - startTime) / 1000} seconds.")
 
     // Select only "uid" that is the log's id and the features column containing the Vector predictions
-    predictions_dataset = predictions_dataset.select("uid", "features")
+    // Create new dataframe to not override the original dataset
+    var featured_dataset = predictions_dataset.select("uid", "features")
 
     // K-means - clustering algorithms that clusters the data points into a predefined number of clusters
     // k-means by default use the Vector features column to predict clusters in a dataframe
@@ -97,10 +98,10 @@ object AnomalyDetection {
     val kmeans = new KMeans().setK(5)
 
     // Trains a k-means model.
-    val model = kmeans.fit(predictions_dataset)
+    val model = kmeans.fit(featured_dataset)
 
     // Evaluate clustering by computing Within Set Sum of Squared Errors.
-    val WSSSE = model.computeCost(predictions_dataset)
+    val WSSSE = model.computeCost(featured_dataset)
     println(s"Within Set Sum of Squared Errors = $WSSSE")
 
     // Shows the result.
@@ -108,7 +109,7 @@ object AnomalyDetection {
     model.clusterCenters.foreach(println)
 
     // Predict and clustered the dataframe using the k-means model
-    var dataframe_with_clusters = model.transform(predictions_dataset)
+    var dataframe_with_clusters = model.transform(featured_dataset)
 
     // To avoid code confusions, rename the "prediction" column added by K-means to "cluster"
     dataframe_with_clusters = dataframe_with_clusters.withColumnRenamed("prediction", "cluster")
@@ -139,13 +140,13 @@ object AnomalyDetection {
 
     // To end join the dataframe with all the anomalous instances
     // needed for our detection with the original dataset containing the full data log
-    predictions_dataset = predictions_dataset.join(pca_dataframe, "uid")
+    val outlier_dataset = predictions_dataset.join(pca_dataframe, "uid")
 
     // Log end time of the full Anomaly Detection prediction, just for debug
     endTime = System.currentTimeMillis()
     println(s"Anomaly Detection time: ${(endTime - startTime) / 1000} seconds.")
 
     // Return original dataset with the new outliers columns "x", "y" and "cluster"
-    predictions_dataset
+    outlier_dataset
   }
 }
