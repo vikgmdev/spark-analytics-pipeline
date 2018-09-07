@@ -101,9 +101,6 @@ object AnomalyDetection_Conn {
     // Add a ArrayType Column
     val result_pca = result.withColumn("pcaFeaturesArray" , vecToArray($"pcaFeatures") )
 
-    result_pca.printSchema()
-    result_pca.show(false)
-
     // Now we can put our ML results back onto our dataframe!
     result_pca.withColumn("x", $"pcaFeaturesArray".getItem(0))
     result_pca.withColumn("y", $"pcaFeaturesArray".getItem(1))
