@@ -38,6 +38,7 @@ object KafkaSource {
       .readStream
       .format("kafka")
       .option("kafka.bootstrap.servers", kafka_bootstrap_servers)
+      .option("kafka.consumer.cache.enabled", value = false)
       .option("subscribe", topic)
       .option("startingOffsets", "earliest")
       .option("enable.auto.commit", value = false)
