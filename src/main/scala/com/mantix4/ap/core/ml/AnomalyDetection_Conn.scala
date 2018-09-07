@@ -71,8 +71,8 @@ object AnomalyDetection_Conn {
 
     //predictions_dataset.select("uid","features").show()
 
-    val featured_dataset = predictions_dataset.select("uid", "proto", "direction", "pcr" ,"features")
-    // val featured_dataset = predictions_dataset.select("uid", "features")
+    // val featured_dataset = predictions_dataset.select("uid", "proto", "direction", "pcr" ,"features")
+    val featured_dataset = predictions_dataset.select("uid", "features")
     // featured_dataset.printSchema()
 
     // Trains a k-means model.
@@ -89,11 +89,11 @@ object AnomalyDetection_Conn {
 
     val featured_dataset_clusters = model.transform(featured_dataset)
     val featured_dataset_clusters_renamed = featured_dataset_clusters.withColumnRenamed("prediction", "cluster")
-    featured_dataset_clusters_renamed.groupBy("proto", "direction", "pcr" ,"cluster")
+    /*featured_dataset_clusters_renamed.groupBy("proto", "direction", "pcr" ,"cluster")
       .count()
       .sort($"count".desc)
       .show(50)
-    /*
+    */
 
     val pca = new PCA()
       .setInputCol("features")
@@ -102,7 +102,9 @@ object AnomalyDetection_Conn {
       .fit(featured_dataset_clusters)
 
     val result = pca.transform(featured_dataset_clusters)
-
+    result.printSchema()
+    result.show()
+    /*
     // A UDF to convert VectorUDT to ArrayType
     val vecToArray = udf( (xs: linalg.Vector) => xs.toArray )
 
