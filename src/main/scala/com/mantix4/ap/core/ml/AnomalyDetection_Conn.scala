@@ -104,12 +104,14 @@ object AnomalyDetection_Conn {
     result_pca.printSchema()
     result_pca.show(false)
 
-    /*
-
     // Now we can put our ML results back onto our dataframe!
-    predictions_dataset.withColumn("x",result.select("x"))
-    predictions_dataset['y'] = pca[:, 1] # PCA Y Column
-    predictions_dataset['cluster'] = kmeans
-    */
+    result_pca.withColumn("x", $"pcaFeaturesArray".getItem(0))
+    result_pca.withColumn("y", $"pcaFeaturesArray".getItem(1))
+
+    result_pca.printSchema()
+    result_pca.show(false)
+
+//    predictions_dataset['y'] = pca[:, 1]
+//    predictions_dataset['cluster'] = kmeans
   }
 }
