@@ -32,7 +32,8 @@ object DNS {
                       total_answers: Option[Int],
                       total_replies: Option[Int],
                       saw_query: Option[Boolean],
-                      saw_reply: Option[Boolean]
+                      saw_reply: Option[Boolean],
+                      sensor: String
                 ) extends Serializable
 
   val schemaBase: StructType = new StructType()
@@ -64,4 +65,5 @@ object DNS {
     .add("total_replies", IntegerType)
     .add("saw_query", BooleanType)
     .add("saw_reply", BooleanType)
+    .add("sensor", StringType)
 }

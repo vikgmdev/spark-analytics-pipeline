@@ -6,6 +6,7 @@ import org.apache.spark.sql.types._
 import org.apache.spark.sql.{DataFrame, Dataset, Encoders}
 import com.mantix4.ap.abstracts.spark.SparkHelper
 import com.mantix4.ap.core.logs.NetworkProtocols.DNS
+import com.mantix4.ap.core.ml.AnomalyDetection
 
 class PipelineDNS() extends Pipeline[DNS.DNS] {
   private val spark = SparkHelper.getSparkSession()
@@ -13,22 +14,24 @@ class PipelineDNS() extends Pipeline[DNS.DNS] {
 
   override def startPipeline(dt: Dataset[DNS.DNS]): Unit = {
     // Debug only
-    // dataset.show(5000, truncate = false)
+    dt.show(100)
 
-    val scriptPath = "/opt/development/python_ml/pipe_test.py"
+    /*
+    // Set Categorical and Numeric columns features to detect outliers
+    val categoricalColumns = Array("proto", "direction")
+    val numericCols = Array("pcr")
 
-    val pipeRDD = dt.toDF().rdd.pipe(scriptPath)
+    val data_with_outliers = AnomalyDetection.main(dt, categoricalColumns, numericCols)
 
-    pipeRDD.collect().foreach(println)
+    println("Outliers detected: ")
+    data_with_outliers.printSchema()
+    data_with_outliers.show()
+    */
   }
 
   override def customParsing(df: DataFrame): DataFrame = {
-    df// Rename column normalization
-      .withColumnRenamed("ts", "timestamp")
-      .withColumnRenamed("id.orig_h", "source_ip")
-      .withColumnRenamed("id.orig_p", "source_port")
-      .withColumnRenamed("id.resp_h", "dest_ip")
-      .withColumnRenamed("id.resp_p", "dest_port")
+    df
+      // Rename column normalization
       .withColumnRenamed("AA", "aa")
       .withColumnRenamed("TC", "tc")
       .withColumnRenamed("RD", "rd")
@@ -37,6 +40,7 @@ class PipelineDNS() extends Pipeline[DNS.DNS] {
       .withColumnRenamed("TTLs", "ttls")
 
       // Change column's to the righ type
+      /*
       .withColumn("source_port", $"source_port".cast(IntegerType))
       .withColumn("dest_port", $"dest_port".cast(IntegerType))
       .withColumn("trans_id", $"trans_id".cast(IntegerType))
@@ -52,10 +56,12 @@ class PipelineDNS() extends Pipeline[DNS.DNS] {
       //.withColumn("answers", $"answers".cast(ArrayType(StringType)))
       .withColumn("ttls", $"ttls".cast(DoubleType))
       .withColumn("rejected", $"rejected".cast(BooleanType))
+    */
   }
 
   override def getDataframeType(df: DataFrame): DataFrame = {
     df.withColumn("data",
       from_json($"value".cast(StringType), DNS.schemaBase))
+      .select("data.*")
   }
 }
