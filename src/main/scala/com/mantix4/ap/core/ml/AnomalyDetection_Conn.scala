@@ -71,8 +71,8 @@ object AnomalyDetection_Conn {
 
     //predictions_dataset.select("uid","features").show()
 
-    // val featured_dataset = predictions_dataset.select("uid", "proto", "direction", "pcr" ,"features")
-    val featured_dataset = predictions_dataset.select("uid", "features")
+    val featured_dataset = predictions_dataset.select("uid", "proto", "direction", "pcr" ,"features")
+    // val featured_dataset = predictions_dataset.select("uid", "features")
     // featured_dataset.printSchema()
 
     // Trains a k-means model.
@@ -88,11 +88,12 @@ object AnomalyDetection_Conn {
     model.clusterCenters.foreach(println)
 
     val featured_dataset_clusters = model.transform(featured_dataset)
-    featured_dataset_clusters.withColumnRenamed("prediction", "cluster")
-      /*.groupBy("proto", "direction", "pcr" ,"prediction")
+    val featured_dataset_clusters_renamed = featured_dataset_clusters.withColumnRenamed("prediction", "cluster")
+    featured_dataset_clusters_renamed.groupBy("proto", "direction", "pcr" ,"cluster")
       .count()
       .sort($"count".desc)
-      .show(50)*/
+      .show(50)
+    /*
 
     val pca = new PCA()
       .setInputCol("features")
@@ -112,5 +113,6 @@ object AnomalyDetection_Conn {
     val final_df = predictions_dataset.join(result_pca, "uid")
     println("Final DF schema: ")
     final_df.show()
+    */
   }
 }
