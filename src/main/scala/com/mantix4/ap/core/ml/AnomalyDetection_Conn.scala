@@ -71,6 +71,8 @@ object AnomalyDetection_Conn {
 
     predictions_dataset.select("features").show()
 
+    predictions_dataset.printSchema()
+
     val featured_dataset = predictions_dataset.select("features")
 
     // Trains a k-means model.
