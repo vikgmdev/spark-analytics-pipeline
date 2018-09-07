@@ -27,7 +27,7 @@ object DNS {
                       ra: Option[Boolean],
                       z: Option[Int],
                       answers: Option[Vector[String]],
-                      //ttls: Option[Vector[Double]],
+                      ttls: Option[Vector[Double]],
                       rejected: Option[Boolean],
                       total_answers: Option[Int],
                       total_replies: Option[Int],
@@ -59,7 +59,7 @@ object DNS {
     .add("RA", BooleanType)
     .add("Z", IntegerType)
     .add("answers", ArrayType(StringType))
-    //.add("TTLs",ArrayType(DoubleType))
+    .add("TTLs",ArrayType(DoubleType))
     .add("rejected", BooleanType)
     .add("total_answers", IntegerType)
     .add("total_replies", IntegerType)
