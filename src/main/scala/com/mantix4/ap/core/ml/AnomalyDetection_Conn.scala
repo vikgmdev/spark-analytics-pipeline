@@ -101,10 +101,12 @@ object AnomalyDetection_Conn {
     val result_pca = result.withColumn("pcaFeaturesArray" , vecToArray($"pcaFeatures") )
       .select($"uid", $"pcaFeaturesArray", $"pcaFeaturesArray".getItem(0).as("x"), $"pcaFeaturesArray".getItem(1).as("y"))
 
+    println("Result PCA schema: ")
     result_pca.printSchema()
     result_pca.show(false)
 
     val final_df = predictions_dataset.join(result_pca, "uid")
+    println("Final DF schema: ")
     final_df.printSchema()
     final_df.show(false)
   }
