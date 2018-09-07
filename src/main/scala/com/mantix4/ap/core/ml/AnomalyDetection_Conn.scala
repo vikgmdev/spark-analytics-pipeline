@@ -99,9 +99,9 @@ object AnomalyDetection_Conn {
       .setInputCol("features")
       .setOutputCol("pcaFeatures")
       .setK(3)
-      .fit(featured_dataset_clusters)
+      .fit(featured_dataset_clusters_renamed)
 
-    val result = pca.transform(featured_dataset_clusters)
+    val result = pca.transform(featured_dataset_clusters_renamed)
     result.printSchema()
     result.show()
     /*
