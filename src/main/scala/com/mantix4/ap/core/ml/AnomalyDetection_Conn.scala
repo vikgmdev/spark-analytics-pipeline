@@ -92,7 +92,7 @@ object AnomalyDetection_Conn {
       .groupBy("proto", "direction", "pcr" ,"prediction")
       .count()
       .sort("prediction")
-      .show(50)
+      .show(5000)
 
     /*
 
