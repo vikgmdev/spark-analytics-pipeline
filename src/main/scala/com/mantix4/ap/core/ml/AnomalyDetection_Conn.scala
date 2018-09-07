@@ -52,7 +52,7 @@ object AnomalyDetection_Conn {
     // using the Isolation Forest model
     val iForest = new IForest()
       .setNumTrees(100)
-      .setMaxSamples(256)
+      .setMaxSamples(100)
       .setContamination(0.2)
       .setBootstrap(false)
       .setMaxDepth(100)
@@ -75,7 +75,7 @@ object AnomalyDetection_Conn {
     // featured_dataset.printSchema()
 
     // Trains a k-means model.
-    val kmeans = new KMeans().setK(70)
+    val kmeans = new KMeans().setK(5)
     val model = kmeans.fit(featured_dataset)
 
     // Evaluate clustering by computing Within Set Sum of Squared Errors.
