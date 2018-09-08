@@ -41,7 +41,7 @@ class PipelineDNS() extends Pipeline[DNS.DNS] {
 
       // Change column's to the righ type
       .withColumn("answers", split(col("answers"), ","))
-      .withColumn("ttls", split(col("ttls"), ","))
+      .withColumn("ttls", split(col("ttls"), ",").cast(ArrayType(DoubleType)))
   }
 
   override def getDataframeType(df: DataFrame): DataFrame = {
