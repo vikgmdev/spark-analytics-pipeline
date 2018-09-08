@@ -5,7 +5,7 @@ import org.apache.spark.sql.types._
 import org.apache.spark.sql.{DataFrame, Dataset, Encoders}
 import com.mantix4.ap.abstracts.spark.SparkHelper
 import com.mantix4.ap.core.logs.NetworkProtocols.HTTP
-import org.apache.spark.sql.functions.from_json
+import org.apache.spark.sql.functions.{col, from_json, split}
 
 class PipelineHTTP() extends Pipeline[HTTP.HTTP] {
   private val spark = SparkHelper.getSparkSession()
@@ -21,14 +21,14 @@ class PipelineHTTP() extends Pipeline[HTTP.HTTP] {
 
       // Change column's to the righ type, only apply for test's logs
       // TODO: Remove when is real sensor logs
-      .withColumn("tags", $"tags".cast(ArrayType(StringType)))
-      .withColumn("proxied", $"proxied".cast(ArrayType(StringType)))
-      .withColumn("orig_fuids", $"orig_fuids".cast(ArrayType(StringType)))
-      .withColumn("orig_filenames", $"orig_filenames".cast(ArrayType(StringType)))
-      .withColumn("orig_mime_types", $"orig_mime_types".cast(ArrayType(StringType)))
-      .withColumn("resp_fuids", $"resp_fuids".cast(ArrayType(StringType)))
-      .withColumn("resp_filenames", $"resp_filenames".cast(ArrayType(StringType)))
-      .withColumn("resp_mime_types", $"resp_mime_types".cast(ArrayType(StringType)))
+      .withColumn("tags", split(col("tags"), ","))
+      .withColumn("proxied", split(col("proxied"), ","))
+      .withColumn("orig_fuids", split(col("orig_fuids"), ","))
+      .withColumn("orig_filenames", split(col("orig_filenames"), ","))
+      .withColumn("orig_mime_types", split(col("orig_mime_types"), ","))
+      .withColumn("resp_fuids", split(col("resp_fuids"), ","))
+      .withColumn("resp_filenames", split(col("resp_filenames"), ","))
+      .withColumn("resp_mime_types", split(col("resp_mime_types"), ","))
   }
 
   override def getDataframeType(df: DataFrame): DataFrame = {
