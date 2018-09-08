@@ -1,6 +1,5 @@
 package com.mantix4.ap.core.logs.NetworkProtocols
 
-import com.mantix4.ap.abstracts.base.{LogBase, Sources}
 import org.apache.spark.sql.types._
 
 object DNS {
@@ -58,8 +57,10 @@ object DNS {
     .add("RD", BooleanType)
     .add("RA", BooleanType)
     .add("Z", IntegerType)
-    .add("answers", ArrayType(StringType))
-    .add("TTLs",ArrayType(DoubleType))
+    .add("answers", StringType)
+    // .add("answers", ArrayType(StringType))
+    .add("TTLs", StringType)
+    // .add("TTLs",ArrayType(DoubleType))
     .add("rejected", BooleanType)
     .add("total_answers", IntegerType)
     .add("total_replies", IntegerType)

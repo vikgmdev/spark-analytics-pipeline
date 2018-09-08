@@ -13,26 +13,14 @@ class PipelineHTTP() extends Pipeline[HTTP.HTTP] {
 
   override def startPipeline(dt: Dataset[HTTP.HTTP]): Unit = {
     // Debug only
-    dt.show(5000, truncate = true)
+    dt.show(100,truncate = false)
   }
 
   override def customParsing(df: DataFrame): DataFrame = {
     df
-      // Rename column normalization
-      .withColumnRenamed("ts", "timestamp")
-      .withColumnRenamed("id.orig_h", "source_ip")
-      .withColumnRenamed("id.orig_p", "source_port")
-      .withColumnRenamed("id.resp_h", "dest_ip")
-      .withColumnRenamed("id.resp_p", "dest_port")
 
-      // Change column's to the righ type
-      .withColumn("source_port", $"source_port".cast(IntegerType))
-      .withColumn("dest_port", $"dest_port".cast(IntegerType))
-      .withColumn("trans_depth", $"trans_depth".cast(DoubleType))
-      .withColumn("request_body_len", $"request_body_len".cast(DoubleType))
-      .withColumn("response_body_len", $"response_body_len".cast(DoubleType))
-      .withColumn("status_code", $"status_code".cast(DoubleType))
-      .withColumn("info_code", $"info_code".cast(DoubleType))
+      // Change column's to the righ type, only apply for test's logs
+      // TODO: Remove when is real sensor logs
       .withColumn("tags", $"tags".cast(ArrayType(StringType)))
       .withColumn("proxied", $"proxied".cast(ArrayType(StringType)))
       .withColumn("orig_fuids", $"orig_fuids".cast(ArrayType(StringType)))
@@ -46,5 +34,6 @@ class PipelineHTTP() extends Pipeline[HTTP.HTTP] {
   override def getDataframeType(df: DataFrame): DataFrame = {
     df.withColumn("data",
       from_json($"value".cast(StringType), HTTP.schemaBase))
+      .select("data.*")
   }
 }

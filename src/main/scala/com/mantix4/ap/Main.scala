@@ -5,7 +5,7 @@ import com.mantix4.ap.abstracts.sources.KafkaSource
 import com.mantix4.ap.abstracts.spark.SparkHelper
 import com.mantix4.ap.core.logs.NetworkObservations.P0f
 import com.mantix4.ap.core.logs._
-import com.mantix4.ap.core.logs.NetworkProtocols.{Conn, DNS}
+import com.mantix4.ap.core.logs.NetworkProtocols.{Conn, DNS, HTTP}
 import org.apache.spark.sql.streaming.{OutputMode, StreamingQuery}
 import org.apache.spark.sql.{Dataset, Row}
 
@@ -17,6 +17,8 @@ object Main {
     // startNewPipeline(KafkaSource.read(topic = "conn-topic-dev-ml"), Conn.getClass.getSimpleName)
 
     startNewPipeline(KafkaSource.read(topic = "dns-topic-dev"), DNS.getClass.getSimpleName)
+
+    startNewPipeline(KafkaSource.read(topic = "http-topic-dev"), HTTP.getClass.getSimpleName)
 
     // startNewPipeline(KafkaSource.read(topic = "p0f-topic-dev"), P0f.getClass.getSimpleName)
 

@@ -14,7 +14,7 @@ class PipelineDNS() extends Pipeline[DNS.DNS] {
 
   override def startPipeline(dt: Dataset[DNS.DNS]): Unit = {
     // Debug only
-    dt.show(100)
+    dt.show(100,truncate = false)
 
     /*
     // Set Categorical and Numeric columns features to detect outliers
@@ -40,23 +40,8 @@ class PipelineDNS() extends Pipeline[DNS.DNS] {
       .withColumnRenamed("TTLs", "ttls")
 
       // Change column's to the righ type
-      /*
-      .withColumn("source_port", $"source_port".cast(IntegerType))
-      .withColumn("dest_port", $"dest_port".cast(IntegerType))
-      .withColumn("trans_id", $"trans_id".cast(IntegerType))
-      .withColumn("rtt", $"rtt".cast(DoubleType))
-      .withColumn("qclass", $"qclass".cast(IntegerType))
-      .withColumn("qtype", $"qtype".cast(IntegerType))
-      .withColumn("rcode", $"rcode".cast(IntegerType))
-      .withColumn("aa", $"aa".cast(BooleanType))
-      .withColumn("tc", $"tc".cast(BooleanType))
-      .withColumn("rd", $"rd".cast(BooleanType))
-      .withColumn("ra", $"ra".cast(BooleanType))
-      .withColumn("z", $"z".cast(IntegerType))
-      //.withColumn("answers", $"answers".cast(ArrayType(StringType)))
-      .withColumn("ttls", $"ttls".cast(DoubleType))
-      .withColumn("rejected", $"rejected".cast(BooleanType))
-    */
+      .withColumn("answers", $"answers".cast(ArrayType(StringType)))
+      .withColumn("ttls", $"ttls".cast(ArrayType(DoubleType)))
   }
 
   override def getDataframeType(df: DataFrame): DataFrame = {
