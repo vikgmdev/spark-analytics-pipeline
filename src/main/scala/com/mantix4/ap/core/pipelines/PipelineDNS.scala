@@ -40,8 +40,8 @@ class PipelineDNS() extends Pipeline[DNS.DNS] {
       .withColumnRenamed("TTLs", "ttls")
 
       // Change column's to the righ type
-      .withColumn("answers", $"answers".cast(ArrayType(StringType)))
-      .withColumn("ttls", $"ttls".cast(ArrayType(DoubleType)))
+      .withColumn("answers", split(col("answers"), ","))
+      .withColumn("ttls", split(col("ttls"), ","))
   }
 
   override def getDataframeType(df: DataFrame): DataFrame = {

@@ -18,7 +18,7 @@ object Main {
 
     startNewPipeline(KafkaSource.read(topic = "dns-topic-dev"), DNS.getClass.getSimpleName)
 
-    startNewPipeline(KafkaSource.read(topic = "http-topic-dev"), HTTP.getClass.getSimpleName)
+    // startNewPipeline(KafkaSource.read(topic = "http-topic-dev"), HTTP.getClass.getSimpleName)
 
     // startNewPipeline(KafkaSource.read(topic = "p0f-topic-dev"), P0f.getClass.getSimpleName)
 
