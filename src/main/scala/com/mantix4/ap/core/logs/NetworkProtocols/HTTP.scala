@@ -24,18 +24,18 @@ object HTTP {
                       status_msg: String,
                       info_code: Option[Int],
                       info_msg: String,
-                      tags: Vector[String],
+                      tags: Option[Vector[String]],
                       username: String,
                       password: String,
                       capture_password: Option[Boolean],
-                      proxied: Vector[String],
+                      proxied: Option[Vector[String]],
                       range_request: Option[Boolean],
-                      orig_fuids: Vector[String],
-                      orig_filenames: Vector[String],
-                      orig_mime_types: Vector[String],
-                      resp_fuids: Vector[String],
-                      resp_filenames: Vector[String],
-                      resp_mime_types: Vector[String],
+                      orig_fuids: Option[Vector[String]],
+                      orig_filenames: Option[Vector[String]],
+                      orig_mime_types: Option[Vector[String]],
+                      resp_fuids: Option[Vector[String]],
+                      resp_filenames: Option[Vector[String]],
+                      resp_mime_types: Option[Vector[String]],
                       current_entity: String,
                       orig_mime_depth: Option[Int],
                       resp_mime_depth: Option[Int],
@@ -62,27 +62,27 @@ object HTTP {
     .add("status_msg", StringType)
     .add("info_code", IntegerType)
     .add("info_msg", StringType)
-    .add("tags", ArrayType(StringType))
-    // .add("tags", StringType)
+    // .add("tags", ArrayType(StringType))
+    .add("tags", StringType)
     .add("username", StringType)
     .add("password", StringType)
     .add("capture_password", BooleanType)
-    .add("proxied", ArrayType(StringType))
-    // .add("proxied", StringType)
+    // .add("proxied", ArrayType(StringType))
+    .add("proxied", StringType)
     .add("range_request", BooleanType)
     // (present if base/protocols/http/entities.bro is loaded)
-    .add("orig_fuids", ArrayType(StringType))
-    // .add("orig_fuids", StringType)
-    .add("orig_filenames", ArrayType(StringType))
-    // .add("orig_filenames", StringType)
-    .add("orig_mime_types", ArrayType(StringType))
-    // .add("orig_mime_types", StringType)
-    .add("resp_fuids", ArrayType(StringType))
-    // .add("resp_fuids", StringType)
-    .add("resp_filenames", ArrayType(StringType))
-    // .add("resp_filenames", StringType)
-    .add("resp_mime_types", ArrayType(StringType))
-    // .add("resp_mime_types", StringType)
+    // .add("orig_fuids", ArrayType(StringType))
+    .add("orig_fuids", StringType)
+    // .add("orig_filenames", ArrayType(StringType))
+    .add("orig_filenames", StringType)
+    // .add("orig_mime_types", ArrayType(StringType))
+    .add("orig_mime_types", StringType)
+    // .add("resp_fuids", ArrayType(StringType))
+    .add("resp_fuids", StringType)
+    // .add("resp_filenames", ArrayType(StringType))
+    .add("resp_filenames", StringType)
+    // .add("resp_mime_types", ArrayType(StringType))
+    .add("resp_mime_types", StringType)
     .add("current_entity", StringType)
     .add("orig_mime_depth", IntegerType)
     .add("resp_mime_depth", IntegerType)
