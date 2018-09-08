@@ -1,6 +1,5 @@
 package com.mantix4.ap.core.logs.NetworkProtocols
 
-import com.mantix4.ap.abstracts.base.{LogBase, Sources}
 import org.apache.spark.sql.types._
 
 object HTTP {

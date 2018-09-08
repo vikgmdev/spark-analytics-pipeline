@@ -14,6 +14,8 @@ class PipelineHTTP() extends Pipeline[HTTP.HTTP] {
   override def startPipeline(dt: Dataset[HTTP.HTTP]): Unit = {
     // Debug only
     dt.show(100,truncate = false)
+
+    // features = ['id.resp_p', 'method', 'resp_mime_types', 'request_body_len']
   }
 
   override def customParsing(df: DataFrame): DataFrame = {

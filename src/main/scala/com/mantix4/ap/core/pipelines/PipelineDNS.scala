@@ -16,17 +16,30 @@ class PipelineDNS() extends Pipeline[DNS.DNS] {
     // Debug only
     dt.show(100,truncate = false)
 
+    // features = ['Z', 'rejected', 'proto', 'query', 'qclass_name', 'qtype_name', 'rcode_name', 'query_length']
+    // features = ['Z', 'rejected', 'proto', 'query', 'qclass_name', 'qtype_name', 'rcode_name', 'query_length', 'answer_length', 'entropy']
     /*
-    // Set Categorical and Numeric columns features to detect outliers
-    val categoricalColumns = Array("proto", "direction")
-    val numericCols = Array("pcr")
+    if log_type == 'dns':
+            bro_df['query_length'] = bro_df['query'].str.len()
+            bro_df['answer_length'] = bro_df['answers'].str.len()
+            bro_df['entropy'] = bro_df['query'].map(lambda x: entropy(x))
+     */
 
-    val data_with_outliers = AnomalyDetection.main(dt, categoricalColumns, numericCols)
+    /*
+    # Add query length
+        bro_df['query_length'] = bro_df['query'].str.len()
 
-    println("Outliers detected: ")
-    data_with_outliers.printSchema()
-    data_with_outliers.show()
-    */
+        # Normalize this field
+        ql = bro_df['query_length']
+        bro_df['query_length_norm'] = (ql - ql.min()) / (ql.max()-ql.min())
+     */
+
+    /*
+    # Now use dataframe group by cluster
+        show_fields = ['query', 'Z', 'proto', 'qtype_name', 'x', 'y', 'cluster']
+        cluster_groups = bro_df[show_fields].groupby('cluster')
+     */
+
   }
 
   override def customParsing(df: DataFrame): DataFrame = {

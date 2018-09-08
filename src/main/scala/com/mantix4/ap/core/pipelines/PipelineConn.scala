@@ -19,8 +19,9 @@ class PipelineConn() extends Pipeline[Conn.Conn] {
 
   def startPipeline(dt: Dataset[Conn.Conn]): Unit = {
     // Debug only
-    //dt.show(5000)
+    dt.show(100,truncate = false)
 
+    /*
     // Set Categorical and Numeric columns features to detect outliers
     val categoricalColumns = Array("proto", "direction")
     val numericCols = Array("pcr")
@@ -30,10 +31,14 @@ class PipelineConn() extends Pipeline[Conn.Conn] {
     println("Outliers detected: ")
     data_with_outliers.printSchema()
     data_with_outliers.show()
+    */
   }
 
   override def customParsing(df: DataFrame): DataFrame = {
     df
+
+      .withColumn("tunnel_parents", split(col("tunnel_parents"), ","))
+
       // Enrich
       .withColumn("direction", ConnEnricher.withDirection(col("local_orig"), col("local_resp")))
       .withColumn("pcr", ConnEnricher.withPCR($"direction", $"orig_bytes", $"resp_bytes"))

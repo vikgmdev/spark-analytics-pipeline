@@ -14,7 +14,7 @@ object Main {
   def main(args: Array[String]) {
     val spark = SparkHelper.getAndConfigureSparkSession()
 
-    // startNewPipeline(KafkaSource.read(topic = "conn-topic-dev-ml"), Conn.getClass.getSimpleName)
+    startNewPipeline(KafkaSource.read(topic = "conn-topic-dev"), Conn.getClass.getSimpleName)
 
     startNewPipeline(KafkaSource.read(topic = "dns-topic-dev"), DNS.getClass.getSimpleName)
 
