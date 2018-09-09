@@ -1,7 +1,6 @@
 package com.mantix4.ap.core.ml
 
 import com.mantix4.ap.abstracts.spark.SparkHelper
-import com.mantix4.ap.core.logs.NetworkProtocols.Conn.Conn
 import org.apache.spark.ml.{Pipeline, PipelineStage}
 import org.apache.spark.ml.clustering.KMeans
 import org.apache.spark.ml.feature.{OneHotEncoder, PCA, StringIndexer, VectorAssembler}
@@ -16,7 +15,7 @@ object AnomalyDetection {
   private val spark = SparkHelper.getSparkSession()
   import spark.implicits._
 
-  def main(dataset: Dataset[Conn], categoricalColumns: Array[String], numericCols: Array[String]): DataFrame = {
+  def main[T](dataset: Dataset[T], categoricalColumns: Array[String], numericCols: Array[String]): DataFrame = {
 
     // Log start time just for debug
     val startTime = System.currentTimeMillis()

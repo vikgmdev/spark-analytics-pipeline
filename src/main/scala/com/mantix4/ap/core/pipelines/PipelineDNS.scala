@@ -14,32 +14,17 @@ class PipelineDNS() extends Pipeline[DNS.DNS] {
 
   override def startPipeline(dt: Dataset[DNS.DNS]): Unit = {
     // Debug only
-    dt.show(100,truncate = false)
+    dt.show(100, truncate = false)
 
-    // features = ['Z', 'rejected', 'proto', 'query', 'qclass_name', 'qtype_name', 'rcode_name', 'query_length']
-    // features = ['Z', 'rejected', 'proto', 'query', 'qclass_name', 'qtype_name', 'rcode_name', 'query_length', 'answer_length', 'entropy']
-    /*
-    if log_type == 'dns':
-            bro_df['query_length'] = bro_df['query'].str.len()
-            bro_df['answer_length'] = bro_df['answers'].str.len()
-            bro_df['entropy'] = bro_df['query'].map(lambda x: entropy(x))
-     */
+    // Set Categorical and Numeric columns features to detect outliers
+    val categoricalColumns = Array("z", "rejected", "proto", "query", "qclass_name", "qtype_name", "rcode_name")
+    val numericCols = Array("query_length", "answer_length")
 
-    /*
-    # Add query length
-        bro_df['query_length'] = bro_df['query'].str.len()
+    val data_with_outliers = AnomalyDetection.main[DNS.DNS](dt, categoricalColumns, numericCols)
 
-        # Normalize this field
-        ql = bro_df['query_length']
-        bro_df['query_length_norm'] = (ql - ql.min()) / (ql.max()-ql.min())
-     */
-
-    /*
-    # Now use dataframe group by cluster
-        show_fields = ['query', 'Z', 'proto', 'qtype_name', 'x', 'y', 'cluster']
-        cluster_groups = bro_df[show_fields].groupby('cluster')
-     */
-
+    println("Outliers detected: ")
+    data_with_outliers.printSchema()
+    data_with_outliers.show()
   }
 
   override def customParsing(df: DataFrame): DataFrame = {
@@ -55,6 +40,13 @@ class PipelineDNS() extends Pipeline[DNS.DNS] {
       // Change column's to the righ type
       .withColumn("answers", split(col("answers"), ","))
       .withColumn("ttls", split(col("ttls"), ",").cast(ArrayType(DoubleType)))
+
+      // Add columns needed for Anomaly Detection
+      .withColumn("query_length", length(col("query")))
+      // Normalize query_length
+      .withColumn("query_length_norm",
+        (col("query_length") - min("query_length")) / (max("query_length") - min("query_length")))
+      .withColumn("answer_length", size(col("answers")))
   }
 
   override def getDataframeType(df: DataFrame): DataFrame = {

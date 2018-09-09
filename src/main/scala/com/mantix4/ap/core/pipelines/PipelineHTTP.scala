@@ -5,6 +5,7 @@ import org.apache.spark.sql.types._
 import org.apache.spark.sql.{DataFrame, Dataset, Encoders}
 import com.mantix4.ap.abstracts.spark.SparkHelper
 import com.mantix4.ap.core.logs.NetworkProtocols.HTTP
+import com.mantix4.ap.core.ml.AnomalyDetection
 import org.apache.spark.sql.functions.{col, from_json, split}
 
 class PipelineHTTP() extends Pipeline[HTTP.HTTP] {
@@ -15,7 +16,15 @@ class PipelineHTTP() extends Pipeline[HTTP.HTTP] {
     // Debug only
     dt.show(100,truncate = false)
 
-    // features = ['id.resp_p', 'method', 'resp_mime_types', 'request_body_len']
+    // Set Categorical and Numeric columns features to detect outliers
+    val categoricalColumns = Array("dest_port", "method", "resp_mime_types")
+    val numericCols = Array("request_body_len")
+
+    val data_with_outliers = AnomalyDetection.main[HTTP.HTTP](dt, categoricalColumns, numericCols)
+
+    println("Outliers detected: ")
+    data_with_outliers.printSchema()
+    data_with_outliers.show()
   }
 
   override def customParsing(df: DataFrame): DataFrame = {
