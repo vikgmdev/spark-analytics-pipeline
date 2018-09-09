@@ -34,7 +34,7 @@ object DNS {
                       saw_reply: Option[Boolean],
                       sensor: String,
                       query_length: Option[Int],
-                      query_length_norm: Option[Int],
+                      query_length_norm: Option[Double],
                       answer_length: Option[Int]
                 ) extends Serializable
 
