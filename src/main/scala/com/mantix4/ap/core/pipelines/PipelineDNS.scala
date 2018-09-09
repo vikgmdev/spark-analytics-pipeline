@@ -45,7 +45,9 @@ class PipelineDNS() extends Pipeline[DNS.DNS] {
       .withColumn("query_length", length(col("query")))
       // Normalize query_length
       .withColumn("query_length_norm",
-        (col("query_length") - min("query_length")) / (max("query_length") - min("query_length")))
+          (col("query_length") - min("query_length")).cast(DoubleType) /
+          (max("query_length") - min("query_length")).cast(DoubleType)
+          )
       .withColumn("answer_length", size(col("answers")))
   }
 
