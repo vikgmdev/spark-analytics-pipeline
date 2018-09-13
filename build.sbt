@@ -18,8 +18,6 @@ libraryDependencies += "com.datastax.spark" %% "spark-cassandra-connector" % "2.
 
 // GeoIP dependency
 libraryDependencies += "com.snowplowanalytics" %% "scala-maxmind-iplookups" % "0.5.0"
-libraryDependencies += "org.typelevel"         %% "cats-effect"          % "0.10.1"
-libraryDependencies += "org.typelevel"         %% "cats-core"            % "1.1.0"
 
 assemblyMergeStrategy in assembly := {
   case m if m.toLowerCase.endsWith("manifest.mf") => MergeStrategy.discard
