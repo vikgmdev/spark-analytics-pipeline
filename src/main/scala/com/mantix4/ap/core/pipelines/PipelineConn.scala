@@ -16,12 +16,13 @@ import org.apache.spark.sql.catalyst.encoders.RowEncoder
 class PipelineConn() extends Pipeline[Conn.Conn] {
   private val spark = SparkHelper.getSparkSession()
   import spark.implicits._
-  import com.mantix4.ap.core.enrichments.IpLookupEnricher._
 
   def startPipeline(dt: Dataset[Conn.Conn]): Unit = {
     // Debug only
-    dt.show(100,truncate = false)
+    dt.groupBy($"sensor", $"source_ip")
+    dt.show(1000,truncate = true)
 
+    /*
     // Set Categorical and Numeric columns features to detect outliers
     val categoricalColumns = Array("proto", "direction")
     val numericCols = Array("pcr")
@@ -31,6 +32,7 @@ class PipelineConn() extends Pipeline[Conn.Conn] {
     println("Outliers detected: ")
     data_with_outliers.printSchema()
     data_with_outliers.show()
+    */
   }
 
   override def customParsing(df: DataFrame): DataFrame = {
