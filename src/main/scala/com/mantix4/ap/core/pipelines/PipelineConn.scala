@@ -20,7 +20,8 @@ class PipelineConn() extends Pipeline[Conn.Conn] {
   def startPipeline(dt: Dataset[Conn.Conn]): Unit = {
     // Debug only
     dt.groupBy($"sensor", $"source_ip")
-    dt.show(1000,truncate = true)
+    dt.select($"timestamp", $"uid", $"sensor", $"source_ip", $"source_port", $"dest_ip", $"dest_port", $"proto", $"direction", $"pcr",  $"duration")
+      .show(1000, truncate = true)
 
     /*
     // Set Categorical and Numeric columns features to detect outliers
