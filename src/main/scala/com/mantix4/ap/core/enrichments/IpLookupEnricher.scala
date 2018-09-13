@@ -9,6 +9,9 @@ import org.apache.spark.sql.functions.udf
 
 object IpLookupEnricher {
 
+  // https://stackoverflow.com/questions/30075106/using-maxmind-geoip-in-spark-serialized
+  /*
+
   implicit class DataFrameTransforms(df: DataFrame) {
 
     def addGeoIPdata(direction: String, source_ip: String, dest_ip: String): DataFrame = {
@@ -38,4 +41,5 @@ object IpLookupEnricher {
       df
     }
   }
+  */
 }
