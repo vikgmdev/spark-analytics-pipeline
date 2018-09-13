@@ -33,9 +33,9 @@ object DNS {
                       saw_query: Option[Boolean],
                       saw_reply: Option[Boolean],
                       sensor: String,
-                      query_length: Option[Int],
-                      query_length_norm: Option[Double],
-                      answer_length: Option[Int]
+                      // query_length: Option[Int],
+                      // query_length_norm: Option[Double],
+                      // answer_length: Option[Int]
                 ) extends Serializable
 
   val schemaBase: StructType = new StructType()

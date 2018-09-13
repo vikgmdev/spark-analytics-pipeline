@@ -44,6 +44,7 @@ class PipelineDNS() extends Pipeline[DNS.DNS] {
       .withColumn("answers", split(col("answers"), ","))
       .withColumn("ttls", split(col("ttls"), ",").cast(ArrayType(DoubleType)))
 
+      /*
       // Add columns needed for Anomaly Detection
       .withColumn("query_length", length(col("query")))
       // Normalize query_length
@@ -52,6 +53,7 @@ class PipelineDNS() extends Pipeline[DNS.DNS] {
           (max("query_length") - min("query_length")).cast(DoubleType)
           )
       .withColumn("answer_length", size(col("answers")))
+      */
   }
 
   override def getDataframeType(df: DataFrame): DataFrame = {
