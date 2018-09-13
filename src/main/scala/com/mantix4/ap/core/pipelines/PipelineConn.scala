@@ -44,7 +44,8 @@ class PipelineConn() extends Pipeline[Conn.Conn] {
       // Enrich
       .withColumn("direction", ConnEnricher.withDirection(col("local_orig"), col("local_resp")))
       .withColumn("pcr", ConnEnricher.withPCR($"direction", $"orig_bytes", $"resp_bytes"))
-      .addGeoIPdata($"direction".toString, $"source_ip".toString, $"dest_ip".toString)
+
+    //.addGeoIPdata($"direction".toString, $"source_ip".toString, $"dest_ip".toString)
   }
 
   override def getDataframeType(df: DataFrame): DataFrame = {
