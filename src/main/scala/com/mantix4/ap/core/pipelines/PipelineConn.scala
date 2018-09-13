@@ -21,7 +21,7 @@ class PipelineConn() extends Pipeline[Conn.Conn] {
     // Debug only
     dt.select($"timestamp", $"sensor", $"source_ip",  $"direction", $"source_port", $"dest_ip", $"dest_port", $"proto", $"pcr",  $"duration")
       .repartition($"direction")
-      .foreachPartition{direction => direction.foreach(println)}
+      .show
       // .show(1000, truncate = true)
 
     /*
