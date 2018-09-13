@@ -16,9 +16,8 @@ class PipelineHTTP() extends Pipeline[HTTP.HTTP] {
     // Debug only
     dt.show(100,truncate = false)
 
-    /*
     // Set Categorical and Numeric columns features to detect outliers
-    val categoricalColumns = Array("dest_port", "method", "resp_mime_types")
+    val categoricalColumns = Array("dest_port", "method")
     val numericCols = Array("request_body_len")
 
     val data_with_outliers = AnomalyDetection.main[HTTP.HTTP](dt, categoricalColumns, numericCols)
@@ -26,7 +25,6 @@ class PipelineHTTP() extends Pipeline[HTTP.HTTP] {
     println("Outliers detected: ")
     data_with_outliers.printSchema()
     data_with_outliers.show()
-    */
   }
 
   override def customParsing(df: DataFrame): DataFrame = {

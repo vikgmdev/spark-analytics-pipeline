@@ -16,6 +16,8 @@ class PipelineDNS() extends Pipeline[DNS.DNS] {
     // Debug only
     dt.show(100, truncate = false)
 
+    /*
+
     // Set Categorical and Numeric columns features to detect outliers
     val categoricalColumns = Array("z", "rejected", "proto", "query", "qclass_name", "qtype_name", "rcode_name")
     val numericCols = Array("query_length", "answer_length")
@@ -25,6 +27,7 @@ class PipelineDNS() extends Pipeline[DNS.DNS] {
     println("Outliers detected: ")
     data_with_outliers.printSchema()
     data_with_outliers.show()
+    */
   }
 
   override def customParsing(df: DataFrame): DataFrame = {

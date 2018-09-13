@@ -9,6 +9,7 @@ import org.apache.spark.sql.functions.udf
 
 object IpLookupEnricher {
 
+  // https://github.com/snowplow/scala-maxmind-iplookups
   // https://stackoverflow.com/questions/30075106/using-maxmind-geoip-in-spark-serialized
   /*
 
