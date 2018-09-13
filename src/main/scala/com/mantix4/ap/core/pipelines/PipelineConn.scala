@@ -19,10 +19,8 @@ class PipelineConn() extends Pipeline[Conn.Conn] {
 
   def startPipeline(dt: Dataset[Conn.Conn]): Unit = {
     // Debug only
-    dt.foreachPartition {
-      partition => partition.foreach(println)
-    }
-    //dt.select($"timestamp", $"sensor", $"source_ip",  $"direction", $"source_port", $"dest_ip", $"dest_port", $"proto", $"pcr",  $"duration").show(1000, truncate = true)
+    dt.repartition($"direction")
+    dt.select($"timestamp", $"sensor", $"source_ip",  $"direction", $"source_port", $"dest_ip", $"dest_port", $"proto", $"pcr",  $"duration").show(1000, truncate = true)
 
     /*
     // Set Categorical and Numeric columns features to detect outliers
