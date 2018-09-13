@@ -11,13 +11,12 @@ object IpLookupEnricher {
 
   implicit class DataFrameTransforms(df: DataFrame) {
 
-    val ipLookups = IpLookups(
-      geoFile = Some("/opt/mantix4/maxmind/GeoLite2-City.mmdb"),
-      memCache = false,
-      lruCache = 10000
-    )
-
     def addGeoIPdata(direction: String, source_ip: String, dest_ip: String): DataFrame = {
+      val ipLookups = IpLookups(
+        geoFile = Some("/opt/mantix4/maxmind/GeoLite2-City.mmdb"),
+        memCache = false,
+        lruCache = 10000
+      )
 
       // i is an integer
       direction match {
@@ -39,23 +38,4 @@ object IpLookupEnricher {
       df
     }
   }
-
-  /*
-
-  val ipLookups = IpLookups(
-    geoFile = Some("/opt/mantix4/maxmind/GeoLite2-City.mmdb"),
-    memCache = false,
-    lruCache = 10000
-  )
-
-  val withIpLookups: UserDefinedFunction = udf((ip_to_lookup: String) => {
-    val lookupResult = ipLookups.performLookups(ip_to_lookup)
-
-    // Geographic lookup
-    println(lookupResult.ipLocation)
-    println(lookupResult.ipLocation)
-
-    lookupResult.ipLocation
-  })
-  */
 }
