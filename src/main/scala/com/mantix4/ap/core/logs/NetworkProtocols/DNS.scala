@@ -32,7 +32,7 @@ object DNS {
                       total_replies: Option[Int],
                       saw_query: Option[Boolean],
                       saw_reply: Option[Boolean],
-                      sensor: String,
+                      sensor: String
                       // query_length: Option[Int],
                       // query_length_norm: Option[Double],
                       // answer_length: Option[Int]
