@@ -21,7 +21,7 @@ class PipelineConn() extends Pipeline[Conn.Conn] {
     // Debug only
     // dt.repartition($"direction")
     dt.repartition($"direction")
-    dt.foreachPartition( x => println(x))
+    dt.explain
 
 
     /*
