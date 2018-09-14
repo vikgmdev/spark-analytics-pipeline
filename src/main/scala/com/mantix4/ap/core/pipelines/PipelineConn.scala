@@ -24,7 +24,7 @@ class PipelineConn() extends Pipeline[Conn.Conn] {
     dt.repartition($"direction")
 
     dt.foreachPartition{records =>
-      records.foreach(record => println(record))
+      records.foreach(record => println(record.direction))
     }
 
 
