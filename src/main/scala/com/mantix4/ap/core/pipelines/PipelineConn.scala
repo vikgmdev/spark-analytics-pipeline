@@ -9,6 +9,7 @@ import com.mantix4.ap.core.enrichments.ConnEnricher
 import com.mantix4.ap.core.logs.NetworkProtocols.Conn
 import com.mantix4.ap.core.ml.AnomalyDetection
 import org.apache.spark.sql.catalyst.encoders.RowEncoder
+import org.apache.spark.api.java.function.ForeachPartitionFunction
 
 /**
   * must be idempotent and synchronous (@TODO check asynchronous/synchronous from Datastax's Spark connector) sink
@@ -21,7 +22,10 @@ class PipelineConn() extends Pipeline[Conn.Conn] {
     // Debug only
     // dt.repartition($"direction")
     dt.repartition($"direction")
-    dt.explain
+
+    dt.foreachPartition{records =>
+      records.foreach(record => println(record))
+    }
 
 
     /*
