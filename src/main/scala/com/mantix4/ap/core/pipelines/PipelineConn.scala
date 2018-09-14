@@ -19,10 +19,10 @@ class PipelineConn() extends Pipeline[Conn.Conn] {
 
   def startPipeline(dt: Dataset[Conn.Conn]): Unit = {
     // Debug only
-    dt.select($"timestamp", $"sensor", $"source_ip",  $"direction", $"source_port", $"dest_ip", $"dest_port", $"proto", $"pcr",  $"duration")
-      .repartition($"direction")
-      .show
-      // .show(1000, truncate = true)
+    // dt.repartition($"direction")
+    dt.repartition($"direction")
+    dt.foreachPartition( x => println(x))
+
 
     /*
     // Set Categorical and Numeric columns features to detect outliers
@@ -35,6 +35,10 @@ class PipelineConn() extends Pipeline[Conn.Conn] {
     data_with_outliers.printSchema()
     data_with_outliers.show()
     */
+  }
+
+  def pipelineByHost(dt: Dataset[Conn.Conn]): Unit = {
+    dt.show
   }
 
   override def customParsing(df: DataFrame): DataFrame = {
