@@ -8,6 +8,7 @@ import com.mantix4.ap.core.enrichments.ConnEnricher
 import com.mantix4.ap.core.logs.NetworkProtocols.Conn
 import com.datastax.spark.connector._
 import org.apache.spark.sql.cassandra._
+import com.datastax.spark.connector.streaming._
 
 /**
   * must be idempotent and synchronous (@TODO check asynchronous/synchronous from Datastax's Spark connector) sink
@@ -26,7 +27,7 @@ class PipelineConn() extends Pipeline[Conn.Conn](Conn.schemaBase) {
       $"dest_ip",
       $"dest_port")
       .show(10000)
-    dt.rdd.saveToCassandra($"sensor".toString(), "conn")
+    dt.toDF().saveToCassandra($"sensor".toString())
 
     /*
     // Set Categorical and Numeric columns features to detect outliers
@@ -39,6 +40,12 @@ class PipelineConn() extends Pipeline[Conn.Conn](Conn.schemaBase) {
     data_with_outliers.printSchema()
     data_with_outliers.show()
     */
+  }
+
+  implicit class DataFrameTransforms(df: DataFrame) {
+    def saveToCassandra(keyspaceName: String): Unit = {
+      df.rdd.saveToCassandra(keyspaceName, "conn")
+    }
   }
 
   override def customParsing(df: DataFrame): DataFrame = {

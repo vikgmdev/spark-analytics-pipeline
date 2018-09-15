@@ -9,6 +9,13 @@ import org.apache.spark.sql.functions.udf
 
 object IpLookupEnricher {
 
+  implicit class DataFrameTransforms(df: DataFrame) {
+    def saveToCassandra(keyspaceName: String): DataFrame = {
+
+    }
+  }
+
+
   // https://github.com/snowplow/scala-maxmind-iplookups
   // https://stackoverflow.com/questions/30075106/using-maxmind-geoip-in-spark-serialized
   /*
