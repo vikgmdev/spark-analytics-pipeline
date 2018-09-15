@@ -26,7 +26,7 @@ class PipelineConn() extends Pipeline[Conn.Conn](Conn.schemaBase) {
       $"dest_ip",
       $"dest_port")
       .show(10000)
-    dt.rdd.saveToCassandra(dt.select($"sensor").toString(), "conn")
+    dt.rdd.saveToCassandra($"sensor".toString(), "conn")
 
     /*
     // Set Categorical and Numeric columns features to detect outliers
