@@ -6,9 +6,7 @@ import org.apache.spark.sql.{DataFrame, Dataset}
 import com.mantix4.ap.abstracts.spark.SparkHelper
 import com.mantix4.ap.core.enrichments.ConnEnricher
 import com.mantix4.ap.core.logs.NetworkProtocols.Conn
-import com.datastax.spark.connector._
-import org.apache.spark.sql.cassandra._
-import com.datastax.spark.connector.streaming._
+import com.mantix4.ap.core.enrichments.IpLookupEnricher._
 
 /**
   * must be idempotent and synchronous (@TODO check asynchronous/synchronous from Datastax's Spark connector) sink
@@ -40,12 +38,6 @@ class PipelineConn() extends Pipeline[Conn.Conn](Conn.schemaBase) {
     data_with_outliers.printSchema()
     data_with_outliers.show()
     */
-  }
-
-  implicit class DataFrameTransforms(df: DataFrame) {
-    def saveToCassandra(keyspaceName: String): Unit = {
-      df.rdd.saveToCassandra(keyspaceName, "conn")
-    }
   }
 
   override def customParsing(df: DataFrame): DataFrame = {

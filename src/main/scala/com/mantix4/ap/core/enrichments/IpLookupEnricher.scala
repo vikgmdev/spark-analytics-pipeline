@@ -5,13 +5,16 @@ import org.apache.spark.sql.{Column, DataFrame}
 import com.snowplowanalytics.maxmind.iplookups.IpLookups
 import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions.udf
+import com.datastax.spark.connector._
+import org.apache.spark.sql.cassandra._
+import com.datastax.spark.connector.streaming._
 
 
 object IpLookupEnricher {
 
   implicit class DataFrameTransforms(df: DataFrame) {
-    def saveToCassandra(keyspaceName: String): DataFrame = {
-
+    def saveToCassandra(keyspaceName: String): Unit = {
+      df.rdd.saveToCassandra(keyspaceName, "conn")
     }
   }
 
