@@ -6,6 +6,8 @@ import org.apache.spark.sql.{DataFrame, Dataset}
 import com.mantix4.ap.abstracts.spark.SparkHelper
 import com.mantix4.ap.core.enrichments.ConnEnricher
 import com.mantix4.ap.core.logs.NetworkProtocols.Conn
+import com.datastax.spark.connector._
+import org.apache.spark.sql.cassandra._
 
 /**
   * must be idempotent and synchronous (@TODO check asynchronous/synchronous from Datastax's Spark connector) sink
@@ -24,6 +26,10 @@ class PipelineConn() extends Pipeline[Conn.Conn](Conn.schemaBase) {
       $"dest_ip",
       $"dest_port")
       .show(10000)
+    dt.rdd.saveToCassandra(col("sensor").toString(), "conn")
+
+
+
 
     /*
     // Set Categorical and Numeric columns features to detect outliers

@@ -63,3 +63,36 @@ object Conn {
     .add("inner_vlan", IntegerType)
     .add("sensor", StringType)
 }
+
+/*
+CREATE TABLE sensor_dev_3.conn (
+timestamp timestamp PRIMARY KEY,
+uid text,
+source_ip inet,
+source_port int,
+dest_ip inet,
+dest_port int,
+proto varchar,
+service varchar,
+duration double,
+orig_bytes double,
+resp_bytes double,
+conn_state varchar,
+local_orig boolean,
+local_resp boolean,
+missed_bytes double,
+history varchar,
+orig_pkts double,
+orig_ip_bytes double,
+resp_pkts double,
+resp_ip_bytes double,
+tunnel_parents set<varchar>,
+orig_l2_addr varchar,
+resp_l2_addr varchar,
+vlan int,
+inner_vlan int,
+direction varchar,
+pcr double,
+sensor varchar
+);
+*/
