@@ -25,7 +25,6 @@ abstract case class Pipeline[T <: Product : TypeTag](schemaBase: StructType) ext
 
   override def addBatch(batchId: Long, df: DataFrame): Unit = {
     val dataframe = getDataframeType(df)
-    dataframe.writeStream.partitionBy("source_ip").
     val dataset = getDataset(dataframe)
     this.startPipeline(dataset)
   }

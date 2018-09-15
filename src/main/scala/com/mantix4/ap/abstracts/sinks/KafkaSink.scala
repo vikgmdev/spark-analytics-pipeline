@@ -17,7 +17,7 @@ object KafkaSink {
       |null|[7B 22 72 61 64 6...| test|        0|    60|2017-11-21 22:56:...|            0|[Feel No Ways,Dra...|
     *
     */
-  def debugStream(kafkaInputDS: DataFrame, queryName: String): StreamingQuery = {
+  def debugStream(kafkaInputDS: DataFrame, queryName: String) : StreamingQuery = {
     kafkaInputDS
       .writeStream
       .partitionBy("sensor")
