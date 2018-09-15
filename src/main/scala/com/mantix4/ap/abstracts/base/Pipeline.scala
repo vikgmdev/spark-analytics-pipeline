@@ -18,9 +18,12 @@ abstract case class Pipeline[T <: Product : TypeTag](schemaBase: StructType) ext
   def customParsing(df: DataFrame): DataFrame
 
   def getDataframeType(df: DataFrame): DataFrame = {
+    /*
     df.withColumn("data",
-      from_json($"value".cast(StringType), schemaBase))
+        from_json($"value".cast(StringType), schemaBase))
       .select("data.*")
+      */
+    df
   }
 
   override def addBatch(batchId: Long, df: DataFrame): Unit = {
