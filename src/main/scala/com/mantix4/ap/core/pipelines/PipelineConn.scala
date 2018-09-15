@@ -16,7 +16,7 @@ class PipelineConn() extends Pipeline[Conn.Conn](Conn.schemaBase) {
 
   def startPipeline(dt: Dataset[Conn.Conn]): Unit = {
     // Debug only
-    dt.show(1000)
+    dt.show(10000)
 
     /*
     // Set Categorical and Numeric columns features to detect outliers
