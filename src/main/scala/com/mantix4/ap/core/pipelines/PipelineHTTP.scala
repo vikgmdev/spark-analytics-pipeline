@@ -8,7 +8,7 @@ import com.mantix4.ap.core.logs.NetworkProtocols.HTTP
 import com.mantix4.ap.core.ml.AnomalyDetection
 import org.apache.spark.sql.functions.{col, from_json, split}
 
-class PipelineHTTP() extends Pipeline[HTTP.HTTP] {
+class PipelineHTTP() extends Pipeline[HTTP.HTTP](HTTP.schemaBase) {
   private val spark = SparkHelper.getSparkSession()
   import spark.implicits._
 
@@ -43,11 +43,5 @@ class PipelineHTTP() extends Pipeline[HTTP.HTTP] {
       .withColumn("resp_fuids", split(col("resp_fuids"), ","))
       .withColumn("resp_filenames", split(col("resp_filenames"), ","))
       .withColumn("resp_mime_types", split(col("resp_mime_types"), ","))
-  }
-
-  override def getDataframeType(df: DataFrame): DataFrame = {
-    df.withColumn("data",
-      from_json($"value".cast(StringType), HTTP.schemaBase))
-      .select("data.*")
   }
 }

@@ -8,13 +8,13 @@ import com.mantix4.ap.abstracts.spark.SparkHelper
 import com.mantix4.ap.core.logs.NetworkProtocols.DNS
 import com.mantix4.ap.core.ml.AnomalyDetection
 
-class PipelineDNS() extends Pipeline[DNS.DNS] {
+class PipelineDNS() extends Pipeline[DNS.DNS](DNS.schemaBase) {
   private val spark = SparkHelper.getSparkSession()
   import spark.implicits._
 
   override def startPipeline(dt: Dataset[DNS.DNS]): Unit = {
     // Debug only
-    //dt.show(100, truncate = false)
+    dt.show(100, truncate = false)
 
     /*
 
@@ -54,11 +54,5 @@ class PipelineDNS() extends Pipeline[DNS.DNS] {
           )
       .withColumn("answer_length", size(col("answers")))
       */
-  }
-
-  override def getDataframeType(df: DataFrame): DataFrame = {
-    df.withColumn("data",
-      from_json($"value".cast(StringType), DNS.schemaBase))
-      .select("data.*")
   }
 }

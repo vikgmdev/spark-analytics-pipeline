@@ -7,7 +7,7 @@ import org.apache.spark.sql.functions.from_json
 import org.apache.spark.sql.types.StringType
 import org.apache.spark.sql.{DataFrame, Dataset, Encoders}
 
-class PipelineP0f() extends Pipeline[P0f.P0f] {
+class PipelineP0f() extends Pipeline[P0f.P0f](P0f.schemaBase) {
   private val spark = SparkHelper.getSparkSession()
   import spark.implicits._
 
@@ -18,10 +18,5 @@ class PipelineP0f() extends Pipeline[P0f.P0f] {
 
   override def customParsing(df: DataFrame): DataFrame = {
     df
-  }
-
-  override def getDataframeType(df: DataFrame): DataFrame = {
-    df.withColumn("data",
-      from_json($"value".cast(StringType), P0f.schemaBase))
   }
 }

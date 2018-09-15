@@ -2,12 +2,15 @@ package com.mantix4.ap.abstracts.sources
 
 import com.mantix4.ap.abstracts.spark.SparkHelper
 import org.apache.spark.sql.DataFrame
+import org.apache.spark.sql.functions.from_json
+import org.apache.spark.sql.types.{StringType, StructType}
 
 /**
   * @see https://com.mantix4.ap.abstracts.spark.apache.org/docs/latest/structured-streaming-kafka-integration.html
   */
 object KafkaSource {
   private val spark = SparkHelper.getSparkSession()
+  import spark.implicits._
 
   val kafka_bootstrap_servers = "node4:9092,node5:9092"
 
@@ -32,7 +35,7 @@ object KafkaSource {
     * startingOffsets should use a JSON coming from the lastest offsets saved in our DB (Cassandra here)
     */
   // def read(startingOption: String = "startingOffsets", partitionsAndOffsets: String = "earliest") : Dataset[Conn.SimpleKafka] = {
-  def read(topic: String) : DataFrame = {
+  def read(topic: String, schemaBase: StructType) : DataFrame = {
     println(s"Reading from Kafka, topic: '$topic'")
     spark
       .readStream
@@ -45,5 +48,7 @@ object KafkaSource {
       .option("group.id", s"Kafka-Streaming-Topic-$topic")
       .option("failOnDataLoss", value = false)
       .load()
+      .withColumn("data", from_json($"value".cast(StringType), schemaBase))
+      .select("data.*")
   }
 }

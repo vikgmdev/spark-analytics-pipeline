@@ -9,7 +9,7 @@ import org.apache.spark.sql.types._
 import scala.reflect.ClassTag
 import scala.reflect.runtime.universe.TypeTag
 
-abstract case class Pipeline[T <: Product : TypeTag]() extends SinkBase {
+abstract case class Pipeline[T <: Product : TypeTag](schemaBase: StructType) extends SinkBase {
   private val spark = SparkHelper.getSparkSession()
   import spark.implicits._
 
@@ -17,11 +17,15 @@ abstract case class Pipeline[T <: Product : TypeTag]() extends SinkBase {
 
   def customParsing(df: DataFrame): DataFrame
 
-  def getDataframeType(df: DataFrame): DataFrame
-  // def getDataframeType(df: DataFrame): Dataset[T]
+  def getDataframeType(df: DataFrame): DataFrame = {
+    df.withColumn("data",
+      from_json($"value".cast(StringType), schemaBase))
+      .select("data.*")
+  }
 
   override def addBatch(batchId: Long, df: DataFrame): Unit = {
     val dataframe = getDataframeType(df)
+    dataframe.writeStream.partitionBy("source_ip").
     val dataset = getDataset(dataframe)
     this.startPipeline(dataset)
   }

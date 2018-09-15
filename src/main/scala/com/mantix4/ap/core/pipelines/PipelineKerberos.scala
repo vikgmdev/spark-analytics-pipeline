@@ -7,7 +7,7 @@ import com.mantix4.ap.abstracts.spark.SparkHelper
 import com.mantix4.ap.core.logs.NetworkProtocols.Kerberos
 import org.apache.spark.sql.functions.from_json
 
-class PipelineKerberos() extends Pipeline[Kerberos.Kerberos] {
+class PipelineKerberos() extends Pipeline[Kerberos.Kerberos](Kerberos.schemaBase) {
   private val spark = SparkHelper.getSparkSession()
   import spark.implicits._
 
@@ -31,10 +31,5 @@ class PipelineKerberos() extends Pipeline[Kerberos.Kerberos] {
       .withColumn("success", $"success".cast(BooleanType))
       .withColumn("forwardable", $"forwardable".cast(BooleanType))
       .withColumn("renewable", $"renewable".cast(BooleanType))
-  }
-
-  override def getDataframeType(df: DataFrame): DataFrame = {
-    df.withColumn("data",
-      from_json($"value".cast(StringType), Kerberos.schemaBase))
   }
 }

@@ -7,7 +7,7 @@ import com.mantix4.ap.abstracts.spark.SparkHelper
 import com.mantix4.ap.core.logs.NetworkProtocols.Syslog
 import org.apache.spark.sql.functions.from_json
 
-class PipelineSyslog() extends Pipeline[Syslog.Syslog] {
+class PipelineSyslog() extends Pipeline[Syslog.Syslog](Syslog.schemaBase) {
   private val spark = SparkHelper.getSparkSession()
   import spark.implicits._
 
@@ -28,10 +28,5 @@ class PipelineSyslog() extends Pipeline[Syslog.Syslog] {
       // Change column's to the righ type
       .withColumn("source_port", $"source_port".cast(IntegerType))
       .withColumn("dest_port", $"dest_port".cast(IntegerType))
-  }
-
-  override def getDataframeType(df: DataFrame): DataFrame = {
-    df.withColumn("data",
-      from_json($"value".cast(StringType), Syslog.schemaBase))
   }
 }

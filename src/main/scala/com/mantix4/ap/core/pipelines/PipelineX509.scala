@@ -7,7 +7,7 @@ import com.mantix4.ap.abstracts.spark.SparkHelper
 import com.mantix4.ap.core.logs.Files.X509
 import org.apache.spark.sql.functions.from_json
 
-class PipelineX509() extends Pipeline[X509.X509] {
+class PipelineX509() extends Pipeline[X509.X509](X509.schemaBase) {
   private val spark = SparkHelper.getSparkSession()
   import spark.implicits._
 
@@ -48,10 +48,5 @@ class PipelineX509() extends Pipeline[X509.X509] {
       .withColumn("san_ip", $"san_ip".cast(ArrayType(StringType)))
       .withColumn("basic_constraints_ca", $"basic_constraints_ca".cast(BooleanType))
       .withColumn("basic_constraints_path_len", $"basic_constraints_path_len".cast(DoubleType))
-  }
-
-  override def getDataframeType(df: DataFrame): DataFrame = {
-    df.withColumn("data",
-      from_json($"value".cast(StringType), X509.schemaBase))
   }
 }

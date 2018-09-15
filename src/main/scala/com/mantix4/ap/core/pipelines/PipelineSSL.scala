@@ -7,7 +7,7 @@ import com.mantix4.ap.abstracts.spark.SparkHelper
 import com.mantix4.ap.core.logs.NetworkProtocols.SSL
 import org.apache.spark.sql.functions.from_json
 
-class PipelineSSL() extends Pipeline[SSL.SSL] {
+class PipelineSSL() extends Pipeline[SSL.SSL](SSL.schemaBase) {
   private val spark = SparkHelper.getSparkSession()
   import spark.implicits._
 
@@ -32,10 +32,5 @@ class PipelineSSL() extends Pipeline[SSL.SSL] {
       .withColumn("established", $"established".cast(BooleanType))
       .withColumn("cert_chain_fuids", $"cert_chain_fuids".cast(ArrayType(StringType)))
       .withColumn("client_cert_chain_fuids", $"client_cert_chain_fuids".cast(ArrayType(StringType)))
-  }
-
-  override def getDataframeType(df: DataFrame): DataFrame = {
-    df.withColumn("data",
-      from_json($"value".cast(StringType), SSL.schemaBase))
   }
 }
