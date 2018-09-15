@@ -14,7 +14,7 @@ class PipelineHTTP() extends Pipeline[HTTP.HTTP](HTTP.schemaBase) {
 
   override def startPipeline(dt: Dataset[HTTP.HTTP]): Unit = {
     // Debug only
-    dt.show(100)
+    dt.show(1000)
 
 
     /*
