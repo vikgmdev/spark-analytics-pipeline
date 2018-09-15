@@ -14,7 +14,7 @@ class PipelineDNS() extends Pipeline[DNS.DNS](DNS.schemaBase) {
 
   override def startPipeline(dt: Dataset[DNS.DNS]): Unit = {
     // Debug only
-    dt.show(100, truncate = false)
+    dt.show(100)
 
     /*
 

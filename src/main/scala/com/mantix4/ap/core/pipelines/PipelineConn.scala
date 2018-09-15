@@ -6,6 +6,7 @@ import org.apache.spark.sql.{DataFrame, Dataset}
 import com.mantix4.ap.abstracts.spark.SparkHelper
 import com.mantix4.ap.core.enrichments.ConnEnricher
 import com.mantix4.ap.core.logs.NetworkProtocols.Conn
+
 /**
   * must be idempotent and synchronous (@TODO check asynchronous/synchronous from Datastax's Spark connector) sink
   */
@@ -15,7 +16,7 @@ class PipelineConn() extends Pipeline[Conn.Conn](Conn.schemaBase) {
 
   def startPipeline(dt: Dataset[Conn.Conn]): Unit = {
     // Debug only
-    dt.show()
+    dt.show(100)
 
     /*
     // Set Categorical and Numeric columns features to detect outliers

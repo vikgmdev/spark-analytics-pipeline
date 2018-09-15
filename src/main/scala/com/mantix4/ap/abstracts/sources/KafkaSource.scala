@@ -48,7 +48,8 @@ object KafkaSource {
       .option("group.id", s"Kafka-Streaming-Topic-$topic")
       .option("failOnDataLoss", value = false)
       .load()
-      .withColumn("data", from_json($"value".cast(StringType), schemaBase))
+      .withColumn("data",
+        from_json($"value".cast(StringType), schemaBase))
       .select("data.*")
   }
 }
