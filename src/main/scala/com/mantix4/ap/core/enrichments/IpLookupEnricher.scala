@@ -8,6 +8,7 @@ import org.apache.spark.sql.functions.udf
 import com.datastax.spark.connector._
 import org.apache.spark.sql.cassandra._
 import com.datastax.spark.connector.streaming._
+import com.datastax.spark.connector.writer.SqlRowWriter
 
 
 object IpLookupEnricher {
@@ -15,37 +16,42 @@ object IpLookupEnricher {
   implicit class DataFrameTransforms(df: DataFrame) {
     def saveToCassandra(keyspaceName: String): DataFrame = {
       println(keyspaceName)
-      df.rdd.saveToCassandra(keyspaceName, "conn", SomeColumns("timestamp",
-        "uid",
-        "source_ip",
-        "source_port",
-        "dest_ip",
-        "dest_port",
-        "proto",
-        "service",
-        "duration",
-        "orig_bytes",
-        "resp_bytes",
-        "conn_state",
-        "local_orig",
-        "local_resp",
-        "missed_bytes",
-        "history",
-        "orig_pkts",
-        "orig_ip_bytes",
-        "resp_pkts",
-        "resp_ip_bytes",
-        "tunnel_parents",
-        "orig_l2_addr",
-        "resp_l2_addr",
-        "vlan",
-        "inner_vlan",
-        "direction",
-        "pcr",
-        "sensor"))
+      implicit val rowWriter: SqlRowWriter.Factory.type = SqlRowWriter.Factory
+      df.rdd.saveToCassandra(keyspaceName, "conn")
       df
     }
   }
+
+  /*
+  SomeColumns("timestamp",
+    "uid",
+    "source_ip",
+    "source_port",
+    "dest_ip",
+    "dest_port",
+    "proto",
+    "service",
+    "duration",
+    "orig_bytes",
+    "resp_bytes",
+    "conn_state",
+    "local_orig",
+    "local_resp",
+    "missed_bytes",
+    "history",
+    "orig_pkts",
+    "orig_ip_bytes",
+    "resp_pkts",
+    "resp_ip_bytes",
+    "tunnel_parents",
+    "orig_l2_addr",
+    "resp_l2_addr",
+    "vlan",
+    "inner_vlan",
+    "direction",
+    "pcr",
+    "sensor")
+  */
 
 
   // https://github.com/snowplow/scala-maxmind-iplookups

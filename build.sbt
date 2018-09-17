@@ -14,7 +14,7 @@ libraryDependencies += "org.apache.spark" %% "spark-core" % sparkVersion
 libraryDependencies += "org.apache.spark" %% "spark-sql" % sparkVersion
 libraryDependencies += "org.apache.spark" %% "spark-mllib" % sparkVersion
 libraryDependencies += "org.apache.spark" % "spark-sql-kafka-0-10_2.11" % sparkVersion
-libraryDependencies += "com.datastax.spark" %% "spark-cassandra-connector" % "2.0.2"
+libraryDependencies += "com.datastax.spark" %% "spark-cassandra-connector" % "2.0.10"
 
 // GeoIP dependency
 libraryDependencies += "com.snowplowanalytics" %% "scala-maxmind-iplookups" % "0.5.0"
