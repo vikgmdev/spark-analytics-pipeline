@@ -15,7 +15,7 @@ object IpLookupEnricher {
   implicit class DataFrameTransforms(df: DataFrame) {
     def saveToCassandra(keyspaceName: String): DataFrame = {
       println(keyspaceName)
-      // df.rdd.saveToCassandra(keyspaceName, "conn")
+      df.rdd.saveToCassandra(keyspaceName, "conn")
       df
     }
   }
