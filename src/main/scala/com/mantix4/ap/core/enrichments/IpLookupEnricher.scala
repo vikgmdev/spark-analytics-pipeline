@@ -13,8 +13,9 @@ import com.datastax.spark.connector.streaming._
 object IpLookupEnricher {
 
   implicit class DataFrameTransforms(df: DataFrame) {
-    def saveToCassandra(keyspaceName: String): Unit = {
+    def saveToCassandra(keyspaceName: String): DataFrame = {
       df.rdd.saveToCassandra(keyspaceName, "conn")
+      df
     }
   }
 
