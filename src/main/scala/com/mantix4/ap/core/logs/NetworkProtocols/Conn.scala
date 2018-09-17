@@ -4,7 +4,7 @@ import org.apache.spark.sql.types._
 
 object Conn {
   case class Conn (
-                    timestamp: String,
+                    timestamp: Option[TimestampType],
                     uid: String,
                     source_ip: String,
                     source_port: Option[Int],
@@ -65,7 +65,7 @@ object Conn {
 }
 
 /*
-CREATE TABLE sensor_dev_3.conn (
+CREATE TABLE sensor_dev_1.conn (
 timestamp timestamp PRIMARY KEY,
 uid text,
 source_ip inet,
