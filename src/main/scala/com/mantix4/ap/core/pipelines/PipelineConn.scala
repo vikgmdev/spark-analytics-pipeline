@@ -25,7 +25,7 @@ class PipelineConn() extends Pipeline[Conn.Conn](Conn.schemaBase) {
       $"dest_ip",
       $"dest_port")
       .show()
-    val sensor_name = dt.toDF().takeAsList(1).get(0).getString(0)
+    val sensor_name = dt.toDF("sensor").takeAsList(1).get(0).getString(0)
     dt.toDF().saveToCassandra(sensor_name)
 
     /*
