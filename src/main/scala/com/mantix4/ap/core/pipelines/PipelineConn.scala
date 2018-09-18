@@ -7,6 +7,7 @@ import com.mantix4.ap.abstracts.spark.SparkHelper
 import com.mantix4.ap.core.enrichments.ConnEnricher
 import com.mantix4.ap.core.logs.NetworkProtocols.Conn
 import com.mantix4.ap.core.enrichments.IpLookupEnricher._
+import org.apache.spark.sql.types.TimestampType
 
 /**
   * must be idempotent and synchronous (@TODO check asynchronous/synchronous from Datastax's Spark connector) sink
@@ -18,8 +19,8 @@ class PipelineConn() extends Pipeline[Conn.Conn](Conn.schemaBase) {
   def startPipeline(dt: Dataset[Conn.Conn]): Unit = {
     // Debug only
     dt.show()
-    val sensor_name = dt.toDF().select("sensor").takeAsList(1).get(0).getString(0)
-    dt.toDF().saveToCassandra(sensor_name)
+    //val sensor_name = dt.toDF().select("sensor").takeAsList(1).get(0).getString(0)
+    //dt.toDF().saveToCassandra(sensor_name)
 
     /*
     // Set Categorical and Numeric columns features to detect outliers
@@ -36,7 +37,7 @@ class PipelineConn() extends Pipeline[Conn.Conn](Conn.schemaBase) {
 
   override def customParsing(df: DataFrame): DataFrame = {
     df
-
+      .withColumn("timestamp", unix_timestamp($"timestamp", "yyyy/MM/dd HH:mm:ss").cast(TimestampType))
       .withColumn("tunnel_parents", split(col("tunnel_parents"), ","))
 
       // Enrich
