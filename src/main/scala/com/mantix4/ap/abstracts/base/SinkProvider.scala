@@ -14,8 +14,6 @@ class SinkProvider extends StreamSinkProvider {
                           parameters: Map[String, String],
                           partitionColumns: Seq[String],
                           outputMode: OutputMode): SinkBase = {
-    println(parameters)
-    println(partitionColumns)
     val className: String = parameters("pipeline")
     Class.forName(className).newInstance().asInstanceOf[SinkBase]
   }

@@ -8,9 +8,10 @@ import org.apache.spark.sql.streaming.{DataStreamWriter, OutputMode, StreamingQu
 import org.apache.spark.sql.{Dataset, Row}
 
 object Main {
+  private val spark = SparkHelper.getSparkSession()
+  import spark.implicits._
 
   def main(args: Array[String]) {
-    val spark = SparkHelper.getAndConfigureSparkSession()
 
     startNewPipeline(KafkaSource.read(topic = "conn-topic-dev", Conn.schemaBase), Conn.getClass.getSimpleName)
 
@@ -28,9 +29,9 @@ object Main {
     val withProvider = provider.replace("$","")
     KafkaSink.debugStream(ds, withProvider)
     ds
+      .repartition($"sensor")
       .toDF()
       .writeStream
-      .partitionBy("sensor")
       .format(s"com.mantix4.ap.abstracts.base.SinkProvider")
       .option("pipeline", s"com.mantix4.ap.core.pipelines.Pipeline$withProvider")
       .outputMode(OutputMode.Update())

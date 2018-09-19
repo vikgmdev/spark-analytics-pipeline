@@ -37,7 +37,6 @@ object KafkaSource {
   // def read(startingOption: String = "startingOffsets", partitionsAndOffsets: String = "earliest") : Dataset[Conn.SimpleKafka] = {
   def read(topic: String, schemaBase: StructType) : DataFrame = {
     println(s"Reading from Kafka, topic: '$topic'")
-    val df =
     spark
       .readStream
       .format("kafka")
@@ -48,18 +47,8 @@ object KafkaSource {
       .option("enable.auto.commit", value = false)
       .option("group.id", s"Kafka-Streaming-Topic-$topic")
       .option("failOnDataLoss", value = false)
-      .schema(new StructType()
-        .add("key", BinaryType)
-        .add("value", BinaryType)
-        .add("topic", StringType)
-        .add("partition", IntegerType)
-        .add("offset", LongType)
-        .add("timestamp", TimestampType)
-        .add("timestampType", IntegerType)
-      )
       .load()
-      df.show()
-      df.withColumn("data",
+      .withColumn("data",
         from_json($"value".cast(StringType), schemaBase))
       .select("data.*")
   }
