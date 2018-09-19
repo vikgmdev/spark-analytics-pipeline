@@ -22,7 +22,7 @@ object KafkaSink {
       .writeStream
       .queryName("Debug Stream Kafka - " + queryName)
       .outputMode(OutputMode.Update())
-      .option("truncate", value = true)
+      .option("truncate", value = false)
       .format("console")
       .start()
   }

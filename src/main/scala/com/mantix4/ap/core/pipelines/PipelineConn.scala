@@ -18,7 +18,7 @@ class PipelineConn() extends Pipeline[Conn.Conn](Conn.schemaBase) {
 
   def startPipeline(dt: Dataset[Conn.Conn]): Unit = {
     // Debug only
-    dt.show()
+    dt.show(3000)
 
     dt.toDF().saveToCassandra()
 
