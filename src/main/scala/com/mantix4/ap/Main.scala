@@ -27,14 +27,10 @@ object Main {
 
   def startNewPipeline(ds: Dataset[Row], provider: String): StreamingQuery = {
     val withProvider = provider.replace("$","")
-    val ds_by_sensor = ds.repartition($"sensor")
-
-    ds_by_sensor.foreachPartition{datasetpartition => datasetpartition.foreach(row => println(row))}
-
-
-    KafkaSink.debugStream(ds_by_sensor, withProvider)
-    ds_by_sensor
+    KafkaSink.debugStream(ds, withProvider)
+    ds
       .toDF()
+      .repartition($"sensor")
       .writeStream
       .format(s"com.mantix4.ap.abstracts.base.SinkProvider")
       .option("pipeline", s"com.mantix4.ap.core.pipelines.Pipeline$withProvider")
