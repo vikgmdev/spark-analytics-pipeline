@@ -4,7 +4,7 @@ import com.mantix4.ap.Main.spark
 import com.mantix4.ap.abstracts.sources.KafkaSource.kafka_bootstrap_servers
 import com.mantix4.ap.abstracts.spark.SparkHelper
 import org.apache.spark.sql.DataFrame
-import org.apache.spark.sql.streaming.StreamingQuery
+import org.apache.spark.sql.streaming.{OutputMode, StreamingQuery}
 
 object KafkaSink {
 
@@ -26,6 +26,7 @@ object KafkaSink {
       .count()
       .writeStream
       .queryName("Debug Stream Kafka - " + queryName)
+      .outputMode(OutputMode.Update())
       .option("truncate", value = true)
       .format("console")
       .start()
