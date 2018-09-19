@@ -22,8 +22,6 @@ object KafkaSink {
   def debugStream(kafkaInputDS: DataFrame, queryName: String) : StreamingQuery = {
     kafkaInputDS
       .repartition($"sensor")
-      .groupBy($"sensor")
-      .count()
       .writeStream
       .queryName("Debug Stream Kafka - " + queryName)
       .outputMode(OutputMode.Update())
