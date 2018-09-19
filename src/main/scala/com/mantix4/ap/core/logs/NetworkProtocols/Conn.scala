@@ -70,8 +70,8 @@ object Conn {
 
 /*
 CREATE TABLE sensor_dev_1.conn (
-timestamp timestamp PRIMARY KEY,
-uid text,
+timestamp timestamp,
+uid text PRIMARY KEY,
 source_ip inet,
 source_port int,
 dest_ip inet,
