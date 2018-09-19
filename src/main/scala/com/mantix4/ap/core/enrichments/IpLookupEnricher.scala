@@ -14,10 +14,10 @@ import com.datastax.spark.connector.writer.SqlRowWriter
 object IpLookupEnricher {
 
   implicit class DataFrameTransforms(df: DataFrame) {
-    def saveToCassandra(keyspaceName: String): DataFrame = {
-      println(keyspaceName)
+    def saveToCassandra(): DataFrame = {
+      println(SparkHelper.sensor_name)
       implicit val rowWriter: SqlRowWriter.Factory.type = SqlRowWriter.Factory
-      df.rdd.saveToCassandra(keyspaceName, "conn", SomeColumns("timestamp",
+      df.rdd.saveToCassandra(SparkHelper.sensor_name, "conn", SomeColumns("timestamp",
         "uid",
         "source_ip",
         "source_port",
