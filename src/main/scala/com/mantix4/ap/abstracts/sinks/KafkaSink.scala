@@ -1,6 +1,5 @@
 package com.mantix4.ap.abstracts.sinks
 
-import com.mantix4.ap.Main.spark
 import com.mantix4.ap.abstracts.sources.KafkaSource.kafka_bootstrap_servers
 import com.mantix4.ap.abstracts.spark.SparkHelper
 import org.apache.spark.sql.DataFrame
