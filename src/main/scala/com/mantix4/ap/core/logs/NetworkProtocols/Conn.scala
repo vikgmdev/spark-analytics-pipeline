@@ -28,7 +28,7 @@ object Conn {
                     orig_ip_bytes: Option[Double],
                     resp_pkts: Option[Double],
                     resp_ip_bytes: Option[Double],
-                    tunnel_parents: Option[Vector[String]],
+                    // tunnel_parents: Option[Vector[String]],
                     orig_l2_addr: String,
                     resp_l2_addr: String,
                     vlan: Option[Int],
