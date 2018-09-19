@@ -28,6 +28,10 @@ object Main {
   def startNewPipeline(ds: Dataset[Row], provider: String): StreamingQuery = {
     val withProvider = provider.replace("$","")
     val ds_by_sensor = ds.repartition($"sensor")
+
+    ds_by_sensor.foreachPartition{datasetpartition => datasetpartition.foreach(row => println(row))}
+
+
     KafkaSink.debugStream(ds_by_sensor, withProvider)
     ds_by_sensor
       .toDF()
