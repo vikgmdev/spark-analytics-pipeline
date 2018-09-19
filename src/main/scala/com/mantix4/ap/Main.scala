@@ -44,7 +44,10 @@ object Main {
 
   def foreach(kafkaInputDS: DataFrame) : StreamingQuery = {
     kafkaInputDS.writeStream.foreach(new ForeachWriter[Row] {
-      override def open(partitionId: Long, version: Long): Boolean = true
+      override def open(partitionId: Long, version: Long): Boolean = {
+        println(partitionId, version)
+        true
+      }
 
       override def process(value: Row): Unit = {
         // Write string to connection
