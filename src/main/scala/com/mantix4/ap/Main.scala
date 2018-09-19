@@ -12,6 +12,7 @@ object Main {
   import spark.implicits._
 
   def main(args: Array[String]) {
+    val spark = SparkHelper.getAndConfigureSparkSession()
 
     startNewPipeline(KafkaSource.read(topic = "conn-topic-dev", Conn.schemaBase), Conn.getClass.getSimpleName)
 
