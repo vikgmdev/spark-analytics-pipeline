@@ -28,36 +28,13 @@ object Main {
   def startNewPipeline(ds: Dataset[Row], provider: String): StreamingQuery = {
     val withProvider = provider.replace("$","")
     KafkaSink.debugStream(ds, withProvider)
-
-    foreach(ds)
-
     ds
       .toDF()
-      .repartition($"sensor")
       .writeStream
       .format(s"com.mantix4.ap.abstracts.base.SinkProvider")
       .option("pipeline", s"com.mantix4.ap.core.pipelines.Pipeline$withProvider")
       .outputMode(OutputMode.Update())
       .queryName(s"KafkaStreamToPipeline$withProvider")
       .start()
-  }
-
-  def foreach(kafkaInputDS: DataFrame) : StreamingQuery = {
-    kafkaInputDS.writeStream.foreach(new ForeachWriter[Row] {
-      override def open(partitionId: Long, version: Long): Boolean = {
-        println(partitionId, version)
-        true
-      }
-
-      override def process(value: Row): Unit = {
-        // Write string to connection
-        println(value)
-      }
-
-      override def close(errorOrNull: Throwable): Unit = {
-        // Close the connection
-      }
-    }
-    ).start()
   }
 }
