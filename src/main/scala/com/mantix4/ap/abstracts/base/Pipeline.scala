@@ -26,8 +26,6 @@ abstract case class Pipeline[T <: Product : TypeTag](schemaBase: StructType) ext
     // Select new column with the real log data
     val parsed_dataframe = this.customParsing(df)
 
-    parsed_dataframe.groupBy("sensor")
-
     // Convert to a class dataset
     parsed_dataframe.as[T]
   }
