@@ -19,6 +19,7 @@ class PipelineConn() extends Pipeline[Conn.Conn](Conn.schemaBase) {
   def startPipeline(dt: Dataset[Conn.Conn]): Unit = {
     // Debug only
     dt.show()
+
     // val sensor_name = dt.toDF().select("sensor").takeAsList(1).get(0).getString(0)
     // dt.toDF().saveToCassandra(sensor_name)
 

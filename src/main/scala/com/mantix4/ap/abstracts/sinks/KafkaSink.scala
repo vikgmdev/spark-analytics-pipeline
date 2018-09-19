@@ -20,7 +20,6 @@ object KafkaSink {
   def debugStream(kafkaInputDS: DataFrame, queryName: String) : StreamingQuery = {
     kafkaInputDS
       .writeStream
-      .partitionBy("sensor")
       .queryName("Debug Stream Kafka - " + queryName)
       .option("truncate", value = true)
       .format("console")

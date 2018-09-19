@@ -3,7 +3,7 @@ package com.mantix4.ap.abstracts.sources
 import com.mantix4.ap.abstracts.spark.SparkHelper
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.functions.from_json
-import org.apache.spark.sql.types.{StringType, StructType}
+import org.apache.spark.sql.types._
 
 /**
   * @see https://com.mantix4.ap.abstracts.spark.apache.org/docs/latest/structured-streaming-kafka-integration.html
@@ -37,6 +37,7 @@ object KafkaSource {
   // def read(startingOption: String = "startingOffsets", partitionsAndOffsets: String = "earliest") : Dataset[Conn.SimpleKafka] = {
   def read(topic: String, schemaBase: StructType) : DataFrame = {
     println(s"Reading from Kafka, topic: '$topic'")
+    val df =
     spark
       .readStream
       .format("kafka")
@@ -47,8 +48,18 @@ object KafkaSource {
       .option("enable.auto.commit", value = false)
       .option("group.id", s"Kafka-Streaming-Topic-$topic")
       .option("failOnDataLoss", value = false)
+      .schema(new StructType()
+        .add("key", BinaryType)
+        .add("value", BinaryType)
+        .add("topic", StringType)
+        .add("partition", IntegerType)
+        .add("offset", LongType)
+        .add("timestamp", TimestampType)
+        .add("timestampType", IntegerType)
+      )
       .load()
-      .withColumn("data",
+      df.show()
+      df.withColumn("data",
         from_json($"value".cast(StringType), schemaBase))
       .select("data.*")
   }
