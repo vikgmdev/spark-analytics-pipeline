@@ -27,9 +27,9 @@ object Main {
 
   def startNewPipeline(ds: Dataset[Row], provider: String): StreamingQuery = {
     val withProvider = provider.replace("$","")
-    KafkaSink.debugStream(ds, withProvider)
-    ds
-      .repartition($"sensor")
+    val ds_by_sensor = ds.repartition($"sensor")
+    KafkaSink.debugStream(ds_by_sensor, withProvider)
+    ds_by_sensor
       .toDF()
       .writeStream
       .format(s"com.mantix4.ap.abstracts.base.SinkProvider")
