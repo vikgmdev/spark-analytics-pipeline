@@ -37,11 +37,8 @@ class PipelineConn() extends Pipeline[Conn.Conn](Conn.schemaBase) {
 
   override def customParsing(df: DataFrame): DataFrame = {
     df
-        .drop("tunnel_parents")
-        .drop("vlan")
-        .drop("inner_vlan")
       //.withColumn("date", from_unixtime($"timestamp"))
-      // .withColumn("tunnel_parents", split(col("tunnel_parents"), ","))
+      .withColumn("tunnel_parents", split(col("tunnel_parents"), ","))
 
       // Enrich
       .withColumn("direction", ConnEnricher.withDirection(col("local_orig"), col("local_resp")))

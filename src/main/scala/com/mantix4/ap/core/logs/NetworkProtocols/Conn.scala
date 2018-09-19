@@ -7,7 +7,7 @@ import org.apache.spark.sql.types._
 
 object Conn {
   case class Conn (
-                    timestamp: String,
+                    timestamp: Timestamp,
                     // date: String,
                     uid: String,
                     source_ip: String,
@@ -28,14 +28,14 @@ object Conn {
                     orig_ip_bytes: Option[Double],
                     resp_pkts: Option[Double],
                     resp_ip_bytes: Option[Double],
-                    // tunnel_parents: Option[Vector[String]],
+                    tunnel_parents: Option[Vector[String]],
                     orig_l2_addr: String,
                     resp_l2_addr: String,
-                    // vlan: Option[Int],
-                    // inner_vlan: Option[Int],
+                    vlan: Option[Int],
+                    inner_vlan: Option[Int],
+                    sensor: String,
                     direction: String,
-                    pcr: Option[Double],
-                    sensor: String
+                    pcr: Option[Double]
                   ) extends Serializable
 
   val schemaBase: StructType = new StructType()
@@ -70,7 +70,7 @@ object Conn {
 
 /*
 CREATE TABLE sensor_dev_1.conn (
-timestamp text PRIMARY KEY,
+timestamp timestamp PRIMARY KEY,
 uid text,
 source_ip inet,
 source_port int,
@@ -90,10 +90,13 @@ orig_pkts double,
 orig_ip_bytes double,
 resp_pkts double,
 resp_ip_bytes double,
+tunnel_parents set<varchar>,
 orig_l2_addr varchar,
 resp_l2_addr varchar,
+vlan int,
+inner_vlan int,
+sensor varchar,
 direction varchar,
-pcr double,
-sensor varchar
+pcr double
 );
 */
