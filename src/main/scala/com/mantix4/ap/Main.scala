@@ -8,11 +8,10 @@ import org.apache.spark.sql.streaming.{DataStreamWriter, OutputMode, StreamingQu
 import org.apache.spark.sql.{Dataset, Row}
 
 object Main {
-  private val spark = SparkHelper.getSparkSession()
+  private val spark = SparkHelper.getAndConfigureSparkSession()
   import spark.implicits._
 
   def main(args: Array[String]) {
-    val spark = SparkHelper.getAndConfigureSparkSession()
 
     startNewPipeline(KafkaSource.read(topic = "conn-topic-dev", Conn.schemaBase), Conn.getClass.getSimpleName)
 
