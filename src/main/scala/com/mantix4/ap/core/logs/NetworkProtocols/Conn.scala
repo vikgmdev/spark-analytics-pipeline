@@ -69,7 +69,7 @@ object Conn {
 }
 
 /*
-CREATE TABLE sensor_dev_2.conn (
+CREATE TABLE sensor_dev_1.conn (
 timestamp timestamp PRIMARY KEY,
 uid text,
 source_ip inet,
