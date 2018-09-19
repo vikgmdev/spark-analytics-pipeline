@@ -17,24 +17,16 @@ abstract case class Pipeline[T <: Product : TypeTag](schemaBase: StructType) ext
 
   def customParsing(df: DataFrame): DataFrame
 
-  def getDataframeType(df: DataFrame): DataFrame = {
-    /*
-    df.withColumn("data",
-        from_json($"value".cast(StringType), schemaBase))
-      .select("data.*")
-      */
-    df
-  }
-
   override def addBatch(batchId: Long, df: DataFrame): Unit = {
-    val dataframe = getDataframeType(df)
-    val dataset = getDataset(dataframe)
+    val dataset = getDataset(df)
     this.startPipeline(dataset)
   }
 
   def getDataset(df: DataFrame): Dataset[T] = {
     // Select new column with the real log data
     val parsed_dataframe = this.customParsing(df)
+
+    parsed_dataframe.groupBy("sensor")
 
     // Convert to a class dataset
     parsed_dataframe.as[T]

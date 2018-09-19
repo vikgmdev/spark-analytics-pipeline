@@ -30,7 +30,6 @@ object Main {
     ds
       .toDF()
       .writeStream
-      .partitionBy("sensor")
       .format(s"com.mantix4.ap.abstracts.base.SinkProvider")
       .option("pipeline", s"com.mantix4.ap.core.pipelines.Pipeline$withProvider")
       .outputMode(OutputMode.Update())
