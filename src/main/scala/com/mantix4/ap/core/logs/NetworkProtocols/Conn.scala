@@ -8,7 +8,7 @@ import org.apache.spark.sql.types._
 object Conn {
   case class Conn (
                     timestamp: Timestamp,
-                    date: String,
+                    // date: String,
                     uid: String,
                     source_ip: String,
                     source_port: Option[Int],
