@@ -50,5 +50,6 @@ object KafkaSource {
       .withColumn("data",
         from_json($"value".cast(StringType), schemaBase))
       .select("data.*")
+      .filter($"sensor" === SparkHelper.sensor_name)
   }
 }

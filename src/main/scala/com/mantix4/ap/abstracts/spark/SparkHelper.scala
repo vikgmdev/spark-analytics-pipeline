@@ -5,6 +5,8 @@ import org.apache.spark.sql.SparkSession
 
 object SparkHelper {
 
+  var sensor_name = ""
+
   def getAndConfigureSparkSession(): SparkSession = {
     val conf = new SparkConf()
       .setAppName("Analytics Pipeline")

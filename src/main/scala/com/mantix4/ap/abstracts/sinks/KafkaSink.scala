@@ -9,7 +9,6 @@ import org.apache.spark.sql.streaming.{OutputMode, StreamingQuery}
 object KafkaSink {
 
   private val spark = SparkHelper.getSparkSession()
-  import spark.implicits._
 
   /**
   Console sink from Kafka's stream
@@ -21,7 +20,6 @@ object KafkaSink {
     */
   def debugStream(kafkaInputDS: DataFrame, queryName: String) : StreamingQuery = {
     kafkaInputDS
-      .repartition($"sensor")
       .writeStream
       .queryName("Debug Stream Kafka - " + queryName)
       .outputMode(OutputMode.Update())

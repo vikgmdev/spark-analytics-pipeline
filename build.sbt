@@ -9,6 +9,7 @@ scalaVersion := "2.11.12"
 val sparkVersion = "2.2.0"
 
 libraryDependencies += "log4j" % "log4j" % "1.2.14"
+libraryDependencies += "com.github.scopt" % "scopt_2.11" % "3.7.0"
 
 libraryDependencies += "org.apache.spark" %% "spark-core" % sparkVersion
 libraryDependencies += "org.apache.spark" %% "spark-sql" % sparkVersion

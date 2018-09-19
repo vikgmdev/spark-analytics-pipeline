@@ -8,10 +8,12 @@ import org.apache.spark.sql.streaming.{DataStreamWriter, OutputMode, StreamingQu
 import org.apache.spark.sql.{DataFrame, Dataset, ForeachWriter, Row}
 
 object Main {
-  private val spark = SparkHelper.getAndConfigureSparkSession()
-  import spark.implicits._
 
   def main(args: Array[String]) {
+    val spark = SparkHelper.getAndConfigureSparkSession()
+    // Receive the sensor name
+    // TODO: Fix this using https://github.com/scopt/scopt
+    SparkHelper.sensor_name = args(0)
 
     startNewPipeline(KafkaSource.read(topic = "conn-topic-dev", Conn.schemaBase), Conn.getClass.getSimpleName)
 
