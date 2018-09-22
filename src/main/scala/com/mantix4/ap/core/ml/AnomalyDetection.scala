@@ -41,8 +41,22 @@ object AnomalyDetection {
     // Now create a new dataframe using the prediction from our classifier
     val predictions_dataset = pipelineModel.transform(dataset)
 
+    // VectorAssembler - transformer that combines a given list of columns into a single vector column.
+    val assembler = new VectorAssembler()
+      .setInputCols(Array("anomalyScore"))
+      .setOutputCol("iforestFeatures")
+
+    val pipelineIForest = new Pipeline()
+      .setStages(Array(assembler))
+
+    // Train/fit and Predict anomalous instances
+    val pipelineModelIForest = pipelineIForest.fit(predictions_dataset)
+
+    // Now create a new dataframe using the prediction from our classifier
+    val predictions_IForest_dataset = pipelineModelIForest.transform(predictions_dataset)
+
     println("Result of Isolation Forest:")
-    predictions_dataset.show(false)
+    predictions_IForest_dataset.show(false)
 
     // Select only "uid" that is the log's id and the features column containing the Vector predictions
     // Create new dataframe to not override the original dataset
@@ -129,14 +143,6 @@ object AnomalyDetection {
 
     // Add Stage to the Array
     stages += iForest
-
-    // VectorAssembler - transformer that combines a given list of columns into a single vector column.
-    val assembler = new VectorAssembler()
-      .setInputCols(Array("anomalyScore"))
-      .setOutputCol("iforestFeatures")
-
-    // Add Stage to the Array
-    stages += assembler
 
     // return the stages array
     stages
