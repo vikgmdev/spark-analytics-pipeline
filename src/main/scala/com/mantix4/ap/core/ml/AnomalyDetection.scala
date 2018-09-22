@@ -60,7 +60,7 @@ object AnomalyDetection {
 
     // Select only "uid" that is the log's id and the features column containing the Vector predictions
     // Create new dataframe to not override the original dataset
-    var featured_dataset = predictions_dataset.select("uid", "iforestFeatures")
+    var featured_dataset = predictions_IForest_dataset.select("uid", "iforestFeatures")
 
     var dataframe_with_clusters = predictClusteringKmeans(featured_dataset)
 
@@ -68,7 +68,7 @@ object AnomalyDetection {
 
     // To end join the dataframe with all the anomalous instances
     // needed for our detection with the original dataset containing the full data log
-    val outlier_dataset = predictions_dataset.join(pca_dataframe, "uid")
+    val outlier_dataset = predictions_IForest_dataset.join(pca_dataframe, "uid")
 
     // Log end time of the full Anomaly Detection prediction, just for debug
     var endTime = System.currentTimeMillis()
