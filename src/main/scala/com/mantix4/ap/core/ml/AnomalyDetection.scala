@@ -46,7 +46,7 @@ object AnomalyDetection {
 
     // Select only "uid" that is the log's id and the features column containing the Vector predictions
     // Create new dataframe to not override the original dataset
-    var featured_dataset = predictions_dataset.select("uid", "anomalyScore")
+    var featured_dataset = predictions_dataset.select("uid", "scaledFeatures")
 
     var dataframe_with_clusters = predictClusteringKmeans(featured_dataset)
 
@@ -143,7 +143,7 @@ object AnomalyDetection {
     // TODO: Use DBScan algorithm to predict the number of clusters instead of predefined it
     val kmeans = new KMeans()
       .setK(20)
-      .setFeaturesCol("anomalyScore")
+      .setFeaturesCol("scaledFeatures")
       .setPredictionCol("cluster") // To avoid code confusions, rename the "prediction" column added by K-means to "cluster"
 
     // Trains a k-means model.
@@ -203,7 +203,7 @@ object AnomalyDetection {
     // PCA - convert a set of observations on possibly correlated variables
     // converting features vector into 3-dimensional principal components (x,y,z)
     val pca = new PCA()
-      .setInputCol("anomalyScore")
+      .setInputCol("scaledFeatures")
       .setOutputCol("pcaFeatures")
       .setK(3)
       .fit(dataframe_with_clusters)
