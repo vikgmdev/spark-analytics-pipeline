@@ -9,6 +9,7 @@ import org.apache.spark.sql.{DataFrame, Dataset}
 import org.apache.spark.sql.functions._
 import com.mantix4.ap.abstracts.cassandra.CassandraCRUDHelper._
 import com.mantix4.ap.core.logs.NetworkProtocols.Conn
+import org.apache.spark.ml.fpm.FPGrowth
 
 import scala.collection.mutable.ArrayBuffer
 
@@ -17,6 +18,32 @@ object AnomalyDetection {
   import spark.implicits._
 
   def main[T](dataset: Dataset[T], categoricalColumns: Array[String], numericCols: Array[String]): DataFrame = {
+
+
+    /*
+    TEST
+     */
+    val dataset = spark.createDataset(Seq(
+      "1 2 5",
+      "1 2 3 5",
+      "1 2")
+    ).map(t => t.split(" ")).toDF("items")
+
+    val fpgrowth = new FPGrowth().setItemsCol("items").setMinSupport(0.5).setMinConfidence(0.6)
+    val model = fpgrowth.fit(dataset)
+
+    // Display frequent itemsets.
+    model.freqItemsets.show()
+
+    // Display generated association rules.
+    model.associationRules.show()
+
+    // transform examines the input items against all the association rules and summarize the
+    // consequents as prediction
+    model.transform(dataset).show()
+    /*
+    END TEST
+     */
 
     // Log start time just for debug
     val startTime = System.currentTimeMillis()
