@@ -43,11 +43,17 @@ object AnomalyDetection {
 
     // VectorAssembler - transformer that combines a given list of columns into a single vector column.
     val assembler = new VectorAssembler()
-      .setInputCols(Array("anomalyScore", "scaledFeatures"))
+      .setInputCols(Array("scaledFeatures", "anomalyScore", "prediction"))
+      .setOutputCol("iforestFeaturesVector")
+
+    val scaler = new StandardScaler()
+      .setInputCol("iforestFeaturesVector")
       .setOutputCol("iforestFeatures")
+      .setWithStd(true)
+      .setWithMean(false)
 
     val pipelineIForest = new Pipeline()
-      .setStages(Array(assembler))
+      .setStages(Array(assembler, scaler))
 
     // Train/fit and Predict anomalous instances
     val pipelineModelIForest = pipelineIForest.fit(predictions_dataset)
