@@ -42,7 +42,7 @@ object AnomalyDetection {
 
     // Select only "uid" that is the log's id and the features column containing the Vector predictions
     // Create new dataframe to not override the original dataset
-    var featured_dataset = predictions_dataset.select("uid", "features")
+    var featured_dataset = predictions_dataset.select("uid", "scaledFeatures")
 
     var dataframe_with_clusters = predictClusteringKmeans(featured_dataset)
 
