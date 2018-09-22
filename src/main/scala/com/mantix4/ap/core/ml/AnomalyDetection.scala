@@ -104,6 +104,8 @@ object AnomalyDetection {
 
     // Trains a k-means model.
     val model = kmeans.fit(featured_dataset)
+    println("Fit KMeans model:")
+    featured_dataset.show()
 
     // Evaluate clustering by computing Within Set Sum of Squared Errors.
     val WSSSE = model.computeCost(featured_dataset)
@@ -115,6 +117,8 @@ object AnomalyDetection {
 
     // Predict and clustered the dataframe using the k-means model
     var dataframe_with_clusters = model.transform(featured_dataset)
+    println("Transform KMeans model:")
+    dataframe_with_clusters.show()
 
     // To avoid code confusions, rename the "prediction" column added by K-means to "cluster"
     dataframe_with_clusters = dataframe_with_clusters.withColumnRenamed("prediction", "cluster")
@@ -126,11 +130,15 @@ object AnomalyDetection {
       .setOutputCol("pcaFeatures")
       .setK(3)
       .fit(dataframe_with_clusters)
+    println("Fit PCA model:")
+    dataframe_with_clusters.show()
 
     // Predict and get our 3-dimensional principal components (x,y,z)
     // create a new dataframe with the PCA predictions containing:
     // "uid", "cluster", "features", "pcaFeatures"
     var pca_dataframe = pca.transform(dataframe_with_clusters)
+    println("Transform PCA model:")
+    pca_dataframe.show()
 
     // A helper UDF to convert ML linalg VectorUDT to ArrayType
     val vecToArray = udf( (xs: linalg.Vector) => xs.toArray )
