@@ -44,7 +44,7 @@ object AnomalyDetection {
     // Create new dataframe to not override the original dataset
     var featured_dataset = predictions_dataset.select("uid", "features")
 
-    var dataframe_with_clusters = predictClusteringBisectingKMeans(featured_dataset)
+    var dataframe_with_clusters = predictClusteringKmeans(featured_dataset)
 
     val pca_dataframe = predictPCA(dataframe_with_clusters)
 
@@ -138,7 +138,8 @@ object AnomalyDetection {
     // k-means by default use the Vector features column to predict clusters in a dataframe
     // TODO: Use DBScan algorithm to predict the number of clusters instead of predefined it
     val kmeans = new KMeans()
-      .setK(50)
+      .setK(20)
+      .setFeaturesCol("scaledFeatures")
       .setPredictionCol("cluster") // To avoid code confusions, rename the "prediction" column added by K-means to "cluster"
 
     // Trains a k-means model.
@@ -198,7 +199,7 @@ object AnomalyDetection {
     // PCA - convert a set of observations on possibly correlated variables
     // converting features vector into 3-dimensional principal components (x,y,z)
     val pca = new PCA()
-      .setInputCol("features")
+      .setInputCol("scaledFeatures")
       .setOutputCol("pcaFeatures")
       .setK(3)
       .fit(dataframe_with_clusters)
@@ -221,7 +222,7 @@ object AnomalyDetection {
       .withColumn("pcaFeaturesArray" , vecToArray($"pcaFeatures") )
       .select($"uid", $"cluster", $"pcaFeaturesArray",
         $"pcaFeaturesArray".getItem(0).as("x"),
-        $"pcaFeaturesArray".getItem(2).as("y"))
+        $"pcaFeaturesArray".getItem(1).as("y"))
 
     // Log end time of the pipeline just for debug
     var endTime = System.currentTimeMillis()
