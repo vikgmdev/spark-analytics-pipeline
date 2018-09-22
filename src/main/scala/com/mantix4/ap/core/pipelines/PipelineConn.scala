@@ -31,13 +31,13 @@ class PipelineConn() extends Pipeline[Conn.Conn](Conn.schemaBase) {
     data_with_outliers.show(false)
 
     data_with_outliers.drop("protoIndex")
-    data_with_outliers.drop("protoclassVec")
-    data_with_outliers.drop("directionIndex")
-    data_with_outliers.drop("directionclassVec")
-    data_with_outliers.drop("features")
-    data_with_outliers.drop("anomalyScore")
-    data_with_outliers.drop("prediction")
-    data_with_outliers.drop("pcaFeaturesArray")
+          .drop("protoclassVec")
+          .drop("directionIndex")
+          .drop("directionclassVec")
+          .drop("features")
+          .drop("anomalyScore")
+          .drop("prediction")
+          .drop("pcaFeaturesArray")
 
     data_with_outliers.printSchema()
 
