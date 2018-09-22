@@ -126,7 +126,7 @@ object AnomalyDetection {
     // k-means by default use the Vector features column to predict clusters in a dataframe
     // TODO: Use DBScan algorithm to predict the number of clusters instead of predefined it
     val kmeans = new KMeans()
-      .setK(5)
+      .setK(20)
       .setPredictionCol("cluster") // To avoid code confusions, rename the "prediction" column added by K-means to "cluster"
 
     // Trains a k-means model.
@@ -140,7 +140,7 @@ object AnomalyDetection {
     var dataframe_with_clusters = model.transform(featured_dataset)
 
     println("==================== clustering output (cluster | count) ====================")
-    dataframe_with_clusters.groupBy("cluster").count().show(false)
+    dataframe_with_clusters.groupBy("cluster").count().sort("cluster").show(false)
 
     // Log end time of the pipeline just for debug
     var endTime = System.currentTimeMillis()
