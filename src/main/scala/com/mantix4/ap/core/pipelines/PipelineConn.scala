@@ -25,14 +25,11 @@ class PipelineConn() extends Pipeline[Conn.Conn](Conn.schemaBase) {
     val categoricalColumns = Array("proto", "direction")
     val numericCols = Array("duration","pcr")
 
-    val data_with_outliers = AnomalyDetection.main(dt, categoricalColumns, numericCols)
+    var data_with_outliers = AnomalyDetection.main(dt, categoricalColumns, numericCols)
 
     println("Outliers detected: ")
-    data_with_outliers.show(false)
 
-    /*
-
-    data_with_outliers.drop("protoIndex")
+    data_with_outliers = data_with_outliers.drop("protoIndex")
           .drop("protoclassVec")
           .drop("directionIndex")
           .drop("directionclassVec")
@@ -41,10 +38,11 @@ class PipelineConn() extends Pipeline[Conn.Conn](Conn.schemaBase) {
           .drop("prediction")
           .drop("pcaFeaturesArray")
 
-    data_with_outliers.printSchema()
+    data_with_outliers.as[Conn.Conn]
 
-    data_with_outliers.saveToCassandra("conn", Conn.tableColumns)
-    */
+    data_with_outliers.show()
+
+    // data_with_outliers.saveToCassandra("conn", Conn.tableColumns)
   }
 
   override def customParsing(df: DataFrame): DataFrame = {
