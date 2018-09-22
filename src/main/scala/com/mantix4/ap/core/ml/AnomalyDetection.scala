@@ -2,7 +2,7 @@ package com.mantix4.ap.core.ml
 
 import com.mantix4.ap.abstracts.spark.SparkHelper
 import org.apache.spark.ml.{Pipeline, PipelineStage, _}
-import org.apache.spark.ml.clustering.KMeans
+import org.apache.spark.ml.clustering.{KMeans, KMeansModel}
 import org.apache.spark.ml.feature.{OneHotEncoder, PCA, StringIndexer, VectorAssembler}
 import org.apache.spark.ml.iforest.IForest
 import org.apache.spark.sql.{DataFrame, Dataset}
@@ -131,12 +131,6 @@ object AnomalyDetection {
 
     // Trains a k-means model.
     val model = kmeans.fit(featured_dataset)
-    println("Fit KMeans model:")
-    featured_dataset.show(false)
-
-    // Evaluate clustering by computing Within Set Sum of Squared Errors.
-    val WSSSE = model.computeCost(featured_dataset)
-    println(s"Within Set Sum of Squared Errors = $WSSSE")
 
     // Shows the result.
     println("Cluster Centers: ")
@@ -145,8 +139,8 @@ object AnomalyDetection {
     // Predict and clustered the dataframe using the k-means model
     var dataframe_with_clusters = model.transform(featured_dataset)
 
-    println("Transform KMeans model:")
-    dataframe_with_clusters.show(false)
+    println("==================== clustering output (cluster | count) ====================")
+    dataframe_with_clusters.groupBy("cluster").count().show(false)
 
     // Log end time of the pipeline just for debug
     var endTime = System.currentTimeMillis()
@@ -193,5 +187,14 @@ object AnomalyDetection {
     println(s"Training and predicting PCA time: ${(endTime - startTime) / 1000} seconds.")
 
     pca_dataframe
+  }
+
+  def distance(a: Vector[Double], b: Vector[Double]): Double =
+    math.sqrt(a.toArray.zip(b.toArray).map(p => p._1 - p._2).map(d => d + d).sum)
+
+  def distToCentroid(datum: Vector[Double], model: KMeansModel) = {
+    val cluster = model.predict(datum)
+    val centroid = model.clusterCenters(cluster)
+    distance(centroid, datum)
   }
 }

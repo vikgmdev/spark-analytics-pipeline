@@ -31,7 +31,7 @@ class PipelineConn() extends Pipeline[Conn.Conn](Conn.schemaBase) {
 
     println("Outliers detected: ")
     data_with_outliers.printSchema()
-    data_with_outliers.show()
+    data_with_outliers.show(false)
   }
 
   override def customParsing(df: DataFrame): DataFrame = {
