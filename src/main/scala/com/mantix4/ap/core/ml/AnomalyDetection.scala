@@ -56,7 +56,7 @@ object AnomalyDetection {
     var endTime = System.currentTimeMillis()
     println(s"Anomaly Detection time: ${(endTime - startTime) / 1000} seconds.")
 
-    /*outlier_dataset.drop("protoIndex")
+    outlier_dataset.drop("protoIndex")
       .drop("protoclassVec")
       .drop("directionIndex")
       .drop("directionclassVec")
@@ -68,7 +68,6 @@ object AnomalyDetection {
     outlier_dataset.printSchema()
 
     outlier_dataset.saveToCassandra("conn", Conn.tableColumns)
-    */
 
     // Return original dataset with the new outliers columns "x", "y" and "cluster"
     outlier_dataset
