@@ -105,7 +105,7 @@ object Conn {
 }
 
 /*
-CREATE TABLE sensor_dev_1.conn (
+CREATE TABLE sensor_dev_2.conn (
 timestamp timestamp,
 uid text PRIMARY KEY,
 source_ip inet,
@@ -133,6 +133,9 @@ vlan int,
 inner_vlan int,
 sensor varchar,
 direction varchar,
-pcr double
+pcr double,
+cluster int,
+x double,
+y double
 );
 */
