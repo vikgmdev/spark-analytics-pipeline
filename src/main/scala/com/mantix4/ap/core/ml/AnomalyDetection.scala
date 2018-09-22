@@ -43,7 +43,7 @@ object AnomalyDetection {
 
     // VectorAssembler - transformer that combines a given list of columns into a single vector column.
     val assembler = new VectorAssembler()
-      .setInputCols(Array("scaledFeatures", "anomalyScore", "prediction"))
+      .setInputCols(Array("anomalyScore", "prediction", "scaledFeatures"))
       .setOutputCol("iforestFeaturesVector")
 
     val scaler = new StandardScaler()
