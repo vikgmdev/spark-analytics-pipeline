@@ -43,7 +43,7 @@ object AnomalyDetection {
 
     // VectorAssembler - transformer that combines a given list of columns into a single vector column.
     val assembler = new VectorAssembler()
-      .setInputCols(Array("anomalyScore"))
+      .setInputCols(Array("anomalyScore", "prediction"))
       .setOutputCol("iforestFeatures")
 
     val pipelineIForest = new Pipeline()
@@ -219,7 +219,7 @@ object AnomalyDetection {
     val pca = new PCA()
       .setInputCol("iforestFeatures")
       .setOutputCol("pcaFeatures")
-      .setK(1)
+      .setK(2)
       .fit(dataframe_with_clusters)
     println("Fit PCA model:")
     dataframe_with_clusters.show(false)
