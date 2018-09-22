@@ -36,10 +36,7 @@ object Conn {
     inner_vlan: Option[Int],
     sensor: String,
     direction: String,
-    pcr: Option[Double],
-    cluster: Option[Int],
-    x: Option[Double],
-    y: Option[Double]
+    pcr: Option[Double]
   ) extends Serializable
 
   val tableColumns = SomeColumns("timestamp",
