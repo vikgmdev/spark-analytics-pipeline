@@ -210,8 +210,8 @@ object AnomalyDetection {
     pca_dataframe = pca_dataframe
       .withColumn("pcaFeaturesArray" , vecToArray($"pcaFeatures") )
       .select($"uid", $"cluster", $"pcaFeaturesArray",
-        $"pcaFeaturesArray".getItem(0).as("x"),
-        $"pcaFeaturesArray".getItem(1).as("y"))
+        $"pcaFeaturesArray".getItem(1).as("x"),
+        $"pcaFeaturesArray".getItem(2).as("y"))
 
     // Log end time of the pipeline just for debug
     var endTime = System.currentTimeMillis()
