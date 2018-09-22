@@ -3,7 +3,7 @@ package com.mantix4.ap.core.ml
 import com.mantix4.ap.abstracts.spark.SparkHelper
 import org.apache.spark.ml.{Pipeline, PipelineStage, _}
 import org.apache.spark.ml.clustering.{BisectingKMeans, KMeans, KMeansModel}
-import org.apache.spark.ml.feature.{OneHotEncoder, PCA, StringIndexer, VectorAssembler}
+import org.apache.spark.ml.feature._
 import org.apache.spark.ml.iforest.IForest
 import org.apache.spark.sql.{DataFrame, Dataset}
 import org.apache.spark.sql.functions._
@@ -98,6 +98,15 @@ object AnomalyDetection {
     // Add Stage to the Array
     stages += assembler
 
+    val scaler = new StandardScaler()
+      .setInputCol("features")
+      .setOutputCol("scaledFeatures")
+      .setWithStd(true)
+      .setWithMean(false)
+
+    // Add Stage to the Array
+    stages += scaler
+
     // return the stages array
     stages
   }
@@ -106,6 +115,7 @@ object AnomalyDetection {
     // Train/fit and Predict anomalous instances
     // using the Isolation Forest model
     val iForest = new IForest()
+      .setFeaturesCol("scaledFeatures")
       .setNumTrees(100)
       .setMaxSamples(100)
       .setContamination(0.2) // Marking 20% as odd
@@ -210,7 +220,7 @@ object AnomalyDetection {
     pca_dataframe = pca_dataframe
       .withColumn("pcaFeaturesArray" , vecToArray($"pcaFeatures") )
       .select($"uid", $"cluster", $"pcaFeaturesArray",
-        $"pcaFeaturesArray".getItem(1).as("x"),
+        $"pcaFeaturesArray".getItem(0).as("x"),
         $"pcaFeaturesArray".getItem(2).as("y"))
 
     // Log end time of the pipeline just for debug
