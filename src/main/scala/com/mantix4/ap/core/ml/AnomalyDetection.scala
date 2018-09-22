@@ -128,7 +128,7 @@ object AnomalyDetection {
     // k-means by default use the Vector features column to predict clusters in a dataframe
     // TODO: Use DBScan algorithm to predict the number of clusters instead of predefined it
     val kmeans = new KMeans()
-      .setK(20)
+      .setK(50)
       .setPredictionCol("cluster") // To avoid code confusions, rename the "prediction" column added by K-means to "cluster"
 
     // Trains a k-means model.
