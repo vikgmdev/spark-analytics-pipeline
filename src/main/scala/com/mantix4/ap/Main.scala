@@ -59,7 +59,7 @@ object Main {
     ds: Dataset[Row],
     provider: String): StreamingQuery = {
     val withProvider = provider.replace("$","")
-    KafkaSink.debugStream(ds, withProvider)
+    // KafkaSink.debugStream(ds, withProvider)
     ds
       .toDF()
       .writeStream

@@ -19,11 +19,9 @@ class PipelineConn() extends Pipeline[Conn.Conn](Conn.schemaBase) {
 
   def startPipeline(dt: Dataset[Conn.Conn]): Unit = {
     // Debug only
-    dt.filter($"proto" === "icmp").show(5000, truncate = false)
+    dt.show()
 
-    /*
-
-    dt.toDF().saveToCassandra()
+    // dt.toDF().saveToCassandra()
 
     // Set Categorical and Numeric columns features to detect outliers
     val categoricalColumns = Array("proto", "direction")
@@ -34,7 +32,6 @@ class PipelineConn() extends Pipeline[Conn.Conn](Conn.schemaBase) {
     println("Outliers detected: ")
     data_with_outliers.printSchema()
     data_with_outliers.show()
-    */
   }
 
   override def customParsing(df: DataFrame): DataFrame = {

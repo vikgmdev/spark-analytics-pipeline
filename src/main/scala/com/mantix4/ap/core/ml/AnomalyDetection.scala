@@ -79,9 +79,15 @@ object AnomalyDetection {
 
     // Train/fit and Predict anomalous instances using the Isolation Forest model
     val pipelineModel = pipeline.fit(dataset)
+    println("Fit model:")
+    println(pipelineModel.stages)
+    println(pipelineModel.uid)
+    dataset.show()
 
     // Now create a new dataframe using the prediction from our classifier
     val predictions_dataset = pipelineModel.transform(dataset)
+    println("Transform model:")
+    predictions_dataset.show()
 
     // Log end time of the pipeline just for debug
     var endTime = System.currentTimeMillis()
