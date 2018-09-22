@@ -2,7 +2,7 @@ package com.mantix4.ap.core.ml
 
 import com.mantix4.ap.abstracts.spark.SparkHelper
 import org.apache.spark.ml.{Pipeline, PipelineStage, _}
-import org.apache.spark.ml.clustering.{KMeans, KMeansModel}
+import org.apache.spark.ml.clustering.{BisectingKMeans, KMeans, KMeansModel}
 import org.apache.spark.ml.feature.{OneHotEncoder, PCA, StringIndexer, VectorAssembler}
 import org.apache.spark.ml.iforest.IForest
 import org.apache.spark.sql.{DataFrame, Dataset}
@@ -44,7 +44,7 @@ object AnomalyDetection {
     // Create new dataframe to not override the original dataset
     var featured_dataset = predictions_dataset.select("uid", "features")
 
-    var dataframe_with_clusters = predictClustering(featured_dataset)
+    var dataframe_with_clusters = predictClusteringBisectingKMeans(featured_dataset)
 
     val pca_dataframe = predictPCA(dataframe_with_clusters)
 
@@ -120,7 +120,7 @@ object AnomalyDetection {
     stages
   }
 
-  def predictClustering(featured_dataset: DataFrame): DataFrame = {
+  def predictClusteringKmeans(featured_dataset: DataFrame): DataFrame = {
     // Log start time just for debug
     val startTime = System.currentTimeMillis()
 
@@ -133,6 +133,35 @@ object AnomalyDetection {
 
     // Trains a k-means model.
     val model = kmeans.fit(featured_dataset)
+
+    // Shows the result.
+    println("Cluster Centers: ")
+    model.clusterCenters.foreach(println)
+
+    // Predict and clustered the dataframe using the k-means model
+    var dataframe_with_clusters = model.transform(featured_dataset)
+
+    println("==================== clustering output (cluster | count) ====================")
+    dataframe_with_clusters.groupBy("cluster").count().sort("cluster").show(false)
+
+    // Log end time of the pipeline just for debug
+    var endTime = System.currentTimeMillis()
+    println(s"Training and predicting Clustering time: ${(endTime - startTime) / 1000} seconds.")
+
+    // Return the dataframe with clustering prediction column
+    dataframe_with_clusters
+  }
+
+  def predictClusteringBisectingKMeans(featured_dataset: DataFrame): DataFrame = {
+    // Log start time just for debug
+    val startTime = System.currentTimeMillis()
+
+    // K-means - clustering algorithms that clusters the data points into a predefined number of clusters
+    // k-means by default use the Vector features column to predict clusters in a dataframe
+    val bkm = new BisectingKMeans().setK(5).setSeed(1).setPredictionCol("cluster")
+
+    // Trains a k-means model.
+    val model = bkm.fit(featured_dataset)
 
     // Shows the result.
     println("Cluster Centers: ")
