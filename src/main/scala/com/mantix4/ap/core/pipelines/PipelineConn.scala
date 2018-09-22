@@ -35,7 +35,6 @@ class PipelineConn() extends Pipeline[Conn.Conn](Conn.schemaBase) {
           .drop("directionclassVec")
           .drop("features")
           .drop("scaledFeatures")
-          .drop("iforestFeaturesVector")
           .drop("iforestFeatures")
           .drop("anomalyScore")
           .drop("prediction")
