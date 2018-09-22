@@ -6,7 +6,8 @@ import org.apache.spark.sql.{DataFrame, Dataset}
 import com.mantix4.ap.abstracts.spark.SparkHelper
 import com.mantix4.ap.core.enrichments.ConnEnricher
 import com.mantix4.ap.core.logs.NetworkProtocols.Conn
-import com.mantix4.ap.core.enrichments.IpLookupEnricher._
+import com.mantix4.ap.abstracts.cassandra.CassandraCRUDHelper._
+import com.mantix4.ap.core.ml.AnomalyDetection
 import org.apache.spark.sql.types.TimestampType
 
 /**
@@ -18,14 +19,15 @@ class PipelineConn() extends Pipeline[Conn.Conn](Conn.schemaBase) {
 
   def startPipeline(dt: Dataset[Conn.Conn]): Unit = {
     // Debug only
-    dt.show()
+    dt.filter($"proto" === "icmp").show(5000, truncate = false)
+
+    /*
 
     dt.toDF().saveToCassandra()
 
-    /*
     // Set Categorical and Numeric columns features to detect outliers
     val categoricalColumns = Array("proto", "direction")
-    val numericCols = Array("pcr")
+    val numericCols = Array("duration","pcr")
 
     val data_with_outliers = AnomalyDetection.main(dt, categoricalColumns, numericCols)
 

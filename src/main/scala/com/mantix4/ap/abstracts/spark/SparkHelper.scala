@@ -8,6 +8,8 @@ object SparkHelper {
   var sensor_name = ""
 
   def getAndConfigureSparkSession(): SparkSession = {
+
+    // TODO: Fix AppName to add the sensor name
     val conf = new SparkConf()
       .setAppName("Analytics Pipeline")
       .set("spark.sql.streaming.checkpointLocation", "checkpoint")
