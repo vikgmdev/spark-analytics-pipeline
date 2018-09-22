@@ -219,7 +219,7 @@ object AnomalyDetection {
     val pca = new PCA()
       .setInputCol("iforestFeatures")
       .setOutputCol("pcaFeatures")
-      .setK(3)
+      .setK(1)
       .fit(dataframe_with_clusters)
     println("Fit PCA model:")
     dataframe_with_clusters.show(false)
