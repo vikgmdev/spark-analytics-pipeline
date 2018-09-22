@@ -41,6 +41,9 @@ object AnomalyDetection {
     // Now create a new dataframe using the prediction from our classifier
     val predictions_dataset = pipelineModel.transform(dataset)
 
+    println("Result of Isolation Forest:")
+    predictions_dataset.show(false)
+
     // Select only "uid" that is the log's id and the features column containing the Vector predictions
     // Create new dataframe to not override the original dataset
     var featured_dataset = predictions_dataset.select("uid", "scaledFeatures")
