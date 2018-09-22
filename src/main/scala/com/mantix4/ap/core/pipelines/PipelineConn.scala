@@ -30,6 +30,8 @@ class PipelineConn() extends Pipeline[Conn.Conn](Conn.schemaBase) {
     println("Outliers detected: ")
     data_with_outliers.show(false)
 
+    /*
+
     data_with_outliers.drop("protoIndex")
           .drop("protoclassVec")
           .drop("directionIndex")
@@ -42,6 +44,7 @@ class PipelineConn() extends Pipeline[Conn.Conn](Conn.schemaBase) {
     data_with_outliers.printSchema()
 
     data_with_outliers.saveToCassandra("conn", Conn.tableColumns)
+    */
   }
 
   override def customParsing(df: DataFrame): DataFrame = {
