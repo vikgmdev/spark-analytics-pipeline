@@ -56,7 +56,7 @@ object AnomalyDetection {
     var endTime = System.currentTimeMillis()
     println(s"Anomaly Detection time: ${(endTime - startTime) / 1000} seconds.")
 
-    outlier_dataset.drop("protoIndex")
+    val last_df = outlier_dataset.drop("protoIndex")
       .drop("protoclassVec")
       .drop("directionIndex")
       .drop("directionclassVec")
@@ -65,12 +65,12 @@ object AnomalyDetection {
       .drop("prediction")
       .drop("pcaFeaturesArray")
 
-    outlier_dataset.printSchema()
+    last_df.printSchema()
 
-    outlier_dataset.saveToCassandra("conn", Conn.tableColumns)
+    last_df.saveToCassandra("conn", Conn.tableColumns)
 
     // Return original dataset with the new outliers columns "x", "y" and "cluster"
-    outlier_dataset
+    last_df
   }
 
   def setupFeaturesNormalizerPipeline(stages: ArrayBuffer[PipelineStage], categoricalColumns: Array[String], numericCols: Array[String]): ArrayBuffer[PipelineStage] = {
