@@ -189,6 +189,7 @@ object AnomalyDetection {
     pca_dataframe
   }
 
+  /*
   def distance(a: Vector[Double], b: Vector[Double]): Double =
     math.sqrt(a.toArray.zip(b.toArray).map(p => p._1 - p._2).map(d => d + d).sum)
 
@@ -197,4 +198,5 @@ object AnomalyDetection {
     val centroid = model.clusterCenters(cluster)
     distance(centroid, datum)
   }
+  */
 }
