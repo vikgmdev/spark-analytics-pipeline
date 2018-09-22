@@ -7,6 +7,8 @@ import org.apache.spark.ml.feature.{OneHotEncoder, PCA, StringIndexer, VectorAss
 import org.apache.spark.ml.iforest.IForest
 import org.apache.spark.sql.{DataFrame, Dataset}
 import org.apache.spark.sql.functions._
+import com.mantix4.ap.abstracts.cassandra.CassandraCRUDHelper._
+import com.mantix4.ap.core.logs.NetworkProtocols.Conn
 
 import scala.collection.mutable.ArrayBuffer
 
@@ -53,6 +55,19 @@ object AnomalyDetection {
     // Log end time of the full Anomaly Detection prediction, just for debug
     var endTime = System.currentTimeMillis()
     println(s"Anomaly Detection time: ${(endTime - startTime) / 1000} seconds.")
+
+    outlier_dataset.drop("protoIndex")
+      .drop("protoclassVec")
+      .drop("directionIndex")
+      .drop("directionclassVec")
+      .drop("features")
+      .drop("anomalyScore")
+      .drop("prediction")
+      .drop("pcaFeaturesArray")
+
+    outlier_dataset.printSchema()
+
+    outlier_dataset.saveToCassandra("conn", Conn.tableColumns)
 
     // Return original dataset with the new outliers columns "x", "y" and "cluster"
     outlier_dataset
