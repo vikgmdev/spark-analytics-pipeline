@@ -82,12 +82,12 @@ object AnomalyDetection {
     println("Fit model:")
     println(pipelineModel.stages)
     println(pipelineModel.uid)
-    dataset.show()
+    dataset.show(false)
 
     // Now create a new dataframe using the prediction from our classifier
     val predictions_dataset = pipelineModel.transform(dataset)
     println("Transform model:")
-    predictions_dataset.show()
+    predictions_dataset.show(false)
 
     // Log end time of the pipeline just for debug
     var endTime = System.currentTimeMillis()
@@ -105,7 +105,7 @@ object AnomalyDetection {
     // Trains a k-means model.
     val model = kmeans.fit(featured_dataset)
     println("Fit KMeans model:")
-    featured_dataset.show()
+    featured_dataset.show(false)
 
     // Evaluate clustering by computing Within Set Sum of Squared Errors.
     val WSSSE = model.computeCost(featured_dataset)
@@ -118,7 +118,7 @@ object AnomalyDetection {
     // Predict and clustered the dataframe using the k-means model
     var dataframe_with_clusters = model.transform(featured_dataset)
     println("Transform KMeans model:")
-    dataframe_with_clusters.show()
+    dataframe_with_clusters.show(false)
 
     // To avoid code confusions, rename the "prediction" column added by K-means to "cluster"
     dataframe_with_clusters = dataframe_with_clusters.withColumnRenamed("prediction", "cluster")
@@ -131,14 +131,14 @@ object AnomalyDetection {
       .setK(3)
       .fit(dataframe_with_clusters)
     println("Fit PCA model:")
-    dataframe_with_clusters.show()
+    dataframe_with_clusters.show(false)
 
     // Predict and get our 3-dimensional principal components (x,y,z)
     // create a new dataframe with the PCA predictions containing:
     // "uid", "cluster", "features", "pcaFeatures"
     var pca_dataframe = pca.transform(dataframe_with_clusters)
     println("Transform PCA model:")
-    pca_dataframe.show()
+    pca_dataframe.show(false)
 
     // A helper UDF to convert ML linalg VectorUDT to ArrayType
     val vecToArray = udf( (xs: linalg.Vector) => xs.toArray )
