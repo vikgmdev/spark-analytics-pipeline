@@ -3,6 +3,7 @@ package com.mantix4.ap.core.logs.NetworkProtocols
 import java.sql.Timestamp
 import java.util.Date
 
+import com.datastax.spark.connector.SomeColumns
 import org.apache.spark.sql.types._
 
 object Conn {
@@ -35,8 +36,43 @@ object Conn {
     inner_vlan: Option[Int],
     sensor: String,
     direction: String,
-    pcr: Option[Double]
+    pcr: Option[Double],
+    cluster: Option[Int],
+    x: Option[Double],
+    y: Option[Double]
   ) extends Serializable
+
+  val tableColumns = SomeColumns("timestamp",
+    "uid",
+    "source_ip",
+    "source_port",
+    "dest_ip",
+    "dest_port",
+    "proto",
+    "service",
+    "duration",
+    "orig_bytes",
+    "resp_bytes",
+    "conn_state",
+    "local_orig",
+    "local_resp",
+    "missed_bytes",
+    "history",
+    "orig_pkts",
+    "orig_ip_bytes",
+    "resp_pkts",
+    "resp_ip_bytes",
+    "tunnel_parents",
+    "orig_l2_addr",
+    "resp_l2_addr",
+    "vlan",
+    "inner_vlan",
+    "sensor",
+    "direction",
+    "pcr",
+    "cluster",
+    "x",
+    "y")
 
   val schemaBase: StructType = new StructType()
     .add("timestamp", StringType)

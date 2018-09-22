@@ -21,8 +21,6 @@ class PipelineConn() extends Pipeline[Conn.Conn](Conn.schemaBase) {
     // Debug only
     dt.show()
 
-    // dt.toDF().saveToCassandra()
-
     // Set Categorical and Numeric columns features to detect outliers
     val categoricalColumns = Array("proto", "direction")
     val numericCols = Array("duration","pcr")
@@ -32,6 +30,8 @@ class PipelineConn() extends Pipeline[Conn.Conn](Conn.schemaBase) {
     println("Outliers detected: ")
     data_with_outliers.printSchema()
     data_with_outliers.show(false)
+
+    data_with_outliers.toDF().saveToCassandra("conn", Conn.tableColumns)
   }
 
   override def customParsing(df: DataFrame): DataFrame = {
