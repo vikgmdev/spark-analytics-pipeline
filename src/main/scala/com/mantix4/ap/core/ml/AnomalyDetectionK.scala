@@ -199,18 +199,17 @@ object AnomalyDetectionK {
     // k-means by default use the Vector features column to predict clusters in a dataframe
     // TODO: Use DBScan algorithm to predict the number of clusters instead of predefined it
     val kmeans = new KMeans()
-      .setK(20)
       .setMaxIter(30)
       .setFeaturesCol("iforestFeatures")
       .setPredictionCol("cluster") // To avoid code confusions, rename the "prediction" column added by K-means to "cluster"
 
-    for(i<- 1 to 10){
+    for(i<- 5 to 15){
       // Trains a k-means model.
       val kModel = kmeans.setK(i).fit(featured_dataset)
 
       // Evaluate clustering by computing Within Set Sum of Squared Errors.
       val WSSSE = kModel.computeCost(featured_dataset)
-      println(s"Within Set Sum of Squared Errors = $WSSSE")
+      println(s"Within Set Sum of Squared Errors = $WSSSE for $i clusters")
 
       // Shows the result.
       println("Cluster Centers: ")
