@@ -7,7 +7,7 @@ import com.mantix4.ap.abstracts.spark.SparkHelper
 import com.mantix4.ap.core.enrichments.ConnEnricher
 import com.mantix4.ap.core.logs.NetworkProtocols.Conn
 import com.mantix4.ap.abstracts.cassandra.CassandraCRUDHelper._
-import com.mantix4.ap.core.ml.AnomalyDetection
+import com.mantix4.ap.core.ml.AnomalyDetectionK
 import org.apache.spark.sql.types.TimestampType
 
 /**
@@ -25,7 +25,7 @@ class PipelineConn() extends Pipeline[Conn.Conn](Conn.schemaBase) {
     val categoricalColumns = Array("proto", "direction")
     val numericCols = Array("duration","pcr")
 
-    var data_with_outliers = AnomalyDetection.main(dt, categoricalColumns, numericCols)
+    var data_with_outliers = AnomalyDetectionK.main(dt, categoricalColumns, numericCols)
 
     println("Outliers detected: ")
 
