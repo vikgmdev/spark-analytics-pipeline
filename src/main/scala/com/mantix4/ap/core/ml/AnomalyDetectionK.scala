@@ -189,7 +189,7 @@ object AnomalyDetectionK {
           findMinDistance(row.getAs[Vector]("iforestFeatures"), kModel.clusterCenters)
         )
       )
-    pointsDistance.printSchema()
+    pointsDistance.show()
 
     /*
     val pointsDistance = dataframe_with_clusters
