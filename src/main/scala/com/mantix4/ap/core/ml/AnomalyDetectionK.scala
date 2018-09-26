@@ -7,6 +7,7 @@ import org.apache.spark.ml.iforest.IForest
 import org.apache.spark.ml.{Pipeline, PipelineStage, _}
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.{DataFrame, Dataset}
+import org.apache.spark.ml.linalg._
 
 import scala.collection.mutable.ArrayBuffer
 
@@ -180,6 +181,35 @@ object AnomalyDetectionK {
     // Predict and clustered the dataframe using the k-means model
     var dataframe_with_clusters = kModel.transform(featured_dataset)
 
+    dataframe_with_clusters.printSchema()
+
+    /*
+    val pointsDistance = dataframe_with_clusters
+      .select("iforestFeatures", "cluster")
+      .as[Vector]
+      .map( Vector =>
+        (Vector, findMinDistance(Vector, kModel.clusterCenters))
+      )
+
+    println(s"Points Distance: $pointsDistance")
+
+    val clusterDistanceTuple = pointsDistance
+      .map {
+        case (a, (cluster, distance)) => (cluster, distance)
+      } //x: (Vector, (Int, Double))
+    println(s"Cluster Distance Tuple $clusterDistanceTuple")
+    */
+
+    /*
+    val averageDistance = clusterDistanceTuple.aggregateByKey((0.0, 0.0))((acc, value) => (acc._1 + value, acc._2 + 1),
+      (it1, it2) => ((it1._1 + it2._1), it1._2 + it2._2))
+      .map(aggregateDistanceTuple => (aggregateDistanceTuple._1, aggregateDistanceTuple._2._1 / aggregateDistanceTuple._2._2))
+    val clustersAverageDF = averageDistance.map { case (cluster, distance) => AverageDistance(cluster, distance) }.toDF().repartition(1)
+    clustersAverageDF.write.mode(SaveMode.Overwrite).save(machineConfig.getString("averageDistanceClusters")
+    */
+
+
+
     println("==================== clustering output (cluster | count) ====================")
     dataframe_with_clusters.groupBy("cluster").count().sort("cluster").show(false)
 
@@ -260,14 +290,24 @@ object AnomalyDetectionK {
     pca_dataframe
   }
 
-  /*
-  def distance(a: Vector[Double], b: Vector[Double]): Double =
-    math.sqrt(a.toArray.zip(b.toArray).map(p => p._1 - p._2).map(d => d + d).sum)
-
-  def distToCentroid(datum: Vector[Double], model: KMeansModel) = {
-    val cluster = model.predict(datum)
-    val centroid = model.clusterCenters(cluster)
-    distance(centroid, datum)
+  def findMinDistance(a: Vector, centroids: Array[Vector]): (Int, Double) = {
+    var distMap: Map[Int,Double] = Map()
+    for(i <- centroids)
+    {
+      distMap = distMap + findDistance(a, i)
+    }
+    var nuMCL = -1
+    distMap.minBy( x => x._2 )
   }
-  */
+
+  def findDistance(a: Vector, b: Vector): (Int, Double) = {
+    // nuMCL=nuMCL+1
+    (
+      1,
+      distance(a, b)
+    )
+  }
+
+  def distance(a: Vector, b: Vector): Double =
+    math.sqrt(a.toArray.zip(b.toArray).map( p => p._1 - p._2).map(d => d + d).sum)
 }
