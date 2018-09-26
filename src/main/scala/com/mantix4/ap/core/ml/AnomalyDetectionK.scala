@@ -183,6 +183,14 @@ object AnomalyDetectionK {
 
     dataframe_with_clusters.printSchema()
 
+    val pointsDistance = dataframe_with_clusters
+      .map( row =>
+        (row.getInt(2),
+          findMinDistance(row.getAs[Vector]("iforestFeatures"), kModel.clusterCenters)
+        )
+      )
+    pointsDistance.printSchema()
+
     /*
     val pointsDistance = dataframe_with_clusters
       .select("iforestFeatures", "cluster")
@@ -190,7 +198,9 @@ object AnomalyDetectionK {
       .map( Vector =>
         (Vector, findMinDistance(Vector, kModel.clusterCenters))
       )
+      */
 
+    /*
     println(s"Points Distance: $pointsDistance")
 
     val clusterDistanceTuple = pointsDistance
