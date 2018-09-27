@@ -258,7 +258,7 @@ object AnomalyDetectionK {
       .setK(1)
       .fit(dataframe_with_clusters)
     println("Fit PCA model:")
-    dataframe_with_clusters.show(false)
+    dataframe_with_clusters.show(5000, truncate = false)
 
     // Predict and get our 3-dimensional principal components (x,y,z)
     // create a new dataframe with the PCA predictions containing:
