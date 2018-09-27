@@ -43,16 +43,10 @@ object AnomalyDetectionK {
     val assembler = new VectorAssembler()
       // .setInputCols(Array("anomalyScore", "scaledFeatures"))
       .setInputCols(Array("anomalyScore"))
-      .setOutputCol("iforestFeaturesVector")
-
-    val scaler = new StandardScaler()
-      .setInputCol("iforestFeaturesVector")
       .setOutputCol("iforestFeatures")
-      .setWithStd(true)
-      .setWithMean(false)
 
     val pipelineIForest = new Pipeline()
-      .setStages(Array(assembler, scaler))
+      .setStages(Array(assembler))
 
     // Train/fit and Predict anomalous instances
     val pipelineModelIForest = pipelineIForest.fit(predictions_dataset)
