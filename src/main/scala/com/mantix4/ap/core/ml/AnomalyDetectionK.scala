@@ -61,15 +61,15 @@ object AnomalyDetectionK {
     // Create new dataframe to not override the original dataset
     var featured_dataset = predictions_IForest_dataset.select("uid", "iforestFeatures")
 
-    predictKnumberKmeans(featured_dataset)
+    // predictKnumberKmeans(featured_dataset)
 
     var dataframe_with_clusters = predictClusteringKmeans(featured_dataset)
 
-    val pca_dataframe = predictPCA(dataframe_with_clusters)
+    // val pca_dataframe = predictPCA(dataframe_with_clusters)
 
     // To end join the dataframe with all the anomalous instances
     // needed for our detection with the original dataset containing the full data log
-    val outlier_dataset = predictions_IForest_dataset.join(pca_dataframe, "uid")
+    val outlier_dataset = predictions_IForest_dataset.join(dataframe_with_clusters, "uid")
 
     // Log end time of the full Anomaly Detection prediction, just for debug
     var endTime = System.currentTimeMillis()
@@ -175,6 +175,11 @@ object AnomalyDetectionK {
 
     // Predict and clustered the dataframe using the k-means model
     var dataframe_with_clusters = kModel.transform(featured_dataset)
+
+    // UDF that calculates for each point distance from each cluster center
+    val distFromCenter = udf((features: Vector, c: Int) => Vectors.sqdist(features, kModel.clusterCenters(c)))
+
+    dataframe_with_clusters = dataframe_with_clusters.withColumn("distanceFromCenter", distFromCenter($"iforestFeatures", $"cluster"))
 
     /*
     val pointsDistance = dataframe_with_clusters
