@@ -181,16 +181,6 @@ object AnomalyDetectionK {
     // Predict and clustered the dataframe using the k-means model
     var dataframe_with_clusters = kModel.transform(featured_dataset)
 
-    dataframe_with_clusters.printSchema()
-
-    val pointsDistance = dataframe_with_clusters
-      .map( row =>
-        (row.getInt(2),
-          findMinDistance(row.getAs[Vector]("iforestFeatures"), kModel.clusterCenters)
-        )
-      )
-    pointsDistance.show()
-
     /*
     val pointsDistance = dataframe_with_clusters
       .select("iforestFeatures", "cluster")
