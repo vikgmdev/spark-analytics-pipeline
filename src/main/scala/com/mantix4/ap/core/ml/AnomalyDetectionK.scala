@@ -261,7 +261,7 @@ object AnomalyDetectionK {
     val pca = new PCA()
       .setInputCol("iforestFeatures")
       .setOutputCol("pcaFeatures")
-      .setK(2)
+      .setK(1)
       .fit(dataframe_with_clusters)
     println("Fit PCA model:")
     dataframe_with_clusters.show(false)
@@ -281,8 +281,8 @@ object AnomalyDetectionK {
     pca_dataframe = pca_dataframe
       .withColumn("pcaFeaturesArray" , vecToArray($"pcaFeatures") )
       .select($"uid", $"cluster", $"pcaFeaturesArray",
-        $"pcaFeaturesArray".getItem(0).as("x"),
-        $"pcaFeaturesArray".getItem(1).as("y"))
+        $"pcaFeaturesArray".getItem(0).as("x"))
+        //$"pcaFeaturesArray".getItem(1).as("y"))
 
     // Log end time of the pipeline just for debug
     var endTime = System.currentTimeMillis()
