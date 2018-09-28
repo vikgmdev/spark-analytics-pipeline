@@ -177,23 +177,11 @@ object AnomalyDetectionK {
     // Predict and clustered the dataframe using the k-means model
     var dataframe_with_clusters = kModel.transform(featured_dataset)
 
+    val distanceFromCenter = udf((features: Vector, c: Int) =>
+      distance(features, kModel.clusterCenters(c))
+    )
 
-    val squaredDistFromCenter = udf((features: Vector, c: Int) => {
-      Vectors.sqdist(features, kModel.clusterCenters(c))
-    })
-
-    val euclideanDistanceFromCenter = udf((features: Vector, c: Int) => {
-      euclideanDistance(features, kModel.clusterCenters(c))
-    })
-
-
-
-    //def euclideanDistanceFromCenter(a: Vector, b: Vector): Double =
-    //  math.sqrt(a.toArray.zip(b.toArray).map( p => p._1 - p._2).map(d => d + d).sum)
-
-
-    dataframe_with_clusters = dataframe_with_clusters.withColumn("squaredDistFromCenter", squaredDistFromCenter($"iforestFeatures", $"cluster"))
-    dataframe_with_clusters = dataframe_with_clusters.withColumn("euclideanDistanceFromCenter", euclideanDistanceFromCenter($"iforestFeatures", $"cluster"))
+    dataframe_with_clusters = dataframe_with_clusters.withColumn("distanceFromCenter", distanceFromCenter($"iforestFeatures", $"cluster"))
 
     /*
     val pointsDistance = dataframe_with_clusters
@@ -277,7 +265,7 @@ object AnomalyDetectionK {
       .setK(1)
       .fit(dataframe_with_clusters)
     println("Fit PCA model:")
-    dataframe_with_clusters.show(5000, truncate = false)
+    dataframe_with_clusters.show(truncate = false)
 
     // Predict and get our 3-dimensional principal components (x,y,z)
     // create a new dataframe with the PCA predictions containing:
@@ -324,10 +312,4 @@ object AnomalyDetectionK {
 
   def distance(a: Vector, b: Vector): Double =
     math.sqrt(a.toArray.zip(b.toArray).map( p => p._1 - p._2).map(d => d + d).sum)
-
-  def euclideanDistance(features: Vector, c: Vector): Double =
-    math.sqrt(features.toArray.zip(c.toArray).map( p => p._1 - p._2).map(d => d + d).sum)
-
-
-
 }
