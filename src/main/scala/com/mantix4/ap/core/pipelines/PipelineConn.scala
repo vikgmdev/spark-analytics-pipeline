@@ -22,7 +22,7 @@ class PipelineConn() extends Pipeline[Conn.Conn](Conn.schemaBase) {
     dt.show()
 
     // Set Categorical and Numeric columns features to detect outliers
-    val categoricalColumns = Array("proto", "service", "direction")
+    val categoricalColumns = Array("proto", "direction")
     val numericCols = Array("duration","pcr")
 
     var data_with_outliers = AnomalyDetectionK.main(dt, categoricalColumns, numericCols)
