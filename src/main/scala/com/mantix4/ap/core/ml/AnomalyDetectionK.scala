@@ -188,6 +188,9 @@ object AnomalyDetectionK {
 
     dataframe_with_clusters = dataframe_with_clusters.withColumn("distanceFromCenter", distanceFromCenter($"iforestFeatures", $"cluster"))
 
+    println("Average distance: ")
+    dataframe_with_clusters.groupBy("cluster").avg("distanceFromCenter").show()
+
     /*
     val pointsDistance = dataframe_with_clusters
       .select("iforestFeatures", "cluster")
@@ -296,26 +299,4 @@ object AnomalyDetectionK {
 
     pca_dataframe
   }
-
-  def findMinDistance(a: Vector, centroids: Array[Vector]): (Int, Double) = {
-    var distMap: Map[Int,Double] = Map()
-    for(i <- centroids)
-    {
-      distMap = distMap + findDistance(a, i)
-    }
-    var nuMCL = -1
-    distMap.minBy( x => x._2 )
-  }
-
-  def findDistance(a: Vector, b: Vector): (Int, Double) = {
-    // nuMCL=nuMCL+1
-    (
-      1,
-      distance(a, b)
-    )
-  }
-
-  def distance(a: Vector, b: Vector): Double =
-    math.sqrt(a.toArray.zip(b.toArray).map( p => p._1 - p._2).map(d => d + d).sum)
-
 }
