@@ -45,7 +45,7 @@ class PipelineConn() extends Pipeline[Conn.Conn](Conn.schemaBase) {
 
     data_with_outliers.as[Conn.Conn]
 */
-    data_with_outliers.sort("cluster").show(1000, truncate = false)
+    data_with_outliers.sort("cluster").show(truncate = false)
 
     // data_with_outliers.saveToCassandra("conn", Conn.tableColumns)
   }

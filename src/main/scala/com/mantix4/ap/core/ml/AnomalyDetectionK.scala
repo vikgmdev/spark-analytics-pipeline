@@ -189,7 +189,7 @@ object AnomalyDetectionK {
     dataframe_with_clusters = dataframe_with_clusters.withColumn("distanceFromCenter", distanceFromCenter($"iforestFeatures", $"cluster"))
 
     println("Average distance: ")
-    dataframe_with_clusters.groupBy("cluster").avg("distanceFromCenter").sort("cluster").show()
+    dataframe_with_clusters.groupBy("cluster").avg("distanceFromCenter").sort("cluster").show(false)
 
     /*
     val pointsDistance = dataframe_with_clusters
