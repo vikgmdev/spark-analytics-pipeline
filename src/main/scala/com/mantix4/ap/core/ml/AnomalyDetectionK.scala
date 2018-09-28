@@ -57,21 +57,20 @@ object AnomalyDetectionK {
 
     println("Result of Isolation Forest:")
     predictions_IForest_dataset.show(false)
-    predictions_IForest_dataset.printSchema()
 
     // Select only "uid" that is the log's id and the features column containing the Vector predictions
     // Create new dataframe to not override the original dataset
-    // var featured_dataset = predictions_IForest_dataset.select("uid", "iforestFeatures")
+    var featured_dataset = predictions_IForest_dataset.select("uid", "iforestFeatures")
 
     // predictKnumberKmeans(featured_dataset)
 
-    var outlier_dataset = predictClusteringKmeans(predictions_IForest_dataset)
+    var dataframe_with_clusters = predictClusteringKmeans(featured_dataset)
 
     // val pca_dataframe = predictPCA(dataframe_with_clusters)
 
     // To end join the dataframe with all the anomalous instances
     // needed for our detection with the original dataset containing the full data log
-    // val outlier_dataset = predictions_IForest_dataset.join(dataframe_with_clusters, "uid")
+    val outlier_dataset = predictions_IForest_dataset.join(dataframe_with_clusters, "uid")
 
     // Log end time of the full Anomaly Detection prediction, just for debug
     var endTime = System.currentTimeMillis()
@@ -177,15 +176,17 @@ object AnomalyDetectionK {
     cluster_centers.foreach(println)
 
     // Predict and clustered the dataframe using the k-means model
-    val dataframe_clustered = kModel.transform(featured_dataset)
+    var dataframe_with_clusters = kModel.transform(featured_dataset)
 
-    val distanceFromCenter = udf((features: Vector, c: Int) => {
+    val distanceFromCenter = udf((features: Vector, nc: Int) => {
       //distance(features, kModel.clusterCenters(c))
-      val b = cluster_centers(c)
-      math.sqrt(features.toArray.zip(b.toArray).map( p => p._1 - p._2).map(d => d + d).sum)
+      val b = cluster_centers(nc)
+      // math.sqrt(features.toArray.zip(b.toArray).map( p => p._1 - p._2).map(d => d + d).sum)
+      val c = features.toArray.zip(b.toArray)
+      math.sqrt( c.map( c => ( c._1 - c._2 ) * ( c._1 - c._2 )).reduce((x, y) => x + y ))
     })
 
-    val dataframe_with_clusters = dataframe_clustered.withColumn("distanceFromCenter", distanceFromCenter($"iforestFeatures", $"cluster"))
+    dataframe_with_clusters = dataframe_with_clusters.withColumn("distanceFromCenter", distanceFromCenter($"iforestFeatures", $"cluster"))
 
     /*
     val pointsDistance = dataframe_with_clusters
@@ -316,4 +317,5 @@ object AnomalyDetectionK {
 
   def distance(a: Vector, b: Vector): Double =
     math.sqrt(a.toArray.zip(b.toArray).map( p => p._1 - p._2).map(d => d + d).sum)
+
 }
