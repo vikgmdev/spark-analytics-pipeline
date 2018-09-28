@@ -186,8 +186,7 @@ object AnomalyDetectionK {
       euclideanDistance(features, kModel.clusterCenters(c))
     })
 
-    def euclideanDistance(features: Vector, c: Vector): Double =
-      math.sqrt(features.toArray.zip(c.toArray).map( p => p._1 - p._2).map(d => d + d).sum)
+
 
     //def euclideanDistanceFromCenter(a: Vector, b: Vector): Double =
     //  math.sqrt(a.toArray.zip(b.toArray).map( p => p._1 - p._2).map(d => d + d).sum)
@@ -325,6 +324,9 @@ object AnomalyDetectionK {
 
   def distance(a: Vector, b: Vector): Double =
     math.sqrt(a.toArray.zip(b.toArray).map( p => p._1 - p._2).map(d => d + d).sum)
+
+  def euclideanDistance(features: Vector, c: Vector): Double =
+    math.sqrt(features.toArray.zip(c.toArray).map( p => p._1 - p._2).map(d => d + d).sum)
 
 
 
