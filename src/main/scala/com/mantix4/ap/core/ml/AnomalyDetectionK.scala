@@ -177,9 +177,11 @@ object AnomalyDetectionK {
     // Predict and clustered the dataframe using the k-means model
     var dataframe_with_clusters = kModel.transform(featured_dataset)
 
-    val distanceFromCenter = udf((features: Vector, c: Int) =>
-      distance(features, kModel.clusterCenters(c))
-    )
+    val distanceFromCenter = udf((features: Vector, c: Int) => {
+      //distance(features, kModel.clusterCenters(c))
+      val b = kModel.clusterCenters(c)
+      math.sqrt(features.toArray.zip(b.toArray).map( p => p._1 - p._2).map(d => d + d).sum)
+    })
 
     dataframe_with_clusters = dataframe_with_clusters.withColumn("distanceFromCenter", distanceFromCenter($"iforestFeatures", $"cluster"))
 
