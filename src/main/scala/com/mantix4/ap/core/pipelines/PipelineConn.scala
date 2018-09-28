@@ -47,7 +47,7 @@ class PipelineConn() extends Pipeline[Conn.Conn](Conn.schemaBase) {
 */
     data_with_outliers.sort("cluster").show(truncate = false)
 
-    data_with_outliers.groupBy("source_ip", "dest_ip").count().show()
+    data_with_outliers.groupBy("source_ip", "dest_ip").count().sort("count").show(1000)
 
     // data_with_outliers.saveToCassandra("conn", Conn.tableColumns)
   }
