@@ -30,23 +30,6 @@ class PipelineConn() extends Pipeline[Conn.Conn](Conn.schemaBase) {
     println("Outliers detected: ")
     data_with_outliers.show(false)
 
-    /*
-
-    data_with_outliers = data_with_outliers.drop("protoIndex")
-          .drop("protoclassVec")
-          .drop("directionIndex")
-          .drop("directionclassVec")
-          .drop("features")
-          .drop("scaledFeatures")
-          .drop("iforestFeaturesVector")
-          .drop("iforestFeatures")
-          .drop("anomalyScore")
-          .drop("prediction")
-          .drop("pcaFeaturesArray")
-
-    data_with_outliers.as[Conn.Conn]
-*/
-
     // data_with_outliers.saveToCassandra("conn", Conn.tableColumns)
   }
 

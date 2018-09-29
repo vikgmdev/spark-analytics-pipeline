@@ -68,7 +68,16 @@ object AnomalyDetectionK {
 
     // Return original dataset with the new outliers columns
     // outlier_dataset
-    predictions_dataset
+    getCleanerOutlierDF(predictions_dataset, categoricalColumns)
+  }
+
+  def getCleanerOutlierDF(dataFrame: DataFrame, categoricalColumns: Array[String]): DataFrame = {
+    // Drop features columns
+    dataFrame
+      .drop(categoricalColumns: _*)
+      .drop("features")
+      .drop("scaledFeatures")
+      .drop("prediction")
   }
 
   def setupFeaturesNormalizerPipeline(stages: ArrayBuffer[PipelineStage], categoricalColumns: Array[String], numericCols: Array[String]): ArrayBuffer[PipelineStage] = {
