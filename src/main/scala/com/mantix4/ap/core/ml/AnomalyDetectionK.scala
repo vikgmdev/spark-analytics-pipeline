@@ -31,13 +31,14 @@ object AnomalyDetectionK {
     stages = setupIsolationForestPipeline(stages)
 
     // VectorAssembler - transformer that combines a given list of columns into a single vector column.
-    val assembler = new VectorAssembler()
+    /*val assembler = new VectorAssembler()
       // .setInputCols(Array("anomalyScore", "scaledFeatures"))
       .setInputCols(Array("anomalyScore"))
       .setOutputCol("iforestFeatures")
 
     // Add Stage to the Array
     stages += assembler
+    */
 
     // Configure an ML pipeline, which consists of four stages: stringIndexer, encoder, assembler and iForest.
     val pipeline = new Pipeline()
