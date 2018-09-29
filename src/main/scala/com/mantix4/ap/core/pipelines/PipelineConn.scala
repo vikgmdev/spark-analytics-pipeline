@@ -28,6 +28,7 @@ class PipelineConn() extends Pipeline[Conn.Conn](Conn.schemaBase) {
     var data_with_outliers = AnomalyDetectionK.main(dt, categoricalColumns, numericCols)
 
     println("Outliers detected: ")
+    data_with_outliers.show(false)
 
     /*
 
@@ -45,9 +46,6 @@ class PipelineConn() extends Pipeline[Conn.Conn](Conn.schemaBase) {
 
     data_with_outliers.as[Conn.Conn]
 */
-    data_with_outliers.sort("cluster").show(truncate = false)
-
-    data_with_outliers.groupBy("source_ip", "dest_ip").count().sort("count").show(1000)
 
     // data_with_outliers.saveToCassandra("conn", Conn.tableColumns)
   }
