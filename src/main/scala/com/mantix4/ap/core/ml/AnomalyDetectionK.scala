@@ -86,7 +86,6 @@ object AnomalyDetectionK {
       .drop(columnsToDrop.toArray: _*)
       .drop("features")
       .drop("scaledFeatures")
-      .drop("prediction")
   }
 
   def setupFeaturesNormalizerPipeline(stages: ArrayBuffer[PipelineStage], categoricalColumns: Array[String], numericCols: Array[String]): ArrayBuffer[PipelineStage] = {
