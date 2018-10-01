@@ -81,6 +81,7 @@ object AnomalyDetectionK {
       println(categoricalCol + "classVec")
       columnsToDrop :+ categoricalCol + "Index"
       columnsToDrop :+ categoricalCol + "classVec"
+      println(columnsToDrop.size)
     }
 
     // Drop features columns
