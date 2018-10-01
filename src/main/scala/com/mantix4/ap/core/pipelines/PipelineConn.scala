@@ -31,7 +31,7 @@ class PipelineConn() extends Pipeline[Conn.Conn](Conn.schemaBase) {
     data_with_outliers.show(false)
 
     val df_time_observation = data_with_outliers.groupBy($"source_ip", window($"timestamp", "1 minute"))
-    df_time_observation.count().show(false)
+    df_time_observation.avg("pcr").show(false)
     // data_with_outliers.saveToCassandra("conn", Conn.tableColumns)
   }
 
