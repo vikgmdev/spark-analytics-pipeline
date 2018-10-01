@@ -79,8 +79,8 @@ object AnomalyDetectionK {
     for (categoricalCol <- categoricalColumns) {
       println(categoricalCol + "Index")
       println(categoricalCol + "classVec")
-      columnsToDrop :+ categoricalCol + "Index"
-      columnsToDrop :+ categoricalCol + "classVec"
+      columnsToDrop = columnsToDrop :+ categoricalCol + "Index"
+      columnsToDrop = columnsToDrop :+ categoricalCol + "classVec"
       println(columnsToDrop.size)
     }
 
