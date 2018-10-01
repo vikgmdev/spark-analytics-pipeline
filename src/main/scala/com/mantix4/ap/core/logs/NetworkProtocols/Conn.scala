@@ -39,8 +39,8 @@ object Conn {
     pcr: Option[Double]
   ) extends Serializable
 
-  val tableColumns = SomeColumns("uid",
-    "timestamp",
+  val tableColumns = SomeColumns("timestamp",
+    "uid",
     "source_ip",
     "source_port",
     "dest_ip",
