@@ -72,9 +72,18 @@ object AnomalyDetectionK {
   }
 
   def getCleanerOutlierDF(dataFrame: DataFrame, categoricalColumns: Array[String]): DataFrame = {
+    // Initialize Array to store column names
+    var columnsToDrop: Array[String] = Array()
+
+    // Add to a column's Array the new columns added by StringIndexer and OneHotEncoder
+    for (categoricalCol <- categoricalColumns) {
+      columnsToDrop :+ categoricalCol + "Index"
+      columnsToDrop :+ categoricalCol + "classVec"
+    }
+
     // Drop features columns
     dataFrame
-      .drop(categoricalColumns: _*)
+      .drop(columnsToDrop: _*)
       .drop("features")
       .drop("scaledFeatures")
       .drop("prediction")

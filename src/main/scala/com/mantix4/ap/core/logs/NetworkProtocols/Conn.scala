@@ -67,9 +67,7 @@ object Conn {
     "sensor",
     "direction",
     "pcr",
-    "cluster",
-    "x",
-    "y")
+    "anomalyScore")
 
   val schemaBase: StructType = new StructType()
     .add("timestamp", StringType)
@@ -131,8 +129,6 @@ inner_vlan int,
 sensor varchar,
 direction varchar,
 pcr double,
-cluster int,
-x double,
-y double
+anomalyScore double
 );
 */
