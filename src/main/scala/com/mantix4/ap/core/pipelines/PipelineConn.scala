@@ -34,8 +34,9 @@ class PipelineConn() extends Pipeline[Conn.Conn](Conn.schemaBase) {
       .groupBy($"source_ip", $"source_port", $"dest_ip", $"dest_port",
         window($"timestamp", "1 minute"))
       .avg("pcr", "duration")
-      .sort("source_ip")
+      .sort("avg(duration)")
 
+    df_time_observation.printSchema()
     df_time_observation.show(5000, truncate = false)
     // data_with_outliers.saveToCassandra("conn", Conn.tableColumns)
   }
