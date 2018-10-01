@@ -145,6 +145,7 @@ object AnomalyDetectionK {
     // using the Isolation Forest model
     val iForest = new IForest()
       .setFeaturesCol("scaledFeatures")
+      .setAnomalyScoreCol("anomalyscore")
       .setNumTrees(100)
       .setMaxSamples(100)
       .setContamination(0.2) // Marking 20% as odd
