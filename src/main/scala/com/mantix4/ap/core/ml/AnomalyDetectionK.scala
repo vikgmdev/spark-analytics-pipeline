@@ -81,6 +81,8 @@ object AnomalyDetectionK {
       columnsToDrop :+ categoricalCol + "classVec"
     }
 
+    println(columnsToDrop)
+
     // Drop features columns
     dataFrame
       .drop(columnsToDrop: _*)
