@@ -77,21 +77,16 @@ object AnomalyDetectionK {
 
     // Add to a column's Array the new columns added by StringIndexer and OneHotEncoder
     for (categoricalCol <- categoricalColumns) {
-      println(categoricalCol + "Index")
-      println(categoricalCol + "classVec")
       columnsToDrop = columnsToDrop :+ categoricalCol + "Index"
       columnsToDrop = columnsToDrop :+ categoricalCol + "classVec"
-      println(columnsToDrop.size)
     }
 
     // Drop features columns
-    val cleaner_df = dataFrame
+    dataFrame
       .drop(columnsToDrop.toArray: _*)
       .drop("features")
       .drop("scaledFeatures")
       .drop("prediction")
-
-    cleaner_df
   }
 
   def setupFeaturesNormalizerPipeline(stages: ArrayBuffer[PipelineStage], categoricalColumns: Array[String], numericCols: Array[String]): ArrayBuffer[PipelineStage] = {
