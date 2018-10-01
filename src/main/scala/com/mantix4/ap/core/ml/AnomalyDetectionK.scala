@@ -86,11 +86,13 @@ object AnomalyDetectionK {
     }
 
     // Drop features columns
-    dataFrame
+    val cleaner_df = dataFrame
       .drop(columnsToDrop.toArray: _*)
       .drop("features")
       .drop("scaledFeatures")
       .drop("prediction")
+
+    cleaner_df
   }
 
   def setupFeaturesNormalizerPipeline(stages: ArrayBuffer[PipelineStage], categoricalColumns: Array[String], numericCols: Array[String]): ArrayBuffer[PipelineStage] = {
