@@ -34,6 +34,8 @@ class PipelineConn() extends Pipeline[Conn.Conn](Conn.schemaBase) {
       .groupBy($"source_ip", $"source_port", $"dest_ip", $"dest_port", $"direction",
         window($"timestamp", "1 minute"))
       .avg("pcr", "duration")
+      .withColumn("start_window", $"window.start")
+      .withColumn("end_window", $"window.end")
       .sort($"avg(duration)".desc)
 
     df_time_observation.printSchema()
