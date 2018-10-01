@@ -8,6 +8,7 @@ import com.mantix4.ap.core.enrichments.ConnEnricher
 import com.mantix4.ap.core.logs.NetworkProtocols.Conn
 import com.mantix4.ap.abstracts.cassandra.CassandraCRUDHelper._
 import com.mantix4.ap.core.ml.AnomalyDetectionK
+import org.apache.spark.sql.expressions.Window
 import org.apache.spark.sql.types.TimestampType
 
 /**
@@ -30,12 +31,15 @@ class PipelineConn() extends Pipeline[Conn.Conn](Conn.schemaBase) {
     println("Outliers detected: ")
     data_with_outliers.show(false)
 
+    // val over_window = Window.
+
     val df_time_observation = data_with_outliers
       .groupBy($"source_ip", $"source_port", $"dest_ip", $"dest_port", $"direction",
         window($"timestamp", "1 minute"))
       .avg("pcr", "duration")
       .withColumn("start_window", $"window.start")
       .withColumn("end_window", $"window.end")
+      .drop("window")
       .sort($"avg(duration)".desc)
 
     df_time_observation.printSchema()
