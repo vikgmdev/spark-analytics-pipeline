@@ -31,10 +31,10 @@ class PipelineConn() extends Pipeline[Conn.Conn](Conn.schemaBase) {
     data_with_outliers.show(false)
 
     val df_time_observation = data_with_outliers
-      .groupBy($"source_ip", $"source_port", $"dest_ip", $"dest_port",
+      .groupBy($"source_ip", $"source_port", $"dest_ip", $"dest_port", $"direction",
         window($"timestamp", "1 minute"))
       .avg("pcr", "duration")
-      .sort("avg(duration)")
+      .sort($"avg(duration)".desc)
 
     df_time_observation.printSchema()
     df_time_observation.show(5000, truncate = false)
