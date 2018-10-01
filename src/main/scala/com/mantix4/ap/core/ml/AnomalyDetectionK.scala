@@ -77,8 +77,8 @@ object AnomalyDetectionK {
 
     // Add to a column's Array the new columns added by StringIndexer and OneHotEncoder
     for (categoricalCol <- categoricalColumns) {
-      columnsToDrop :+ categoricalCol + "Index"
-      columnsToDrop :+ categoricalCol + "classVec"
+      columnsToDrop += categoricalCol + "Index"
+      columnsToDrop += categoricalCol + "classVec"
     }
 
     // Drop features columns
