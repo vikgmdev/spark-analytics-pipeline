@@ -4,7 +4,7 @@ import com.mantix4.ap.abstracts.base.Pipeline
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.{DataFrame, Dataset}
 import com.mantix4.ap.abstracts.spark.SparkHelper
-import com.mantix4.ap.core.enrichments.ConnEnricher
+import com.mantix4.ap.core.enrichments.{ConnEnricher, PCROberserver}
 import com.mantix4.ap.core.logs.NetworkProtocols.Conn
 import com.mantix4.ap.abstracts.cassandra.CassandraCRUDHelper._
 import com.mantix4.ap.core.ml.AnomalyDetectionK
@@ -31,23 +31,7 @@ class PipelineConn() extends Pipeline[Conn.Conn](Conn.schemaBase) {
     println("Outliers detected: ")
     data_with_outliers.show(false)
 
-    // val over_window = Window.partitionBy($"source_ip", $"source_port", $"dest_ip", $"dest_port")
-
-    val df_time_observation = data_with_outliers
-      .groupBy($"source_ip", $"source_port", $"dest_ip", $"dest_port", $"direction",
-        window($"timestamp", "1 minute"))
-      .agg(
-        avg("pcr"),
-        avg("duration"),
-        count("*")
-      )
-      .withColumn("start_window", $"window.start")
-      .withColumn("end_window", $"window.end")
-      .drop("window")
-      .sort($"avg(duration)".desc)
-
-    df_time_observation.printSchema()
-    df_time_observation.show(5000, truncate = false)
+    PCROberserver.main(data_with_outliers)
     // data_with_outliers.saveToCassandra("conn", Conn.tableColumns)
   }
 

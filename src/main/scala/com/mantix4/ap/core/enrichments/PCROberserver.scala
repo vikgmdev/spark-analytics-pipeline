@@ -19,6 +19,7 @@ object PCROberserver {
   }
 
   def pcr_observer(dataset_to_observe: DataFrame, interval: String): Unit = {
+    // val over_window = Window.partitionBy($"source_ip", $"source_port", $"dest_ip", $"dest_port")
     dataset_to_observe
       .groupBy($"source_ip", $"source_port", $"dest_ip", $"dest_port", $"direction",
         window($"timestamp", interval))
