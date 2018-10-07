@@ -20,7 +20,7 @@ object PCROberserver {
 
   def pcr_observer(dataset_to_observe: DataFrame, interval: String): Unit = {
     // val over_window = Window.partitionBy($"source_ip", $"source_port", $"dest_ip", $"dest_port")
-    dataset_to_observe
+    val df_observed = dataset_to_observe
       .groupBy($"source_ip", $"source_port", $"dest_ip", $"dest_port", $"direction",
         window($"timestamp", interval))
       .agg(
@@ -32,6 +32,8 @@ object PCROberserver {
       .withColumn("end_window", $"window.end")
       .drop("window")
       .sort($"duration_average".desc)
-      .show()
+
+    df_observed.show()
+    df_observed.printSchema()
   }
 }
