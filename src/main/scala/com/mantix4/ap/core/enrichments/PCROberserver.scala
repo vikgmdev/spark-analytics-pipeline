@@ -25,8 +25,7 @@ object PCROberserver {
         window($"timestamp", interval))
       .agg(
         avg("pcr").as("pcr_average"),
-        avg("duration").as("duration_average"),
-        count("*")
+        avg("duration").as("duration_average")
       )
       .withColumn("summary_interval", lit(interval))
       .withColumn("start_window", $"window.start")
