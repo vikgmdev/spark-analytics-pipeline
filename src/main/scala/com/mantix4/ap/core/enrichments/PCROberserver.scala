@@ -5,6 +5,7 @@ import com.mantix4.ap.core.logs.NetworkProtocols.Conn
 import org.apache.spark.sql.{DataFrame, Dataset}
 import org.apache.spark.sql.expressions.{UserDefinedFunction, Window}
 import org.apache.spark.sql.functions._
+import org.apache.spark.sql.types.LongType
 
 object PCROberserver {
   private val spark = SparkHelper.getSparkSession()
@@ -26,7 +27,7 @@ object PCROberserver {
         .orderBy($"timestamp")
 
     val df_observed = dataset_to_observe
-      .withColumn("difference_interval", $"timestamp" - lag($"timestamp", 1).over(over_window))
+      .withColumn("difference_interval", $"timestamp".cast(LongType) - lag($"timestamp".cast(LongType), 1).over(over_window))
 
     df_observed.show()
     df_observed.printSchema()
