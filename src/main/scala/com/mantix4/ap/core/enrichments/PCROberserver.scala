@@ -11,11 +11,11 @@ object PCROberserver {
   import spark.implicits._
 
   def main(dataset_to_observe: DataFrame): Unit = {
-    pcr_observer(dataset_to_observe, "1 minute")
-    pcr_observer(dataset_to_observe, "5 minute")
-    pcr_observer(dataset_to_observe, "15 minute")
-    pcr_observer(dataset_to_observe, "1 hour")
-    pcr_observer(dataset_to_observe, "1 day")
+    // pcr_observer(dataset_to_observe, "1 minute")
+    // pcr_observer(dataset_to_observe, "5 minute")
+    // pcr_observer(dataset_to_observe, "15 minute")
+    // pcr_observer(dataset_to_observe, "1 hour")
+    // pcr_observer(dataset_to_observe, "1 day")
     pcr_aggregator_interval(dataset_to_observe)
   }
 
