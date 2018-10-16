@@ -26,7 +26,7 @@ object PCROberserver {
         .orderBy($"timestamp")
 
     val df_observed = dataset_to_observe
-      .withColumn("difference_interval", lag($"timestamp", 1))
+      .withColumn("difference_interval", lag($"timestamp", 1).over(over_window))
 
     df_observed.show()
     df_observed.printSchema()
