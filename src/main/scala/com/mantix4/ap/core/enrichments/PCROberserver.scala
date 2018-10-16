@@ -27,8 +27,8 @@ object PCROberserver {
         .orderBy($"timestamp")
 
     val df_observed = dataset_to_observe
-      .withColumn("this_time", from_unixtime($"timestamp"))
-      .withColumn("last_time", from_unixtime(lag($"timestamp", 1).over(over_window)))
+      .withColumn("this_time", $"timestamp".cast("date"))
+      .withColumn("last_time", lag($"timestamp", 1).over(over_window).cast("date"))
       //.withColumn("diff_interval", $"this_time" - $"last_time")
 
     df_observed
