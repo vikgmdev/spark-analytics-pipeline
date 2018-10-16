@@ -34,6 +34,7 @@ object PCROberserver {
     df_observed
       .select("timestamp", "source_ip", "source_port", "dest_ip", "dest_port", "proto", "this_time", "last_time")
       .show(1000)
+    df_observed.printSchema()
   }
 
   def pcr_observer(dataset_to_observe: DataFrame, interval: String): Unit = {
