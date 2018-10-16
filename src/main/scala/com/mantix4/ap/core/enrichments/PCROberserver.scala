@@ -29,10 +29,10 @@ object PCROberserver {
     val df_observed = dataset_to_observe
       .withColumn("this_time", $"timestamp".cast(TimestampType))
       .withColumn("last_time", lag($"timestamp", 1).over(over_window).cast(TimestampType))
-      //.withColumn("diff_interval", $"this_time" - $"last_time")
+      .withColumn("diff_interval", $"this_time" - $"last_time")
 
     df_observed
-      .select("timestamp", "source_ip", "source_port", "dest_ip", "dest_port", "proto", "this_time", "last_time")
+      .select("timestamp", "source_ip", "source_port", "dest_ip", "dest_port", "proto", "this_time", "last_time", "diff_interval")
       .show(1000)
     df_observed.printSchema()
   }
