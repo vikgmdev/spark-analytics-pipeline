@@ -21,7 +21,7 @@ object PCROberserver {
   def pcr_observer(dataset_to_observe: DataFrame, interval: String): Unit = {
     // val over_window = Window.partitionBy($"source_ip", $"source_port", $"dest_ip", $"dest_port")
     val df_observed = dataset_to_observe
-      .groupBy($"source_ip", $"source_port", $"dest_ip", $"dest_port", $"direction",
+      .groupBy($"source_ip", $"dest_ip", $"direction",
         window($"timestamp", interval))
       .agg(
         avg("pcr").as("pcr_average"),
