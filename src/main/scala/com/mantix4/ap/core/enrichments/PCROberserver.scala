@@ -27,11 +27,13 @@ object PCROberserver {
         .orderBy($"timestamp")
 
     val df_observed = dataset_to_observe
-      .withColumn("this_time", $"timestamp")
-      .withColumn("last_time", lag($"timestamp", 1).over(over_window))
+      .withColumn("this_time", from_unixtime($"timestamp"))
+      .withColumn("last_time", from_unixtime(lag($"timestamp", 1).over(over_window)))
+      //.withColumn("diff_interval", $"this_time" - $"last_time")
 
-    df_observed.select("timestamp", "source_ip", "source_port", "dest_ip", "dest_port", "proto", "this_time", "last_time").show()
-    df_observed.printSchema()
+    df_observed
+      .select("timestamp", "source_ip", "source_port", "dest_ip", "dest_port", "proto", "this_time", "last_time")
+      .show(1000)
   }
 
   def pcr_observer(dataset_to_observe: DataFrame, interval: String): Unit = {
