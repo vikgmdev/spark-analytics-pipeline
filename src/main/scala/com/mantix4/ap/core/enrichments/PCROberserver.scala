@@ -5,7 +5,7 @@ import com.mantix4.ap.core.logs.NetworkProtocols.Conn
 import org.apache.spark.sql.{DataFrame, Dataset}
 import org.apache.spark.sql.expressions.{UserDefinedFunction, Window}
 import org.apache.spark.sql.functions._
-import org.apache.spark.sql.types.LongType
+import org.apache.spark.sql.types.{LongType, TimestampType}
 
 object PCROberserver {
   private val spark = SparkHelper.getSparkSession()
@@ -27,8 +27,8 @@ object PCROberserver {
         .orderBy($"timestamp")
 
     val df_observed = dataset_to_observe
-      .withColumn("this_time", $"timestamp".cast("date"))
-      .withColumn("last_time", lag($"timestamp", 1).over(over_window).cast("date"))
+      .withColumn("this_time", $"timestamp".cast(TimestampType))
+      .withColumn("last_time", lag($"timestamp", 1).over(over_window).cast(TimestampType))
       //.withColumn("diff_interval", $"this_time" - $"last_time")
 
     df_observed
