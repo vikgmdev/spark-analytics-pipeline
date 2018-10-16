@@ -3,7 +3,7 @@ package com.mantix4.ap.core.enrichments
 import com.mantix4.ap.abstracts.spark.SparkHelper
 import com.mantix4.ap.core.logs.NetworkProtocols.Conn
 import org.apache.spark.sql.{DataFrame, Dataset}
-import org.apache.spark.sql.expressions.UserDefinedFunction
+import org.apache.spark.sql.expressions.{UserDefinedFunction, Window}
 import org.apache.spark.sql.functions._
 
 object PCROberserver {
@@ -16,10 +16,28 @@ object PCROberserver {
     pcr_observer(dataset_to_observe, "15 minute")
     pcr_observer(dataset_to_observe, "1 hour")
     pcr_observer(dataset_to_observe, "1 day")
+    pcr_aggregator_interval(dataset_to_observe)
+  }
+
+  def pcr_aggregator_interval(dataset_to_observe: DataFrame): Unit = {
+    val over_window =
+      Window
+        .partitionBy($"source_ip", $"dest_ip", $"direction")
+        .orderBy($"timestamp")
+
+    val df_observed = dataset_to_observe
+      .withColumn("difference_interval", $"timestamp" - lag($"timestamp", 1))
+
+    df_observed.show()
+    df_observed.printSchema()
   }
 
   def pcr_observer(dataset_to_observe: DataFrame, interval: String): Unit = {
-    // val over_window = Window.partitionBy($"source_ip", $"source_port", $"dest_ip", $"dest_port")
+    /*val over_window =
+      Window
+        .partitionBy($"source_ip", $"dest_ip", $"direction")
+        .orderBy($"timestamp")
+        */
     val df_observed = dataset_to_observe
       .groupBy($"source_ip", $"dest_ip", $"direction",
         window($"timestamp", interval))
