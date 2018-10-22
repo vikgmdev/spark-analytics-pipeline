@@ -23,16 +23,15 @@ class PipelineConn() extends Pipeline[Conn.Conn](Conn.schemaBase) {
     dt.show()
 
     // Set Categorical and Numeric columns features to detect outliers
-    /*val categoricalColumns = Array("proto", "direction")
+    val categoricalColumns = Array("proto", "direction")
     val numericCols = Array("duration","pcr")
 
     var data_with_outliers = AnomalyDetectionK.main(dt, categoricalColumns, numericCols)
 
     println("Outliers detected: ")
     data_with_outliers.show(false)
-    */
 
-    PCROberserver.main(dt)
+    PCROberserver.main(data_with_outliers)
     // data_with_outliers.saveToCassandra("conn", Conn.tableColumns)
   }
 
