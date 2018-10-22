@@ -32,8 +32,8 @@ object PCROberserver {
       .withColumn("diff_interval", $"this_time".cast(LongType) - $"last_time".cast(LongType))
 
     df_observed
-      .select("timestamp", "source_ip", "source_port", "dest_ip", "dest_port", "proto", "orig_bytes", "this_time", "last_time", "diff_interval")
-      .show(1000)
+      .select("timestamp", "source_ip", "source_port", "dest_ip", "dest_port", "proto", "orig_bytes", "last_time", "diff_interval")
+      .show(5000)
     df_observed.printSchema()
   }
 
