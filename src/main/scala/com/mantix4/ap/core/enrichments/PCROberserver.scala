@@ -23,7 +23,7 @@ object PCROberserver {
   def pcr_aggregator_interval(dataset_to_observe: DataFrame): Unit = {
     val over_window =
       Window
-        .partitionBy($"source_ip", $"source_port", $"dest_ip")
+        .partitionBy($"source_ip", $"dest_ip")
         .orderBy($"timestamp")
 
     val df_observed = dataset_to_observe
