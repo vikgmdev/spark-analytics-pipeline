@@ -11,7 +11,7 @@ object PCROberserver {
   private val spark = SparkHelper.getSparkSession()
   import spark.implicits._
 
-  def main(dataset_to_observe: DataFrame): Unit = {
+  def main(dataset_to_observe: DataFrame): DataFrame = {
     // pcr_observer(dataset_to_observe, "1 minute")
     // pcr_observer(dataset_to_observe, "5 minute")
     // pcr_observer(dataset_to_observe, "15 minute")
@@ -20,22 +20,24 @@ object PCROberserver {
     pcr_aggregator_interval(dataset_to_observe)
   }
 
-  def pcr_aggregator_interval(dataset_to_observe: DataFrame): Unit = {
-    val over_window =
-      Window
-        .partitionBy($"source_ip", $"dest_ip")
-        .orderBy($"timestamp")
+  def pcr_aggregator_interval(dataset_to_observe: DataFrame): DataFrame = {
+    val over_window = Window.partitionBy($"source_ip", $"dest_ip").orderBy($"timestamp")
 
     val df_observed = dataset_to_observe
       .withColumn("this_time", $"timestamp".cast(TimestampType))
       .withColumn("last_time", lag($"timestamp", 1).over(over_window).cast(TimestampType))
-      .withColumn("diff_interval", $"this_time".cast(LongType) - $"last_time".cast(LongType))
+      .withColumn("diff_interval", when($"last_time".isNotNull, $"this_time".cast(LongType) - $"last_time".cast(LongType)).otherwise(0))
 
     df_observed
       .select("timestamp", "source_ip", "source_port", "dest_ip", "dest_port", "proto", "orig_bytes", "last_time", "diff_interval")
       .orderBy("orig_bytes")
       .show(5000)
     df_observed.printSchema()
+    val df_with_interval = df_observed
+      .drop("this_time")
+      .drop("last_time")
+
+    df_with_interval
   }
 
   def pcr_observer(dataset_to_observe: DataFrame, interval: String): Unit = {

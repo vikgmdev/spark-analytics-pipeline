@@ -31,8 +31,8 @@ class PipelineConn() extends Pipeline[Conn.Conn](Conn.schemaBase) {
     println("Outliers detected: ")
     data_with_outliers.show(false)
 
-    PCROberserver.main(data_with_outliers)
-    // data_with_outliers.saveToCassandra("conn", Conn.tableColumns)
+    val df_with_interval = PCROberserver.main(data_with_outliers)
+    df_with_interval.saveToCassandra("conn", Conn.tableColumns)
   }
 
   override def customParsing(df: DataFrame): DataFrame = {

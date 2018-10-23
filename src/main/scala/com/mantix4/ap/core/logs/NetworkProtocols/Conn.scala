@@ -68,7 +68,8 @@ object Conn {
     "direction",
     "pcr",
     "anomalyscore",
-    "prediction")
+    "prediction",
+    "diff_interval")
 
   val schemaBase: StructType = new StructType()
     .add("timestamp", StringType)
