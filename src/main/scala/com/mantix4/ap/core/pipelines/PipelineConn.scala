@@ -22,17 +22,19 @@ class PipelineConn() extends Pipeline[Conn.Conn](Conn.schemaBase) {
     // Debug only
     dt.show()
 
-    // Set Categorical and Numeric columns features to detect outliers
-    val categoricalColumns = Array("proto", "direction")
-    val numericCols = Array("duration","pcr")
+    val dataWithIntervalsDF = PCROberserver.main(dt.toDF())
 
-    var data_with_outliers = AnomalyDetectionK.main(dt, categoricalColumns, numericCols)
+    // Set Categorical and Numeric columns features to detect outliers
+    val categoricalColumns = Array("source_ip", "dest_ip")
+    val numericCols = Array("diff_interval")
+
+    var data_with_outliers = AnomalyDetectionK.main(dataWithIntervalsDF, categoricalColumns, numericCols)
 
     println("Outliers detected: ")
     data_with_outliers.show(false)
 
-    val df_with_interval = PCROberserver.main(data_with_outliers)
-    df_with_interval.saveToCassandra("conn", Conn.tableColumns)
+
+    data_with_outliers.saveToCassandra("conn", Conn.tableColumns)
   }
 
   override def customParsing(df: DataFrame): DataFrame = {
