@@ -30,7 +30,7 @@ object PCROberserver {
 
     df_observed
       .select("timestamp", "source_ip", "source_port", "dest_ip", "dest_port", "proto", "orig_bytes", "last_time", "diff_interval")
-      .orderBy("timestamp", "orig_bytes")
+      .orderBy("orig_bytes")
       .show(5000)
     df_observed.printSchema()
     val df_with_interval = df_observed
